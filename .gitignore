@@ -43,3 +43,6 @@ Thumbs.db
 
 # Gemini / AI tool temp files
 .gemini/
+
+.vercel
+.env*
