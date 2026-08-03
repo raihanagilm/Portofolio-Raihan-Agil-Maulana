@@ -5,38 +5,47 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    screens: {
+      sm: '480px',
+      md: '768px',
+      lg: '1024px',
+      xl: '1280px',
+    },
     extend: {
+      fontFamily: {
+        sans: ['Sora', 'sans-serif'],
+        mono: ['JetBrains Mono', 'monospace'],
+      },
       colors: {
-        primary: '#003ec7',
-        'primary-container': '#0052ff',
-        'primary-fixed': '#dde1ff',
-        'on-primary': '#ffffff',
-        'on-primary-container': '#dfe3ff',
-
-        secondary: '#505f76',
-        'secondary-container': '#d0e1fb',
-        'on-secondary-container': '#54647a',
-
-        tertiary: '#4b4e50',
-
-        background: '#faf8ff',
-        surface: '#faf8ff',
-        'surface-bright': '#faf8ff',
-        'surface-container': '#eaedff',
-        'surface-container-low': '#f2f3ff',
-        'surface-container-lowest': '#ffffff',
-        'surface-container-high': '#e2e7ff',
-        'surface-variant': '#dae2fd',
-
-        'on-background': '#131b2e',
-        'on-surface': '#131b2e',
-        'on-surface-variant': '#434656',
-
-        outline: '#737688',
-        'outline-variant': '#c3c5d9',
-
-        error: '#ba1a1a',
-        'error-container': '#ffdad6',
+        blue: {
+          50:  '#e0f2fe',
+          100: '#bae6fd',
+          400: '#38bdf8',
+          500: '#0ea5e9',
+          600: '#0284c7',
+          700: '#0369a1',
+          900: '#0c4a6e',
+        },
+        green: {
+          50:  '#ecfdf5',
+          100: '#d1fae5',
+          400: '#34d399',
+          500: '#10b981',
+          600: '#059669',
+          700: '#065f46',
+        },
+        surface: '#ffffff',
+        bg:     '#f8fafc',
+        border: '#e2e8f0',
+        text:   '#0f172a',
+        muted:  '#64748b',
+      },
+      borderRadius: {
+        card: '14px',
+      },
+      boxShadow: {
+        card: '0 4px 24px -4px rgba(14, 165, 233, 0.1)',
+        'card-hover': '0 8px 32px -8px rgba(14, 165, 233, 0.2)',
       },
     },
   },
