@@ -1,4 +1,4 @@
--- Active: 1785815863215@@gateway01.ap-southeast-1.prod.aws.tidbcloud.com@4000
+-- Active: 1785846325818@@gateway01.ap-southeast-1.prod.aws.tidbcloud.com@4000@Portofolio
 -- Schema Creation
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -80,6 +80,7 @@ CREATE TABLE IF NOT EXISTS projects (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(150) NOT NULL,
     description TEXT NOT NULL,
+    content TEXT,
     image_url VARCHAR(255),
     demo_url VARCHAR(255),
     github_url VARCHAR(255),
@@ -87,6 +88,13 @@ CREATE TABLE IF NOT EXISTS projects (
     tags VARCHAR(200) DEFAULT 'Flask, Tailwind, MySQL',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     is_visible BOOLEAN DEFAULT TRUE
+);
+
+CREATE TABLE IF NOT EXISTS project_images (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    project_id INT NOT NULL,
+    image_url VARCHAR(255) NOT NULL,
+    FOREIGN KEY (project_id) REFERENCES projects (id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS messages (
@@ -105,8 +113,12 @@ CREATE TABLE IF NOT EXISTS messages (
 -- ALTER TABLE skills ADD COLUMN is_visible BOOLEAN DEFAULT 1;
 -- ALTER TABLE experiences ADD COLUMN category VARCHAR(50) DEFAULT 'Kerja';
 -- ALTER TABLE experiences ADD COLUMN is_visible BOOLEAN DEFAULT 1;
--- ALTER TABLE educations ADD COLUMN `type` VARCHAR(20) DEFAULT 'education';
+ALTER TABLE educations
+ADD COLUMN credential_url VARCHAR(255) DEFAULT '';
 -- ALTER TABLE projects ADD COLUMN is_visible BOOLEAN DEFAULT 1;
+ALTER TABLE projects ADD COLUMN content TEXT;
+
+ALTER TABLE projects ADD COLUMN projects_images VARCHAR(255);
 
 -- Seed Data
 

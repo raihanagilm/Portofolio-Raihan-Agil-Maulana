@@ -6,9 +6,6 @@
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0" name="viewport">
     <title>Portofolio - {{ profile.full_name }}</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=block"
-        rel="stylesheet">
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script id="tailwind-config">
         try {
@@ -41,19 +38,68 @@
         } catch (_e) { }
     </script>
     <link rel="stylesheet" href="/css/style-base.css">
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    <style>
+        /* Custom Swiper Styles */
+        .swiper-slide {
+            height: auto; /* Allow slides to match height */
+        }
+        .swiper-wrapper {
+            align-items: stretch;
+        }
+        .bento-card, .cardboard-card { height: 100%; }
+        
+        /* GSAP Animation Elements */
+        #pull-string {
+            position: absolute;
+            top: -100px;
+            right: 10%;
+            width: 4px;
+            height: 200px;
+            background-color: #8B5A3C; /* String color */
+            z-index: 100;
+            cursor: pointer;
+            transform-origin: top center;
+        }
+        #pull-string::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: -8px;
+            width: 20px;
+            height: 20px;
+            background-color: #D2691E;
+            border-radius: 50%;
+            border: 2px solid #8B5A3C;
+        }
+        #cartoon-character {
+            position: fixed;
+            bottom: 20px;
+            left: -150px;
+            width: 80px;
+            height: 80px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%238B5A3C"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>');
+            background-size: contain;
+            background-repeat: no-repeat;
+            z-index: 9999;
+            pointer-events: none;
+        }
+    </style>
 </head>
 
-<body class="bg-surface text-earth-dark font-body-md min-h-screen flex flex-col antialiased">
+<body class="bg-surface text-earth-dark font-body-md min-h-screen flex flex-col antialiased relative overflow-x-hidden">
+    
     <!-- Top Header Navigation -->
     <header class="topbar sticky top-0 z-50">
         <div class="max-w-6xl mx-auto w-full flex items-center justify-between px-4">
-            <a href="#" class="font-bold text-lg text-earth-dark flex items-center gap-2">
-                <span class="material-symbols-outlined text-accent text-2xl craft-sticker">style</span>
+            <a href="#" class="font-bold text-lg text-earth-dark flex items-center gap-2 gsap-fade-in">
+                <i data-lucide="palette" class="text-accent w-6 h-6 craft-sticker"></i>
                 <span>{{ profile.full_name }}</span>
             </a>
 
             <!-- Full Navigation Bar -->
-            <nav class="hidden md:flex items-center gap-5 text-xs font-bold">
+            <nav class="hidden md:flex items-center gap-5 text-xs font-bold gsap-fade-in">
                 <a href="#profil" class="text-earth-dark hover:text-accent transition-colors">Profil</a>
                 <a href="#pendidikan" class="text-earth-dark hover:text-accent transition-colors">Pendidikan</a>
                 <a href="#keahlian" class="text-earth-dark hover:text-accent transition-colors">Keahlian</a>
@@ -62,270 +108,267 @@
                 <a href="#kontak" class="text-earth-dark hover:text-accent transition-colors">Kontak</a>
             </nav>
 
-            <!-- Tombol Admin Login DISEMBUNYIKAN (Diakses via /admin) -->
-            <div class="flex md:hidden items-center">
+            <div class="flex md:hidden items-center gsap-fade-in">
                 <a href="#kontak" class="btn-primary px-3 py-1.5 rounded-lg text-xs font-bold">Hubungi</a>
             </div>
         </div>
     </header>
 
-    <main class="max-w-5xl mx-auto w-full px-4 py-8 space-y-12 flex-1">
+    <main class="max-w-5xl mx-auto w-full px-4 py-8 space-y-12 flex-1 relative">
+        <!-- GSAP Interactive Element -->
+        <div id="pull-string"></div>
+
         <!-- HERO / PROFIL SECTION -->
         <section id="profil" class="cardboard-card cardboard-texture rounded-3xl p-6 sm:p-10 shadow-cardboard relative">
             <div class="tape-accent"></div>
 
-            <!-- Floating Animated Craft Stickers & Stamps -->
             <div class="absolute -top-4 right-6 craft-stamp px-3 py-1 rounded-md text-[10px] hidden sm:block">
                 📦 CARDBOARD CRAFT VERIFIED
             </div>
 
             <div class="flex flex-col sm:flex-row items-center gap-6 sm:gap-8">
                 <div
-                    class="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl bg-kraft border-4 border-earth-dark flex-shrink-0 overflow-hidden shadow-md flex items-center justify-center relative">
+                    class="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl bg-kraft border-4 border-earth-dark flex-shrink-0 overflow-hidden shadow-md flex items-center justify-center relative gsap-pop">
                     {% if profile.avatar_url %}
                     <img src="{{ profile.avatar_url }}" alt="{{ profile.full_name }}"
                         class="w-full h-full object-cover">
                     {% else %}
-                    <span class="material-symbols-outlined text-earth-dark text-6xl">account_circle</span>
+                    <i data-lucide="user" class="text-earth-dark w-16 h-16"></i>
                     {% endif %}
                 </div>
 
-                <div class="space-y-3 text-center sm:text-left flex-1">
-                    <div
-                        class="inline-flex items-center gap-1.5 px-3 py-1 bg-accent/15 border border-accent text-accent font-bold text-xs rounded-full craft-sticker">
-                        <span class="material-symbols-outlined text-sm">auto_awesome</span> Creative Portfolio
+                <div class="space-y-3 text-center sm:text-left flex-1 gsap-stagger-text">
+                    <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-accent/15 border border-accent text-accent font-bold text-xs rounded-full craft-sticker">
+                        <i data-lucide="sparkles" class="w-4 h-4"></i> Creative Portfolio
                     </div>
-                    <h1 class="text-2xl sm:text-4xl font-extrabold text-earth-dark leading-tight">{{ profile.full_name
-                        }}</h1>
+                    <h1 class="text-2xl sm:text-4xl font-extrabold text-earth-dark leading-tight">{{ profile.full_name }}</h1>
                     <p class="text-accent font-bold text-base sm:text-lg">{{ profile.title }}</p>
-                    <p class="text-text-muted text-sm sm:text-base leading-relaxed font-medium max-w-2xl">{{ profile.bio
-                        }}</p>
+                    <p class="text-text-muted text-sm sm:text-base leading-relaxed font-medium max-w-2xl">{{ profile.bio }}</p>
 
-                    <!-- FLEXIBLE SOCIAL MEDIA BADGES -->
-                    <div class="pt-1 flex flex-wrap justify-center sm:justify-start gap-2">
+                    <!-- SOCIAL MEDIA & CV BADGES -->
+                    <div class="pt-2 flex flex-wrap justify-center sm:justify-start gap-2">
+                        {% if profile.resume_url %}
+                        <a href="{{ profile.resume_url }}" target="_blank"
+                            class="px-4 py-1.5 bg-accent text-white border-2 border-earth-dark rounded-lg text-xs font-bold hover:bg-accent-hover transition-colors flex items-center gap-1.5 shadow-[2px_2px_0px_#2C1A0E]">
+                            <i data-lucide="download" class="w-4 h-4 text-white"></i> Download CV</a>
+                        {% endif %}
                         {% if profile.github %}
                         <a href="{{ profile.github }}" target="_blank"
-                            class="px-3 py-1 bg-kraft border-2 border-earth-dark rounded-lg text-xs font-bold text-earth-dark hover:bg-cardboard transition-colors">💻
-                            GitHub</a>
+                            class="px-3 py-1.5 bg-kraft border-2 border-earth-dark rounded-lg text-xs font-bold text-earth-dark hover:bg-cardboard transition-colors flex items-center gap-1.5 shadow-[2px_2px_0px_#2C1A0E]">
+                            <i data-lucide="github" class="w-4 h-4"></i> GitHub</a>
                         {% endif %}
                         {% if profile.linkedin %}
                         <a href="{{ profile.linkedin }}" target="_blank"
-                            class="px-3 py-1 bg-kraft border-2 border-earth-dark rounded-lg text-xs font-bold text-earth-dark hover:bg-cardboard transition-colors">💼
-                            LinkedIn</a>
+                            class="px-3 py-1.5 bg-kraft border-2 border-earth-dark rounded-lg text-xs font-bold text-earth-dark hover:bg-cardboard transition-colors flex items-center gap-1.5 shadow-[2px_2px_0px_#2C1A0E]">
+                            <i data-lucide="linkedin" class="w-4 h-4"></i> LinkedIn</a>
                         {% endif %}
                         {% if profile.instagram %}
                         <a href="{{ profile.instagram }}" target="_blank"
-                            class="px-3 py-1 bg-kraft border-2 border-earth-dark rounded-lg text-xs font-bold text-earth-dark hover:bg-cardboard transition-colors">📸
-                            Instagram</a>
-                        {% endif %}
-                        {% if profile.facebook %}
-                        <a href="{{ profile.facebook }}" target="_blank"
-                            class="px-3 py-1 bg-kraft border-2 border-earth-dark rounded-lg text-xs font-bold text-earth-dark hover:bg-cardboard transition-colors">👥
-                            Facebook</a>
+                            class="px-3 py-1.5 bg-kraft border-2 border-earth-dark rounded-lg text-xs font-bold text-earth-dark hover:bg-cardboard transition-colors flex items-center gap-1.5 shadow-[2px_2px_0px_#2C1A0E]">
+                            <i data-lucide="instagram" class="w-4 h-4"></i> Instagram</a>
                         {% endif %}
                         {% if profile.twitter %}
                         <a href="{{ profile.twitter }}" target="_blank"
-                            class="px-3 py-1 bg-kraft border-2 border-earth-dark rounded-lg text-xs font-bold text-earth-dark hover:bg-cardboard transition-colors">🐦
-                            Twitter / X</a>
-                        {% endif %}
-                        {% if profile.youtube %}
-                        <a href="{{ profile.youtube }}" target="_blank"
-                            class="px-3 py-1 bg-kraft border-2 border-earth-dark rounded-lg text-xs font-bold text-earth-dark hover:bg-cardboard transition-colors">▶️
-                            YouTube</a>
-                        {% endif %}
-                        {% if profile.website %}
-                        <a href="{{ profile.website }}" target="_blank"
-                            class="px-3 py-1 bg-kraft border-2 border-earth-dark rounded-lg text-xs font-bold text-earth-dark hover:bg-cardboard transition-colors">🌐
-                            Website</a>
+                            class="px-3 py-1.5 bg-kraft border-2 border-earth-dark rounded-lg text-xs font-bold text-earth-dark hover:bg-cardboard transition-colors flex items-center gap-1.5 shadow-[2px_2px_0px_#2C1A0E]">
+                            <i data-lucide="twitter" class="w-4 h-4"></i> Twitter</a>
                         {% endif %}
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- PENDIDIKAN & SERTIFIKAT SECTION (TARUH DI BAWAH PROFIL) -->
+        <!-- PENDIDIKAN & SERTIFIKAT SECTION -->
         <section id="pendidikan" class="space-y-4">
-            <div class="flex items-center gap-2">
-                <span class="material-symbols-outlined text-accent text-2xl craft-sticker">school</span>
+            <div class="flex items-center gap-2 gsap-fade-up">
+                <i data-lucide="graduation-cap" class="text-accent w-7 h-7 craft-sticker"></i>
                 <h2 class="text-xl sm:text-2xl font-bold text-earth-dark">Pendidikan & Sertifikasi</h2>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Education List -->
-                <div class="space-y-3">
+                <div class="space-y-3 gsap-fade-up">
                     <h3 class="font-bold text-earth-dark text-base flex items-center gap-1.5">
-                        <span>🎓 Pendidikan Formal</span>
+                        <i data-lucide="book-open" class="w-5 h-5 text-accent"></i> Pendidikan Formal
                     </h3>
-                    {% for edu in educations %}
-                    <div class="cardboard-card cardboard-texture rounded-2xl p-4 shadow-sm relative">
-                        <span
-                            class="text-[11px] font-bold text-earth-brown bg-kraft/40 px-2 py-0.5 rounded border border-border-card">{{
-                            edu.period }}</span>
-                        <h4 class="font-bold text-earth-dark text-base mt-1.5">{{ edu.degree }} {% if edu.major %}- {{
-                            edu.major }}{% endif %}</h4>
-                        <p class="text-xs font-bold text-earth-brown">{{ edu.institution }}</p>
-                        <p class="text-xs text-text-muted mt-2 leading-relaxed">{{ edu.description }}</p>
+                    
+                    <div class="swiper eduSwiper w-full pb-8">
+                        <div class="swiper-wrapper">
+                            {% for edu in educations %}
+                            <div class="swiper-slide w-[85%] sm:w-full">
+                                <div class="cardboard-card cardboard-texture rounded-2xl p-4 shadow-sm relative mr-4 h-full">
+                                    <span class="text-[11px] font-bold text-earth-brown bg-kraft/40 px-2 py-0.5 rounded border border-border-card">{{ edu.period }}</span>
+                                    <h4 class="font-bold text-earth-dark text-base mt-1.5">{{ edu.degree }} {% if edu.major %}- {{ edu.major }}{% endif %}</h4>
+                                    <p class="text-xs font-bold text-earth-brown flex items-center gap-1"><i data-lucide="building-2" class="w-3 h-3"></i> {{ edu.institution }}</p>
+                                    <p class="text-xs text-text-muted mt-2 leading-relaxed">{{ edu.description }}</p>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="swiper-pagination"></div>
                     </div>
-                    {% endfor %}
                 </div>
 
                 <!-- Certificate List -->
-                <div class="space-y-3">
+                <div class="space-y-3 gsap-fade-up">
                     <h3 class="font-bold text-earth-dark text-base flex items-center gap-1.5">
-                        <span>📜 Sertifikat & Lisensi</span>
+                        <i data-lucide="award" class="w-5 h-5 text-accent"></i> Sertifikat & Lisensi
                     </h3>
-                    {% for cert in certificates %}
-                    <div class="cardboard-card cardboard-texture rounded-2xl p-4 shadow-sm relative">
-                        <span
-                            class="text-[11px] font-bold text-accent bg-accent/10 px-2 py-0.5 rounded border border-accent/30">{{
-                            cert.period }}</span>
-                        <h4 class="font-bold text-earth-dark text-base mt-1.5">{{ cert.degree }}</h4>
-                        <p class="text-xs font-bold text-earth-brown">Penerbit: {{ cert.institution }}</p>
-                        <p class="text-xs text-text-muted mt-2 leading-relaxed">{{ cert.description }}</p>
-                        {% if cert.credential_url %}
-                        <a href="{{ cert.credential_url }}" target="_blank"
-                            class="text-xs font-bold text-accent hover:underline mt-2 inline-flex items-center gap-0.5">
-                            <span class="material-symbols-outlined text-xs">verified</span> Verifikasi Credential
-                        </a>
-                        {% endif %}
+                    <div class="swiper certSwiper w-full pb-8">
+                        <div class="swiper-wrapper">
+                            {% for cert in certificates %}
+                            <div class="swiper-slide w-[85%] sm:w-full">
+                                <div class="cardboard-card cardboard-texture rounded-2xl p-4 shadow-sm relative mr-4 h-full">
+                                    <span class="text-[11px] font-bold text-accent bg-accent/10 px-2 py-0.5 rounded border border-accent/30">{{ cert.period }}</span>
+                                    <h4 class="font-bold text-earth-dark text-base mt-1.5">{{ cert.degree }}</h4>
+                                    <p class="text-xs font-bold text-earth-brown flex items-center gap-1"><i data-lucide="building-2" class="w-3 h-3"></i> {{ cert.institution }}</p>
+                                    <p class="text-xs text-text-muted mt-2 leading-relaxed">{{ cert.description }}</p>
+                                    {% if cert.credential_url %}
+                                    <a href="{{ cert.credential_url }}" target="_blank" class="text-xs font-bold text-accent hover:underline mt-2 inline-flex items-center gap-0.5">
+                                        <i data-lucide="check-circle" class="w-3 h-3"></i> Verifikasi Credential
+                                    </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="swiper-pagination"></div>
                     </div>
-                    {% endfor %}
                 </div>
             </div>
         </section>
 
         <!-- KEAHLIAN SECTION -->
         <section id="keahlian" class="space-y-4">
-            <div class="flex items-center gap-2">
-                <span class="material-symbols-outlined text-accent text-2xl craft-sticker">psychology</span>
+            <div class="flex items-center gap-2 gsap-fade-up">
+                <i data-lucide="brain" class="text-accent w-7 h-7 craft-sticker"></i>
                 <h2 class="text-xl sm:text-2xl font-bold text-earth-dark">Keahlian & Tech Stack</h2>
             </div>
 
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-                {% for skill in skills %}
-                <div class="bento-card p-3.5 flex items-center gap-3">
-                    <div
-                        class="w-10 h-10 bg-accent/15 border-2 border-accent text-accent rounded-lg flex items-center justify-center flex-shrink-0">
-                        <span class="material-symbols-outlined text-xl">{{ skill.icon }}</span>
-                    </div>
-                    <div class="flex-1 min-w-0">
-                        <h3 class="font-bold text-earth-dark text-xs truncate">{{ skill.name }}</h3>
-                        <p class="text-[10px] text-text-muted font-bold">{{ skill.category }}</p>
-                        <div class="w-full bg-kraft rounded-full h-1.5 mt-1 border border-border-card">
-                            <div class="bg-accent h-full rounded-full" style="width: {{ skill.proficiency }}%"></div>
+            <div class="swiper skillSwiper w-full pb-10 gsap-fade-up">
+                <div class="swiper-wrapper">
+                    {% for skill in skills %}
+                    <div class="swiper-slide w-[200px] sm:w-[250px] mr-3 h-auto">
+                        <div class="bento-card p-3.5 flex items-center gap-3 h-full">
+                            <div class="w-10 h-10 bg-accent/15 border-2 border-accent text-accent rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="{{ skill.icon|default('code') }}" class="w-5 h-5"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <h3 class="font-bold text-earth-dark text-xs truncate">{{ skill.name }}</h3>
+                                <p class="text-[10px] text-text-muted font-bold">{{ skill.category }}</p>
+                                <div class="w-full bg-kraft rounded-full h-1.5 mt-1 border border-border-card">
+                                    <div class="bg-accent h-full rounded-full" style="width: {{ skill.proficiency }}%"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
+                <div class="swiper-pagination"></div>
             </div>
         </section>
 
         <!-- PENGALAMAN SECTION -->
         <section id="pengalaman" class="space-y-4">
-            <div class="flex items-center gap-2">
-                <span class="material-symbols-outlined text-accent text-2xl craft-sticker">work</span>
-                <h2 class="text-xl sm:text-2xl font-bold text-earth-dark">Pengalaman (Kerja, Magang, Organisasi, Asdos)
-                </h2>
+            <div class="flex items-center gap-2 gsap-fade-up">
+                <i data-lucide="briefcase" class="text-accent w-7 h-7 craft-sticker"></i>
+                <h2 class="text-xl sm:text-2xl font-bold text-earth-dark">Pengalaman</h2>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {% for exp in experiences %}
-                <div class="cardboard-card cardboard-texture rounded-2xl p-5 shadow-sm space-y-2">
-                    <div class="flex items-center justify-between gap-2">
-                        <span
-                            class="px-2.5 py-0.5 bg-accent/15 border border-accent rounded-md text-xs font-bold text-accent">{{
-                            exp.category }}</span>
-                        <span
-                            class="text-xs font-bold text-earth-brown bg-kraft/40 px-2 py-0.5 rounded border border-border-card">{{
-                            exp.period }}</span>
-                    </div>
+            <div class="swiper expSwiper w-full pb-10 gsap-fade-up">
+                <div class="swiper-wrapper">
+                    {% for exp in experiences %}
+                    <div class="swiper-slide w-[85%] md:w-[45%] lg:w-[40%] mr-4 h-auto">
+                        <div class="cardboard-card cardboard-texture rounded-2xl p-5 shadow-sm space-y-2 h-full">
+                            <div class="flex items-center justify-between gap-2">
+                                <span class="px-2.5 py-0.5 bg-accent/15 border border-accent rounded-md text-xs font-bold text-accent">{{ exp.category }}</span>
+                                <span class="text-xs font-bold text-earth-brown bg-kraft/40 px-2 py-0.5 rounded border border-border-card">{{ exp.period }}</span>
+                            </div>
 
-                    <h3 class="font-bold text-earth-dark text-base">{{ exp.position }}</h3>
-                    <p class="text-xs font-bold text-earth-brown">{{ exp.company }}</p>
-                    <p class="text-xs text-text-muted leading-relaxed font-medium">{{ exp.description }}</p>
+                            <h3 class="font-bold text-earth-dark text-base">{{ exp.position }}</h3>
+                            <p class="text-xs font-bold text-earth-brown flex items-center gap-1"><i data-lucide="building" class="w-3 h-3"></i> {{ exp.company }}</p>
+                            <p class="text-xs text-text-muted leading-relaxed font-medium">{{ exp.description }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
+                <div class="swiper-pagination"></div>
             </div>
         </section>
 
         <!-- PROYEK SECTION (GRID CAROUSEL SLIDER) -->
         <section id="proyek" class="space-y-4">
-            <div class="flex items-center justify-between">
+            <div class="flex items-center justify-between gsap-fade-up">
                 <div class="flex items-center gap-2">
-                    <span class="material-symbols-outlined text-accent text-2xl craft-sticker">folder_special</span>
+                    <i data-lucide="folder-star" class="text-accent w-7 h-7 craft-sticker"></i>
                     <h2 class="text-xl sm:text-2xl font-bold text-earth-dark">Portofolio Proyek</h2>
                 </div>
 
-                <!-- Carousel Controls -->
+                <!-- Carousel Controls (Custom Swiper Navigation) -->
                 <div class="flex items-center gap-2">
-                    <button onclick="scrollProjectCarousel(-1)"
-                        class="p-2 bg-kraft border-2 border-earth-dark rounded-xl text-earth-dark hover:bg-cardboard cursor-pointer font-bold">
-                        <span class="material-symbols-outlined text-base">chevron_left</span>
+                    <button class="swiper-proj-prev p-2 bg-kraft border-2 border-earth-dark rounded-xl text-earth-dark hover:bg-cardboard cursor-pointer font-bold shadow-[2px_2px_0px_#2C1A0E] active:translate-y-0.5 active:translate-x-0.5 active:shadow-[0px_0px_0px_#2C1A0E] transition-all">
+                        <i data-lucide="chevron-left" class="w-5 h-5"></i>
                     </button>
-                    <button onclick="scrollProjectCarousel(1)"
-                        class="p-2 bg-kraft border-2 border-earth-dark rounded-xl text-earth-dark hover:bg-cardboard cursor-pointer font-bold">
-                        <span class="material-symbols-outlined text-base">chevron_right</span>
+                    <button class="swiper-proj-next p-2 bg-kraft border-2 border-earth-dark rounded-xl text-earth-dark hover:bg-cardboard cursor-pointer font-bold shadow-[2px_2px_0px_#2C1A0E] active:translate-y-0.5 active:translate-x-0.5 active:shadow-[0px_0px_0px_#2C1A0E] transition-all">
+                        <i data-lucide="chevron-right" class="w-5 h-5"></i>
                     </button>
                 </div>
             </div>
 
-            <!-- Carousel Grid Container -->
-            <div id="projectCarousel"
-                class="flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory py-2 scrollbar-none"
-                style="scrollbar-width: none;">
-                {% for proj in projects %}
-                <div
-                    class="snap-start flex-none w-full md:w-[calc(50%-12px)] cardboard-card cardboard-texture rounded-2xl p-5 shadow-cardboard flex flex-col justify-between relative">
-                    <div class="tape-accent"></div>
-                    <div>
-                        {% if proj.image_url %}
-                        <img src="{{ proj.image_url }}" alt="{{ proj.title }}"
-                            class="w-full h-48 object-cover rounded-xl border-2 border-border-card mb-4 shadow-sm">
-                        {% else %}
-                        <div
-                            class="w-full h-48 bg-kraft/40 rounded-xl border-2 border-dashed border-border-card flex items-center justify-center mb-4">
-                            <span class="material-symbols-outlined text-border-card text-5xl">folder</span>
-                        </div>
-                        {% endif %}
+            <div class="swiper projSwiper w-full pb-10 gsap-fade-up">
+                <div class="swiper-wrapper">
+                    {% for proj in projects %}
+                    <div class="swiper-slide w-[90%] md:w-[45%] lg:w-[40%] mr-6 h-auto">
+                        <div class="cardboard-card cardboard-texture rounded-2xl p-5 shadow-cardboard flex flex-col justify-between relative h-full">
+                            <div class="tape-accent"></div>
+                            <div>
+                                {% if proj.image_url %}
+                                <img src="{{ proj.image_url }}" alt="{{ proj.title }}"
+                                    class="w-full h-48 object-cover rounded-xl border-2 border-border-card mb-4 shadow-sm">
+                                {% else %}
+                                <div class="w-full h-48 bg-kraft/40 rounded-xl border-2 border-dashed border-border-card flex items-center justify-center mb-4">
+                                    <i data-lucide="folder" class="w-12 h-12 text-border-card"></i>
+                                </div>
+                                {% endif %}
 
-                        <div class="flex items-center justify-between mb-2">
-                            <span
-                                class="px-2.5 py-0.5 bg-accent/15 border border-accent rounded-md text-xs font-bold text-accent">{{
-                                proj.category }}</span>
-                        </div>
-                        <h3 class="font-bold text-earth-dark text-lg mb-2">{{ proj.title }}</h3>
-                        <p class="text-xs sm:text-sm text-text-muted leading-relaxed mb-3 font-medium line-clamp-3">{{
-                            proj.description }}</p>
-                        <p
-                            class="text-xs font-bold text-earth-brown bg-kraft/30 p-2 rounded-lg border border-border-light inline-block">
-                            Tech: {{ proj.tags }}</p>
-                    </div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="px-2.5 py-0.5 bg-accent/15 border border-accent rounded-md text-xs font-bold text-accent">{{ proj.category }}</span>
+                                </div>
+                                <h3 class="font-bold text-earth-dark text-lg mb-2">{{ proj.title }}</h3>
+                                <p class="text-xs sm:text-sm text-text-muted leading-relaxed mb-3 font-medium line-clamp-3">{{ proj.description }}</p>
+                                <p class="text-xs font-bold text-earth-brown bg-kraft/30 p-2 rounded-lg border border-border-light inline-block">Tech: {{ proj.tags }}</p>
+                            </div>
 
-                    <div class="mt-5 pt-3 border-t-2 border-dashed border-border-light flex gap-3 text-xs">
-                        {% if proj.demo_url %}
-                        <a href="{{ proj.demo_url }}" target="_blank"
-                            class="btn-primary px-3.5 py-2 rounded-lg text-white font-bold flex items-center gap-1">
-                            <span class="material-symbols-outlined text-sm">open_in_new</span> Live Demo
-                        </a>
-                        {% endif %}
-                        {% if proj.github_url %}
-                        <a href="{{ proj.github_url }}" target="_blank"
-                            class="btn-secondary px-3.5 py-2 rounded-lg font-bold flex items-center gap-1">
-                            <span class="material-symbols-outlined text-sm">code</span> Code Repository
-                        </a>
-                        {% endif %}
+                            <div class="mt-5 pt-3 border-t-2 border-dashed border-border-light flex flex-wrap gap-2 text-xs">
+                                <a href="{{ url_for('public.project_detail', project_id=proj.id) }}" 
+                                    class="btn-primary px-3.5 py-2 rounded-lg text-white font-bold flex items-center gap-1 hover:-translate-y-1 transition-transform">
+                                    <i data-lucide="info" class="w-4 h-4 text-white"></i> Detail
+                                </a>
+                                {% if proj.demo_url %}
+                                <a href="{{ proj.demo_url }}" target="_blank"
+                                    class="btn-secondary px-3.5 py-2 rounded-lg font-bold flex items-center gap-1 hover:-translate-y-1 transition-transform">
+                                    <i data-lucide="external-link" class="w-4 h-4"></i> Live Demo
+                                </a>
+                                {% endif %}
+                                {% if proj.github_url %}
+                                <a href="{{ proj.github_url }}" target="_blank"
+                                    class="btn-secondary px-3.5 py-2 rounded-lg font-bold flex items-center gap-1 hover:-translate-y-1 transition-transform">
+                                    <i data-lucide="code" class="w-4 h-4"></i> Repo
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
                     </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
+                <div class="swiper-pagination"></div>
             </div>
         </section>
 
         <!-- CONTACT FORM SECTION -->
-        <section id="kontak"
-            class="cardboard-card cardboard-texture rounded-3xl p-6 sm:p-8 shadow-cardboard relative max-w-2xl mx-auto">
+        <section id="kontak" class="cardboard-card cardboard-texture rounded-3xl p-6 sm:p-8 shadow-cardboard relative max-w-2xl mx-auto gsap-fade-up">
             <div class="tape-accent"></div>
-            <div class="text-center mb-6">
-                <span class="material-symbols-outlined text-accent text-4xl mb-1 craft-sticker">mark_email_unread</span>
+            <div class="text-center mb-6 flex flex-col items-center">
+                <i data-lucide="mail" class="text-accent w-10 h-10 mb-2 craft-sticker"></i>
                 <h2 class="text-2xl font-bold text-earth-dark">Kirim Pesan Langsung</h2>
                 <p class="text-text-muted text-xs sm:text-sm font-medium">Ada pertanyaan atau penawaran kerja sama?
                     Silakan kirimkan pesan di bawah ini.</p>
@@ -357,28 +400,137 @@
                         class="w-full p-3 input-cardboard rounded-lg text-sm"
                         placeholder="Tuliskan pesan Anda..."></textarea>
                 </div>
-                <button type="submit" class="btn-primary w-full py-3 rounded-xl font-bold text-sm cursor-pointer">
-                    🚀 Kirim Pesan Sekarang
+                <button type="submit" class="btn-primary w-full py-3 rounded-xl font-bold text-sm cursor-pointer flex items-center justify-center gap-2">
+                    <i data-lucide="send" class="w-4 h-4 text-white"></i> Kirim Pesan Sekarang
                 </button>
             </form>
         </section>
+        
     </main>
 
     <footer
         class="p-6 text-center text-xs text-text-muted border-t-2 border-dashed border-border-light bg-card-bg mt-12">
         © 2026 {{ profile.full_name }}. Crafted with Cardboard Theme & Mobile-First UI/UX.
     </footer>
+    
+    <!-- GSAP Cartoon Character Element -->
+    <div id="cartoon-character"></div>
 
+    <!-- Scripts: Lucide, Swiper, GSAP -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script>
-        function scrollProjectCarousel(direction) {
-            const container = document.getElementById('projectCarousel');
-            const scrollAmount = container.clientWidth * 0.8;
-            container.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
-        }
+        // Initialize Lucide Icons
+        lucide.createIcons();
+        
+        // Register GSAP plugins
+        gsap.registerPlugin(ScrollTrigger);
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // GSAP Animations
+            // 1. Initial Hero Stagger
+            gsap.from(".gsap-fade-in", { y: -20, opacity: 0, duration: 0.8, stagger: 0.1, ease: "back.out(1.7)" });
+            gsap.from(".gsap-pop", { scale: 0, rotation: -10, opacity: 0, duration: 1, ease: "elastic.out(1, 0.5)" });
+            gsap.from(".gsap-stagger-text > *", { x: -30, opacity: 0, duration: 0.8, stagger: 0.1, ease: "power2.out", delay: 0.3 });
+            
+            // 2. Scroll Triggered Fade Up
+            gsap.utils.toArray(".gsap-fade-up").forEach(elem => {
+                gsap.from(elem, {
+                    scrollTrigger: {
+                        trigger: elem,
+                        start: "top 85%",
+                    },
+                    y: 50,
+                    opacity: 0,
+                    duration: 0.8,
+                    ease: "power2.out"
+                });
+            });
+
+            // 3. Interactive Pull String Animation
+            const string = document.getElementById("pull-string");
+            let isPulled = false;
+            string.addEventListener("click", () => {
+                if (isPulled) return;
+                isPulled = true;
+                
+                // Pull down animation
+                gsap.to(string, {
+                    y: 100, 
+                    duration: 0.5, 
+                    ease: "power1.inOut",
+                    yoyo: true,
+                    repeat: 1,
+                    onComplete: () => {
+                        isPulled = false;
+                    }
+                });
+                
+                // Wobble effect on the profile card
+                gsap.to("#profil", {
+                    rotation: 2,
+                    duration: 0.1,
+                    yoyo: true,
+                    repeat: 5,
+                    ease: "power1.inOut"
+                });
+            });
+
+            // 4. Character Passing Animation
+            const character = document.getElementById("cartoon-character");
+            // Randomly pass character across screen every 15-30 seconds
+            function walkCharacter() {
+                gsap.fromTo(character, 
+                    { x: -150, rotation: 0 }, 
+                    { 
+                        x: window.innerWidth + 150, 
+                        duration: 8, 
+                        ease: "none",
+                        onComplete: () => {
+                            setTimeout(walkCharacter, gsap.utils.random(15000, 30000));
+                        }
+                    }
+                );
+                
+                // Wobble while walking
+                gsap.to(character, {
+                    rotation: 10,
+                    duration: 0.3,
+                    yoyo: true,
+                    repeat: 26, // 8s / 0.3s approx
+                    ease: "sine.inOut"
+                });
+            }
+            setTimeout(walkCharacter, 5000);
+
+            // Swiper Initializations
+            const swiperOptions = {
+                slidesPerView: 'auto',
+                pagination: { el: '.swiper-pagination', clickable: true },
+            };
+
+            new Swiper(".eduSwiper", swiperOptions);
+            new Swiper(".certSwiper", swiperOptions);
+            new Swiper(".skillSwiper", swiperOptions);
+            new Swiper(".expSwiper", swiperOptions);
+            
+            new Swiper(".projSwiper", {
+                slidesPerView: 'auto',
+                pagination: { el: '.swiper-pagination', clickable: true },
+                navigation: {
+                    nextEl: '.swiper-proj-next',
+                    prevEl: '.swiper-proj-prev',
+                },
+            });
+        });
 
         document.getElementById('publicContactForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const alertBox = document.getElementById('contactAlert');
+            const btn = e.target.querySelector('button[type="submit"]');
+            
             const data = {
                 name: document.getElementById('sender_name').value,
                 email: document.getElementById('sender_email').value,
@@ -386,6 +538,9 @@
                 message: document.getElementById('message_content').value
             };
 
+            // Button animation during submit
+            gsap.to(btn, { scale: 0.95, duration: 0.1, yoyo: true, repeat: 1 });
+            
             try {
                 const res = await fetch('/dashboard/messages/send-public', {
                     method: 'POST',
@@ -398,17 +553,21 @@
                     alertBox.classList.add('bg-green-100', 'border-green-600', 'text-green-900');
                     alertBox.innerText = result.message;
                     document.getElementById('publicContactForm').reset();
+                    
+                    // Success animation
+                    gsap.from(alertBox, { y: -10, opacity: 0, duration: 0.5, ease: "back.out(2)" });
                 } else {
                     alertBox.classList.add('bg-red-100', 'border-red-600', 'text-red-900');
                     alertBox.innerText = result.message || 'Gagal mengirim pesan.';
+                    gsap.from(alertBox, { x: -10, duration: 0.1, yoyo: true, repeat: 3 });
                 }
             } catch (err) {
                 alertBox.classList.remove('hidden');
                 alertBox.classList.add('bg-red-100', 'border-red-600', 'text-red-900');
                 alertBox.innerText = 'Terjadi kesalahan koneksi.';
+                gsap.from(alertBox, { x: -10, duration: 0.1, yoyo: true, repeat: 3 });
             }
         });
     </script>
 </body>
-
 </html>

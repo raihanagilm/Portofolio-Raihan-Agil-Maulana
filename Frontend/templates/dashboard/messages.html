@@ -12,7 +12,7 @@
                 <div class="cardboard-card cardboard-texture rounded-xl p-4 shadow-sm relative border-l-8 {% if not msg.is_read %}border-l-accent{% else %}border-l-border-card{% endif %}">
                     <div class="flex flex-col md:flex-row justify-between md:items-center gap-2 mb-2">
                         <div class="flex items-center gap-2">
-                            <span class="material-symbols-outlined text-earth-brown">person</span>
+                            <i class="lucide text-earth-brown" data-lucide="user"></i>
                             <span class="font-bold text-earth-dark text-sm">{{ msg.sender_name }}</span>
                             <span class="text-xs text-text-muted">&lt;{{ msg.sender_email }}&gt;</span>
                             {% if not msg.is_read %}
@@ -28,7 +28,7 @@
                     <div class="mt-3 flex justify-end gap-2">
                         {% if not msg.is_read %}
                             <button onclick="markRead('{{ msg.id }}')" class="btn-secondary px-3 py-1 rounded-lg text-xs font-bold flex items-center gap-1 cursor-pointer">
-                                <span class="material-symbols-outlined text-sm">done</span> Tandai Dibaca
+                                <i class="lucide text-sm" data-lucide="check"></i> Tandai Dibaca
                             </button>
                         {% endif %}
                         <form action="{{ url_for('messages.delete', msg_id=msg.id) }}" method="POST" class="inline">

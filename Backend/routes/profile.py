@@ -37,6 +37,11 @@ def index():
             if uploaded_url:
                 profile.avatar_url = uploaded_url
 
+        if 'resume' in request.files and request.files['resume'].filename != '':
+            resume_url = upload_media(request.files['resume'], folder="documents")
+            if resume_url:
+                profile.resume_url = resume_url
+
         db.session.commit()
         flash('Profil berhasil diperbarui!', 'success')
         return redirect(url_for('profile.index'))

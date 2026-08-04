@@ -51,7 +51,7 @@
             <div class="mb-6 text-center">
                 <div class="inline-block mb-3">
                     <div class="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-cardboard-dark to-cardboard-darker rounded-2xl flex items-center justify-center shadow-md border-2 border-earth-dark">
-                        <span class="material-symbols-outlined text-white text-3xl sm:text-4xl">folder_managed</span>
+                        <i class="lucide text-white text-3xl sm:text-4xl" data-lucide="folder-cog"></i>
                     </div>
                 </div>
                 <h1 class="font-bold text-2xl sm:text-3xl text-earth-dark mb-1">Manajemen Portofolio</h1>
@@ -82,7 +82,7 @@
                             autocomplete="current-password" required value="123456">
                         <button class="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-earth-dark transition-colors"
                             onclick="togglePassword()" type="button" aria-label="Toggle password visibility">
-                            <span class="material-symbols-outlined text-xl" id="passwordIcon">visibility</span>
+                            <i class="lucide text-xl" id="passwordIcon" data-lucide="eye"></i>
                         </button>
                     </div>
                 </div>
@@ -106,7 +106,7 @@
                 <button class="btn-secondary w-full flex items-center justify-between p-3.5 rounded-xl transition-soft cursor-pointer"
                     onclick="toggleEmergency()" type="button" id="emergencyToggleBtn">
                     <div class="flex items-center gap-2.5">
-                        <span class="material-symbols-outlined text-accent text-2xl">shield_lock</span>
+                        <i class="lucide text-accent text-2xl" data-lucide="shield"></i>
                         <span class="font-bold text-earth-dark text-sm sm:text-base">Login Darurat Via OTP</span>
                     </div>
                     <span class="material-symbols-outlined text-earth-dark transition-transform duration-300"
@@ -120,7 +120,7 @@
                     
                     <button class="btn-secondary w-full py-2.5 px-3 rounded-lg text-xs font-bold flex items-center justify-center gap-2 cursor-pointer"
                         id="requestOtpBtn" onclick="requestOtp()">
-                        <span class="material-symbols-outlined text-base">send</span>
+                        <i class="lucide text-base" data-lucide="send"></i>
                         <span>Minta Kode OTP Ke Email</span>
                     </button>
 
@@ -144,7 +144,7 @@
 
             <div class="mt-6 pt-4 border-t-2 border-dashed border-border-light text-center">
                 <a href="/" class="text-xs text-accent font-bold hover:underline inline-flex items-center gap-1">
-                    <span class="material-symbols-outlined text-sm">arrow_back</span> Lihat Portofolio Publik
+                    <i class="lucide text-sm" data-lucide="arrow-left"></i> Lihat Portofolio Publik
                 </a>
             </div>
         </div>

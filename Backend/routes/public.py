@@ -41,3 +41,10 @@ def index():
         educations=educations,
         certificates=certificates
     )
+
+@public_bp.route('/project/<int:project_id>')
+def project_detail(project_id):
+    proj = Project.query.get_or_404(project_id)
+    if not proj.is_visible:
+        return redirect(url_for('public.index'))
+    return render_template('project_detail.html', project=proj)

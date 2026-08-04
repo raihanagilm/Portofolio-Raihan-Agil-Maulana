@@ -1,6 +1,7 @@
+# pyrefly: ignore [missing-import]
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from Backend.utils.auth_helper import login_required
-from Backend.database import db, Project
+from Backend.database import db, Project, ProjectImage
 from Backend.utils.cloudinary_helper import upload_media
 
 projects_bp = Blueprint('projects', __name__, url_prefix='/dashboard/projects')
@@ -16,6 +17,7 @@ def index():
 def add():
     title = request.form.get('title')
     description = request.form.get('description')
+    content = request.form.get('content')
     category = request.form.get('category')
     tags = request.form.get('tags')
     demo_url = request.form.get('demo_url')
@@ -27,6 +29,7 @@ def add():
         proj = Project(
             title=title,
             description=description,
+            content=content,
             category=category,
             tags=tags,
             demo_url=demo_url,
@@ -36,6 +39,17 @@ def add():
         )
         db.session.add(proj)
         db.session.commit()
+        
+        # Handle multiple images
+        if 'gallery_images' in request.files:
+            for file in request.files.getlist('gallery_images'):
+                if file.filename:
+                    g_url = upload_media(file, folder='projects_gallery')
+                    if g_url:
+                        new_img = ProjectImage(project_id=proj.id, image_url=g_url)
+                        db.session.add(new_img)
+            db.session.commit()
+
         flash('Proyek berhasil ditambahkan!', 'success')
     return redirect(url_for('projects.index'))
 
@@ -45,16 +59,36 @@ def edit(proj_id):
     proj = Project.query.get_or_404(proj_id)
     proj.title = request.form.get('title', proj.title)
     proj.description = request.form.get('description', proj.description)
+    proj.content = request.form.get('content', proj.content)
     proj.category = request.form.get('category', proj.category)
     proj.tags = request.form.get('tags', proj.tags)
     proj.demo_url = request.form.get('demo_url', proj.demo_url)
     proj.github_url = request.form.get('github_url', proj.github_url)
+    
     if 'image' in request.files and request.files['image'].filename:
         img = upload_media(request.files['image'], folder='projects')
         if img:
             proj.image_url = img
+            
+    if 'gallery_images' in request.files:
+        for file in request.files.getlist('gallery_images'):
+            if file.filename:
+                g_url = upload_media(file, folder='projects_gallery')
+                if g_url:
+                    new_img = ProjectImage(project_id=proj.id, image_url=g_url)
+                    db.session.add(new_img)
+
     db.session.commit()
     flash('Proyek berhasil diperbarui!', 'success')
+    return redirect(url_for('projects.index'))
+
+@projects_bp.route('/delete_image/<int:img_id>', methods=['POST'])
+@login_required
+def delete_image(img_id):
+    img = ProjectImage.query.get_or_404(img_id)
+    db.session.delete(img)
+    db.session.commit()
+    flash('Gambar galeri dihapus.', 'info')
     return redirect(url_for('projects.index'))
 
 @projects_bp.route('/delete/<int:proj_id>', methods=['POST'])

@@ -8,7 +8,7 @@
     <div class="cardboard-card cardboard-texture rounded-2xl p-5 shadow-cardboard relative">
         <div class="tape-accent"></div>
         <h3 class="font-bold text-earth-dark text-lg mb-4 flex items-center gap-2">
-            <span class="material-symbols-outlined text-accent">add_circle</span> Tambah Pengalaman Baru
+            <i class="lucide text-accent" data-lucide="plus-circle"></i> Tambah Pengalaman Baru
         </h3>
         <form action="{{ url_for('experience.add') }}" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
@@ -53,7 +53,7 @@
     <!-- DAFTAR PENGALAMAN TERSIMPAN (POSISI BAWAH) -->
     <div class="space-y-4">
         <h3 class="font-bold text-earth-dark text-lg flex items-center gap-2">
-            <span class="material-symbols-outlined text-earth-brown">list_alt</span> Daftar Pengalaman Tersimpan ({{ experiences|length }})
+            <i class="lucide text-earth-brown" data-lucide="list"></i> Daftar Pengalaman Tersimpan ({{ experiences|length }})
         </h3>
 
         {% if experiences %}
@@ -78,22 +78,21 @@
                             </span>
 
                             <div class="flex gap-1.5">
-                                <!-- Toggle Visibility Button -->
-                                <form action="{{ url_for('experience.toggle_visibility', exp_id=exp.id) }}" method="POST" class="inline">
-                                    <button type="submit" title="Sembunyikan/Tampilkan" class="p-1.5 bg-yellow-100 border border-yellow-400 text-yellow-800 rounded-lg hover:bg-yellow-200">
-                                        <span class="material-symbols-outlined text-sm">{% if exp.is_visible %}visibility_off{% else %}visibility{% endif %}</span>
+                                <form action="{{ url_for('experience.toggle_visibility', exp_id=exp.id) }}" method="POST" class="inline m-0 p-0 flex items-center">
+                                    <button type="submit" class="w-10 h-5 rounded-full relative transition-colors focus:outline-none flex items-center {% if exp.is_visible %}bg-green-500{% else %}bg-gray-400{% endif %}" title="Toggle Tampil">
+                                        <div class="w-4 h-4 bg-white rounded-full shadow-md transform transition-transform duration-300 {% if exp.is_visible %}translate-x-5{% else %}translate-x-1{% endif %}"></div>
                                     </button>
                                 </form>
 
                                 <!-- Edit Button -->
                                 <button onclick="openEditExpModal('{{ exp.id }}', '{{ exp.category|e }}', '{{ exp.company|e }}', '{{ exp.position|e }}', '{{ exp.period|e }}', '{{ exp.description|e }}')" class="p-1.5 bg-blue-100 border border-blue-400 text-blue-800 rounded-lg hover:bg-blue-200">
-                                    <span class="material-symbols-outlined text-sm">edit</span>
+                                    <i class="lucide text-sm" data-lucide="edit"></i>
                                 </button>
 
                                 <!-- Delete Button -->
                                 <form action="{{ url_for('experience.delete', exp_id=exp.id) }}" method="POST" class="inline">
                                     <button type="submit" onclick="return confirm('Hapus pengalaman ini?')" class="p-1.5 bg-red-100 border border-red-400 text-red-700 rounded-lg hover:bg-red-200">
-                                        <span class="material-symbols-outlined text-sm">delete</span>
+                                        <i class="lucide text-sm" data-lucide="trash-2"></i>
                                     </button>
                                 </form>
                             </div>

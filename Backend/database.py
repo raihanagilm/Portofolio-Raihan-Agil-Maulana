@@ -85,13 +85,22 @@ class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(150), nullable=False)
     description = db.Column(db.Text, nullable=False)
-    image_url = db.Column(db.String(255), nullable=True)
+    content = db.Column(db.Text, nullable=True) # Detailed content for project detail page
+    image_url = db.Column(db.String(255), nullable=True) # Main thumbnail
     demo_url = db.Column(db.String(255), nullable=True)
     github_url = db.Column(db.String(255), nullable=True)
     category = db.Column(db.String(50), default="Web App")
     tags = db.Column(db.String(200), default="Flask, Tailwind, MySQL")
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     is_visible = db.Column(db.Boolean, default=True)
+
+class ProjectImage(db.Model):
+    __tablename__ = 'project_images'
+    id = db.Column(db.Integer, primary_key=True)
+    project_id = db.Column(db.Integer, db.ForeignKey('projects.id'), nullable=False)
+    image_url = db.Column(db.String(255), nullable=False)
+    
+    project = db.relationship('Project', backref=db.backref('images', lazy=True, cascade="all, delete-orphan"))
 
 class Message(db.Model):
     __tablename__ = 'messages'

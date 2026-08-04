@@ -40,6 +40,7 @@
     </script>
     <link rel="stylesheet" href="/css/style-base.css">
     <link rel="stylesheet" href="/css/style-dashboard.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
 <body class="bg-surface text-earth-dark font-body-md min-h-screen flex flex-col">
@@ -51,7 +52,7 @@
         <div class="sidebar-header">
             <div class="sidebar-logo flex items-center gap-3">
                 <div class="logo-icon w-10 h-10 bg-gradient-to-br from-accent to-accent-hover rounded-xl flex items-center justify-center border-2 border-earth-dark shadow-sm">
-                    <span class="material-symbols-outlined text-white text-xl">folder_managed</span>
+                    <i class="lucide text-white text-xl" data-lucide="folder-cog"></i>
                 </div>
                 <div>
                     <h1 class="font-bold text-base text-earth-dark leading-tight">Portofolio Admin</h1>
@@ -61,37 +62,37 @@
         </div>
         <nav class="flex-1 space-y-1 overflow-y-auto">
             <a class="nav-item {% if active_page == 'beranda' %}nav-item-active{% endif %}" href="{{ url_for('dashboard.index') }}">
-                <span class="material-symbols-outlined text-xl">home</span>
+                <i class="lucide text-xl" data-lucide="home"></i>
                 <span>Beranda</span>
             </a>
             <a class="nav-item {% if active_page == 'profil' %}nav-item-active{% endif %}" href="{{ url_for('profile.index') }}">
-                <span class="material-symbols-outlined text-xl">person</span>
+                <i class="lucide text-xl" data-lucide="user"></i>
                 <span>Profil</span>
             </a>
             <a class="nav-item {% if active_page == 'pesan' %}nav-item-active{% endif %}" href="{{ url_for('messages.index') }}">
-                <span class="material-symbols-outlined text-xl">mail</span>
+                <i class="lucide text-xl" data-lucide="mail"></i>
                 <span>Pesan</span>
             </a>
             <a class="nav-item {% if active_page == 'pendidikan' %}nav-item-active{% endif %}" href="{{ url_for('education.index') }}">
-                <span class="material-symbols-outlined text-xl">school</span>
+                <i class="lucide text-xl" data-lucide="graduation-cap"></i>
                 <span>Pendidikan</span>
             </a>
             <a class="nav-item {% if active_page == 'keahlian' %}nav-item-active{% endif %}" href="{{ url_for('skills.index') }}">
-                <span class="material-symbols-outlined text-xl">psychology</span>
+                <i class="lucide text-xl" data-lucide="brain"></i>
                 <span>Keahlian</span>
             </a>
             <a class="nav-item {% if active_page == 'pengalaman' %}nav-item-active{% endif %}" href="{{ url_for('experience.index') }}">
-                <span class="material-symbols-outlined text-xl">work</span>
+                <i class="lucide text-xl" data-lucide="briefcase"></i>
                 <span>Pengalaman</span>
             </a>
             <a class="nav-item {% if active_page == 'proyek' %}nav-item-active{% endif %}" href="{{ url_for('projects.index') }}">
-                <span class="material-symbols-outlined text-xl">folder_special</span>
+                <i class="lucide text-xl" data-lucide="folder-star"></i>
                 <span>Proyek</span>
             </a>
         </nav>
         <div class="sidebar-footer">
             <a class="nav-item text-red-700 hover:bg-red-50" href="{{ url_for('auth.logout') }}">
-                <span class="material-symbols-outlined text-xl text-red-700">logout</span>
+                <i class="lucide text-xl text-red-700" data-lucide="log-out"></i>
                 <span class="text-red-800">Keluar</span>
             </a>
         </div>
@@ -103,17 +104,17 @@
         <header class="topbar">
             <div class="flex items-center gap-3">
                 <button class="menu-toggle md:hidden" onclick="toggleMobileSidebar()" aria-label="Toggle menu">
-                    <span class="material-symbols-outlined text-2xl text-earth-dark">menu</span>
+                    <i class="lucide text-2xl text-earth-dark" data-lucide="menu"></i>
                 </button>
                 <h2 class="font-bold text-lg md:text-xl text-earth-dark">{% block page_title %}Ringkasan Dashboard{% endblock %}</h2>
             </div>
             <div class="flex items-center gap-3">
                 <a href="/" target="_blank" class="btn-secondary px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5">
-                    <span class="material-symbols-outlined text-base text-accent">open_in_new</span>
+                    <i class="lucide text-base text-accent" data-lucide="external-link"></i>
                     <span class="hidden sm:inline">Lihat Web Publik</span>
                 </a>
                 <div class="w-9 h-9 bg-cardboard rounded-full border-2 border-earth-dark flex items-center justify-center shadow-sm">
-                    <span class="material-symbols-outlined text-earth-dark text-lg">account_circle</span>
+                    <i class="lucide text-earth-dark text-lg" data-lucide="circle-user"></i>
                 </div>
             </div>
         </header>
@@ -144,6 +145,7 @@
 
     <script src="/js/script-base.js"></script>
     {% block scripts %}{% endblock %}
+    <script>lucide.createIcons();</script>
 </body>
 
 </html>

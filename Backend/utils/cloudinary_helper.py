@@ -8,14 +8,16 @@ def upload_media(file_storage, folder="portfolio"):
         return None
 
     try:
+        # pyrefly: ignore [missing-import]
         import cloudinary
+        # pyrefly: ignore [missing-import]
         import cloudinary.uploader
         cloudinary.config(
             cloud_name=Config.CLOUDINARY_CLOUD_NAME,
             api_key=Config.CLOUDINARY_API_KEY,
             api_secret=Config.CLOUDINARY_API_SECRET
         )
-        upload_result = cloudinary.uploader.upload(file_storage, folder=folder)
+        upload_result = cloudinary.uploader.upload(file_storage, folder=folder, resource_type="auto")
         return upload_result.get('secure_url')
     except ImportError:
         print("[CLOUDINARY SDK NOT INSTALLED]")

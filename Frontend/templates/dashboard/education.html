@@ -20,7 +20,7 @@
         <div class="cardboard-card cardboard-texture rounded-2xl p-5 shadow-cardboard relative">
             <div class="tape-accent"></div>
             <h3 class="font-bold text-earth-dark text-lg mb-4 flex items-center gap-2">
-                <span class="material-symbols-outlined text-accent">school</span> Tambah Riwayat Pendidikan Formal
+                <i class="lucide text-accent" data-lucide="graduation-cap"></i> Tambah Riwayat Pendidikan Formal
             </h3>
             <form action="{{ url_for('education.add') }}" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <input type="hidden" name="type" value="education">
@@ -73,17 +73,17 @@
                                     {% if edu.is_visible %}👁️ Tampil{% else %}🙈 Disembunyikan{% endif %}
                                 </span>
                                 <div class="flex gap-1.5">
-                                    <form action="{{ url_for('education.toggle_visibility', edu_id=edu.id) }}" method="POST" class="inline">
-                                        <button type="submit" title="Sembunyikan/Tampilkan" class="p-1.5 bg-yellow-100 border border-yellow-400 text-yellow-800 rounded-lg hover:bg-yellow-200">
-                                            <span class="material-symbols-outlined text-sm">{% if edu.is_visible %}visibility_off{% else %}visibility{% endif %}</span>
+                                    <form action="{{ url_for('education.toggle_visibility', edu_id=edu.id) }}" method="POST" class="inline m-0 p-0 flex items-center">
+                                        <button type="submit" class="w-10 h-5 rounded-full relative transition-colors focus:outline-none flex items-center {% if edu.is_visible %}bg-green-500{% else %}bg-gray-400{% endif %}" title="Toggle Tampil">
+                                            <div class="w-4 h-4 bg-white rounded-full shadow-md transform transition-transform duration-300 {% if edu.is_visible %}translate-x-5{% else %}translate-x-1{% endif %}"></div>
                                         </button>
                                     </form>
                                     <button onclick="openEditEduModal('{{ edu.id }}', '{{ edu.institution|e }}', '{{ edu.degree|e }}', '{{ edu.major|e }}', '{{ edu.period|e }}', '{{ edu.description|e }}', '')" class="p-1.5 bg-blue-100 border border-blue-400 text-blue-800 rounded-lg hover:bg-blue-200">
-                                        <span class="material-symbols-outlined text-sm">edit</span>
+                                        <i class="lucide text-sm" data-lucide="edit"></i>
                                     </button>
                                     <form action="{{ url_for('education.delete', edu_id=edu.id) }}" method="POST" class="inline">
                                         <button type="submit" onclick="return confirm('Hapus data pendidikan ini?')" class="p-1.5 bg-red-100 border border-red-400 text-red-700 rounded-lg hover:bg-red-200">
-                                            <span class="material-symbols-outlined text-sm">delete</span>
+                                            <i class="lucide text-sm" data-lucide="trash-2"></i>
                                         </button>
                                     </form>
                                 </div>
@@ -105,7 +105,7 @@
         <div class="cardboard-card cardboard-texture rounded-2xl p-5 shadow-cardboard relative">
             <div class="tape-accent"></div>
             <h3 class="font-bold text-earth-dark text-lg mb-4 flex items-center gap-2">
-                <span class="material-symbols-outlined text-accent">workspace_premium</span> Tambah Sertifikat & Lisensi
+                <i class="lucide text-accent" data-lucide="award"></i> Tambah Sertifikat & Lisensi
             </h3>
             <form action="{{ url_for('education.add') }}" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <input type="hidden" name="type" value="certificate">
@@ -153,7 +153,7 @@
                                 <p class="text-xs text-text-muted leading-relaxed">{{ cert.description }}</p>
                                 {% if cert.credential_url %}
                                     <a href="{{ cert.credential_url }}" target="_blank" class="text-xs font-bold text-accent hover:underline flex items-center gap-0.5">
-                                        <span class="material-symbols-outlined text-xs">verified</span> Verifikasi Credential
+                                        <i class="lucide text-xs" data-lucide="check-circle"></i> Verifikasi Credential
                                     </a>
                                 {% endif %}
                             </div>
@@ -163,17 +163,17 @@
                                     {% if cert.is_visible %}👁️ Tampil{% else %}🙈 Disembunyikan{% endif %}
                                 </span>
                                 <div class="flex gap-1.5">
-                                    <form action="{{ url_for('education.toggle_visibility', edu_id=cert.id) }}" method="POST" class="inline">
-                                        <button type="submit" title="Sembunyikan/Tampilkan" class="p-1.5 bg-yellow-100 border border-yellow-400 text-yellow-800 rounded-lg hover:bg-yellow-200">
-                                            <span class="material-symbols-outlined text-sm">{% if cert.is_visible %}visibility_off{% else %}visibility{% endif %}</span>
+                                    <form action="{{ url_for('education.toggle_visibility', edu_id=cert.id) }}" method="POST" class="inline m-0 p-0 flex items-center">
+                                        <button type="submit" class="w-10 h-5 rounded-full relative transition-colors focus:outline-none flex items-center {% if cert.is_visible %}bg-green-500{% else %}bg-gray-400{% endif %}" title="Toggle Tampil">
+                                            <div class="w-4 h-4 bg-white rounded-full shadow-md transform transition-transform duration-300 {% if cert.is_visible %}translate-x-5{% else %}translate-x-1{% endif %}"></div>
                                         </button>
                                     </form>
                                     <button onclick="openEditEduModal('{{ cert.id }}', '{{ cert.institution|e }}', '{{ cert.degree|e }}', '{{ cert.major|e }}', '{{ cert.period|e }}', '{{ cert.description|e }}', '{{ cert.credential_url|e }}')" class="p-1.5 bg-blue-100 border border-blue-400 text-blue-800 rounded-lg hover:bg-blue-200">
-                                        <span class="material-symbols-outlined text-sm">edit</span>
+                                        <i class="lucide text-sm" data-lucide="edit"></i>
                                     </button>
                                     <form action="{{ url_for('education.delete', edu_id=cert.id) }}" method="POST" class="inline">
                                         <button type="submit" onclick="return confirm('Hapus sertifikat ini?')" class="p-1.5 bg-red-100 border border-red-400 text-red-700 rounded-lg hover:bg-red-200">
-                                            <span class="material-symbols-outlined text-sm">delete</span>
+                                            <i class="lucide text-sm" data-lucide="trash-2"></i>
                                         </button>
                                     </form>
                                 </div>
