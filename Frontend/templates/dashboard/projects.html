@@ -8,7 +8,8 @@
     <div class="cardboard-card cardboard-texture rounded-2xl p-5 shadow-cardboard relative">
         <div class="tape-accent"></div>
         <h3 class="font-bold text-earth-dark text-lg mb-4 flex items-center gap-2">
-            <i class="lucide text-accent" data-lucide="folder-star"></i> Tambah Proyek Portofolio Baru
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/><path d="m16 13-3.5 3.5-2-2L8 17"/></svg>
+            Tambah Proyek Portofolio Baru
         </h3>
         <form action="{{ url_for('projects.add') }}" method="POST" enctype="multipart/form-data" class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
@@ -53,8 +54,9 @@
                 <textarea name="content" rows="4" class="w-full p-3 input-cardboard rounded-lg text-sm" placeholder="Jelaskan secara mendalam tentang fitur-fitur, cara kerja, menu yang ada..."></textarea>
             </div>
             <div class="md:col-span-2">
-                <button type="submit" class="btn-primary w-full py-3 rounded-xl font-bold text-sm cursor-pointer">
-                    + Tambah Proyek Ke Portofolio
+                <button type="submit" class="btn-primary w-full py-3 rounded-xl font-bold text-sm cursor-pointer flex items-center justify-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                    Tambah Proyek Ke Portofolio
                 </button>
             </div>
         </form>
@@ -62,7 +64,12 @@
 
     <!-- DAFTAR PROYEK -->
     <div class="space-y-4">
-        <h3 class="font-bold text-earth-dark text-lg">Daftar Proyek Tersimpan ({{ projects|length }})</h3>
+        <div class="flex items-center gap-2 mb-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            <h3 class="font-bold text-earth-dark text-lg">Daftar Proyek Tersimpan
+                <span class="inline-flex items-center justify-center bg-accent text-white rounded-full w-6 h-6 text-xs font-extrabold ml-1">{{ projects|length }}</span>
+            </h3>
+        </div>
         {% if projects %}
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 {% for proj in projects %}
@@ -97,12 +104,14 @@
                                         <div class="w-4 h-4 bg-white rounded-full shadow-md transform transition-transform duration-300 {% if proj.is_visible %}translate-x-5{% else %}translate-x-1{% endif %}"></div>
                                     </button>
                                 </form>
-                                <button onclick="document.getElementById('editProjModal-{{ proj.id }}').classList.remove('hidden')" class="p-1.5 bg-blue-100 border border-blue-400 text-blue-800 rounded-lg hover:bg-blue-200">
-                                    <i class="lucide text-xs" data-lucide="edit"></i>
+                                <button onclick="document.getElementById('editProjModal-{{ proj.id }}').classList.remove('hidden')" class="p-1.5 bg-blue-100 border border-blue-400 text-blue-800 rounded-lg hover:bg-blue-200 flex items-center gap-1 text-xs font-bold">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
+                                    Edit
                                 </button>
                                 <form action="{{ url_for('projects.delete', proj_id=proj.id) }}" method="POST" class="inline">
-                                    <button type="submit" onclick="return confirm('Hapus proyek ini?')" class="p-1.5 bg-red-100 border border-red-400 text-red-700 rounded-lg hover:bg-red-200">
-                                        <i class="lucide text-xs" data-lucide="trash-2"></i>
+                                    <button type="submit" onclick="return confirm('Hapus proyek ini?')" class="p-1.5 bg-red-100 border border-red-400 text-red-700 rounded-lg hover:bg-red-200 flex items-center gap-1 text-xs font-bold">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                                        Hapus
                                     </button>
                                 </form>
                             </div>

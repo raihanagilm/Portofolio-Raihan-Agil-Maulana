@@ -1,105 +1,176 @@
 <!DOCTYPE html>
 <html class="light" lang="id">
-
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0" name="viewport">
     <title>Portofolio - {{ profile.full_name }}</title>
+    <meta name="description" content="Portofolio {{ profile.full_name }} - {{ profile.title }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script id="tailwind-config">
         try {
             tailwind.config = {
                 darkMode: "class",
-                theme: {
-                    extend: {
-                        "colors": {
-                            "kraft-light": "#F5E6D3",
-                            "kraft": "#E8D4B8",
-                            "kraft-dark": "#D4B896",
-                            "cardboard": "#C9A87C",
-                            "cardboard-dark": "#A67C52",
-                            "cardboard-darker": "#8B5A3C",
-                            "earth-brown": "#5C3214",
-                            "earth-dark": "#2C1A0E",
-                            "card-bg": "#FFFBF5",
-                            "surface": "#FAF0E6",
-                            "accent": "#D2691E",
-                            "accent-hover": "#B8581A",
-                            "on-surface": "#2C1A0E",
-                            "on-primary": "#FFFFFF",
-                            "border-card": "#8B5A3C",
-                            "border-light": "#A67C52",
-                            "text-muted": "#6E5033"
-                        }
-                    }
-                }
+                theme: { extend: { colors: {
+                    "kraft-light":"#F5E6D3","kraft":"#E8D4B8","kraft-dark":"#D4B896",
+                    "cardboard":"#C9A87C","cardboard-dark":"#A67C52","cardboard-darker":"#8B5A3C",
+                    "earth-brown":"#5C3214","earth-dark":"#2C1A0E","card-bg":"#FFFBF5",
+                    "surface":"#FAF0E6","accent":"#D2691E","accent-hover":"#B8581A",
+                    "on-surface":"#2C1A0E","on-primary":"#FFFFFF","border-card":"#8B5A3C",
+                    "border-light":"#A67C52","text-muted":"#6E5033"
+                }}}
             }
-        } catch (_e) { }
+        } catch(_e){}
     </script>
     <link rel="stylesheet" href="/css/style-base.css">
-    <!-- Swiper CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="/css/hover.css">
     <style>
-        /* Custom Swiper Styles */
-        .swiper-slide {
-            height: auto; /* Allow slides to match height */
+        /* ===== Swiper ===== */
+        .swiper-slide{height:auto}.swiper-wrapper{align-items:stretch}
+        .bento-card,.cardboard-card{height:100%}
+
+        /* ===== SpinKit Chase ===== */
+        .sk-chase{width:36px;height:36px;position:relative;animation:sk-chase 2.5s infinite linear both}
+        .sk-chase-dot{width:100%;height:100%;position:absolute;left:0;top:0;animation:sk-chase-dot 2s infinite ease-in-out both}
+        .sk-chase-dot:before{content:'';display:block;width:25%;height:25%;background:#D2691E;border-radius:100%;animation:sk-chase-dot-before 2s infinite ease-in-out both}
+        .sk-chase-dot:nth-child(1){animation-delay:-1.1s}.sk-chase-dot:nth-child(2){animation-delay:-1s}
+        .sk-chase-dot:nth-child(3){animation-delay:-.9s}.sk-chase-dot:nth-child(4){animation-delay:-.8s}
+        .sk-chase-dot:nth-child(5){animation-delay:-.7s}.sk-chase-dot:nth-child(6){animation-delay:-.6s}
+        .sk-chase-dot:nth-child(1):before{animation-delay:-1.1s}.sk-chase-dot:nth-child(2):before{animation-delay:-1s}
+        .sk-chase-dot:nth-child(3):before{animation-delay:-.9s}.sk-chase-dot:nth-child(4):before{animation-delay:-.8s}
+        .sk-chase-dot:nth-child(5):before{animation-delay:-.7s}.sk-chase-dot:nth-child(6):before{animation-delay:-.6s}
+        @keyframes sk-chase{100%{transform:rotate(360deg)}}
+        @keyframes sk-chase-dot{80%,100%{transform:rotate(360deg)}}
+        @keyframes sk-chase-dot-before{50%{transform:scale(.4)}100%,0%{transform:scale(1)}}
+
+        /* ===== SpinKit Wave ===== */
+        .sk-wave{display:flex;gap:3px;align-items:center}
+        .sk-wave .sk-rect{width:4px;height:16px;background:#D2691E;border-radius:2px;animation:sk-wave-anim 1.2s infinite ease-in-out}
+        .sk-rect:nth-child(2){animation-delay:-1.1s}.sk-rect:nth-child(3){animation-delay:-1s}
+        .sk-rect:nth-child(4){animation-delay:-.9s}.sk-rect:nth-child(5){animation-delay:-.8s}
+        @keyframes sk-wave-anim{0%,40%,100%{transform:scaleY(.4)}20%{transform:scaleY(1)}}
+
+        /* ===== Bola dekorasi mengambang ===== */
+        .magic-float{position:fixed;pointer-events:none;z-index:0;border-radius:50%;opacity:.09;animation:magicFloat 9s ease-in-out infinite}
+        .magic-float:nth-child(1){width:90px;height:90px;background:#D2691E;top:8%;left:3%;animation-delay:0s}
+        .magic-float:nth-child(2){width:55px;height:55px;background:#8B5A3C;top:60%;left:92%;animation-delay:2.5s}
+        .magic-float:nth-child(3){width:110px;height:110px;background:#C9A87C;top:80%;left:10%;animation-delay:5s}
+        .magic-float:nth-child(4){width:45px;height:45px;background:#D2691E;top:25%;left:87%;animation-delay:1.2s}
+        @keyframes magicFloat{
+            0%,100%{transform:translateY(0) rotate(0deg)}
+            33%{transform:translateY(-30px) rotate(10deg)}
+            66%{transform:translateY(15px) rotate(-6deg)}
         }
-        .swiper-wrapper {
-            align-items: stretch;
+
+        /* ===== Partikel Bintang ===== */
+        .star-particle{position:fixed;pointer-events:none;z-index:1;border-radius:50%;opacity:0;animation:starPop 3s ease-in-out forwards}
+        @keyframes starPop{
+            0%{opacity:0;transform:scale(0) translateY(0)}
+            20%{opacity:.7;transform:scale(1) translateY(-15px)}
+            100%{opacity:0;transform:scale(.1) translateY(-80px)}
         }
-        .bento-card, .cardboard-card { height: 100%; }
-        
-        /* GSAP Animation Elements */
-        #pull-string {
-            position: absolute;
-            top: -100px;
-            right: 10%;
-            width: 4px;
-            height: 200px;
-            background-color: #8B5A3C; /* String color */
-            z-index: 100;
-            cursor: pointer;
-            transform-origin: top center;
+
+        /* ===== Pulse Dot ===== */
+        .pulse-dot{display:inline-block;width:8px;height:8px;background:#D2691E;border-radius:50%;
+            animation:pulseDot 1.5s ease-in-out infinite;vertical-align:middle;margin-left:4px}
+        @keyframes pulseDot{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.7);opacity:.4}}
+
+        /* ===== GSAP reveal ===== */
+        .reveal{opacity:0;transform:translateY(40px)}
+
+        /* ===== Grid 2 baris pengalaman ===== */
+        .exp-grid-2row{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+        @media(max-width:640px){.exp-grid-2row{grid-template-columns:1fr}}
+
+        /* ===== Hover card ===== */
+        .section-card{transition:box-shadow .3s ease,transform .3s ease}
+        .section-card:hover{box-shadow:4px 8px 24px rgba(44,26,14,.18);transform:translateY(-4px)}
+
+        /* ===== Section heading animasi shimmer ===== */
+        .section-heading{
+            position:relative;
+            display:inline-block;
         }
-        #pull-string::after {
-            content: '';
-            position: absolute;
-            bottom: -15px;
-            left: -8px;
-            width: 20px;
-            height: 20px;
-            background-color: #D2691E;
-            border-radius: 50%;
-            border: 2px solid #8B5A3C;
+        .section-heading::after{
+            content:'';
+            position:absolute;
+            bottom:-3px;left:0;
+            width:0%;height:3px;
+            background:linear-gradient(90deg,#D2691E,#C9A87C,#D2691E);
+            border-radius:2px;
+            transition:width .6s ease;
         }
-        #cartoon-character {
-            position: fixed;
-            bottom: 20px;
-            left: -150px;
-            width: 80px;
-            height: 80px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%238B5A3C"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>');
-            background-size: contain;
-            background-repeat: no-repeat;
-            z-index: 9999;
-            pointer-events: none;
+        .section-heading.active::after{width:100%}
+
+        /* ===== Swiper 2 baris (grid) ===== */
+        .swiper-grid .swiper-wrapper{flex-wrap:wrap}
+        .swiper-grid-2 .swiper-wrapper{
+            flex-direction:row;
+            flex-wrap:wrap;
+        }
+
+        /* ===== Entry animasi untuk swiper slide ===== */
+        .swiper-slide-active,.swiper-slide-next,.swiper-slide-prev{
+            animation:slideIn .4s ease;
+        }
+        @keyframes slideIn{
+            from{opacity:.5;transform:translateX(20px)}
+            to{opacity:1;transform:translateX(0)}
+        }
+
+        /* ===== Section dekorasi sparkle di pojok ===== */
+        .section-sparkle{
+            position:absolute;top:-10px;right:16px;
+            display:flex;gap:4px;align-items:flex-end;
+        }
+        .section-sparkle span{
+            display:block;width:4px;
+            background:#D2691E;border-radius:2px;opacity:.5;
+            animation:sparkleBar 1.4s ease-in-out infinite;
+        }
+        .section-sparkle span:nth-child(1){height:8px;animation-delay:0s}
+        .section-sparkle span:nth-child(2){height:14px;animation-delay:.2s}
+        .section-sparkle span:nth-child(3){height:10px;animation-delay:.4s}
+        .section-sparkle span:nth-child(4){height:6px;animation-delay:.1s}
+        @keyframes sparkleBar{0%,100%{opacity:.3;transform:scaleY(.7)}50%{opacity:.9;transform:scaleY(1)}}
+
+        /* ===== Floating label animasi pada section ===== */
+        .section-float-badge{
+            animation:floatBadge 3s ease-in-out infinite;
+            display:inline-block;
+        }
+        @keyframes floatBadge{
+            0%,100%{transform:translateY(0)}
+            50%{transform:translateY(-5px)}
+        }
+
+        /* ===== Counter number animasi ===== */
+        .count-badge{
+            display:inline-flex;align-items:center;justify-content:center;
+            background:#D2691E;color:white;
+            border-radius:50%;width:22px;height:22px;
+            font-size:11px;font-weight:800;
+            animation:pulseDot 2s ease-in-out infinite;
+            margin-left:6px;
         }
     </style>
 </head>
-
 <body class="bg-surface text-earth-dark font-body-md min-h-screen flex flex-col antialiased relative overflow-x-hidden">
-    
-    <!-- Top Header Navigation -->
+
+    <!-- Bola Dekorasi -->
+    <div class="magic-float"></div><div class="magic-float"></div>
+    <div class="magic-float"></div><div class="magic-float"></div>
+
+    <!-- Header -->
     <header class="topbar sticky top-0 z-50">
         <div class="max-w-6xl mx-auto w-full flex items-center justify-between px-4">
-            <a href="#" class="font-bold text-lg text-earth-dark flex items-center gap-2 gsap-fade-in">
-                <i data-lucide="palette" class="text-accent w-6 h-6 craft-sticker"></i>
+            <a href="#" class="font-bold text-lg text-earth-dark flex items-center gap-2 animate__animated animate__fadeInDown">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-accent craft-sticker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
                 <span>{{ profile.full_name }}</span>
             </a>
-
-            <!-- Full Navigation Bar -->
-            <nav class="hidden md:flex items-center gap-5 text-xs font-bold gsap-fade-in">
+            <nav class="hidden md:flex items-center gap-5 text-xs font-bold animate__animated animate__fadeInDown">
                 <a href="#profil" class="text-earth-dark hover:text-accent transition-colors">Profil</a>
                 <a href="#pendidikan" class="text-earth-dark hover:text-accent transition-colors">Pendidikan</a>
                 <a href="#keahlian" class="text-earth-dark hover:text-accent transition-colors">Keahlian</a>
@@ -107,98 +178,109 @@
                 <a href="#proyek" class="text-earth-dark hover:text-accent transition-colors">Proyek</a>
                 <a href="#kontak" class="text-earth-dark hover:text-accent transition-colors">Kontak</a>
             </nav>
-
-            <div class="flex md:hidden items-center gsap-fade-in">
+            <div class="flex md:hidden items-center">
                 <a href="#kontak" class="btn-primary px-3 py-1.5 rounded-lg text-xs font-bold">Hubungi</a>
             </div>
         </div>
     </header>
 
     <main class="max-w-5xl mx-auto w-full px-4 py-8 space-y-12 flex-1 relative">
-        <!-- GSAP Interactive Element -->
-        <div id="pull-string"></div>
 
-        <!-- HERO / PROFIL SECTION -->
-        <section id="profil" class="cardboard-card cardboard-texture rounded-3xl p-6 sm:p-10 shadow-cardboard relative">
+        <!-- PROFIL -->
+        <section id="profil" class="cardboard-card cardboard-texture rounded-3xl p-6 sm:p-10 shadow-cardboard relative reveal">
             <div class="tape-accent"></div>
-
-            <div class="absolute -top-4 right-6 craft-stamp px-3 py-1 rounded-md text-[10px] hidden sm:block">
-                📦 CARDBOARD CRAFT VERIFIED
+            <div class="absolute -top-4 right-6 craft-stamp px-3 py-1 rounded-md text-[10px] hidden sm:block">📦 CARDBOARD CRAFT VERIFIED</div>
+            <!-- SpinKit pojok -->
+            <div class="absolute top-4 right-4 opacity-30">
+                <div class="sk-chase">
+                    <div class="sk-chase-dot"></div><div class="sk-chase-dot"></div><div class="sk-chase-dot"></div>
+                    <div class="sk-chase-dot"></div><div class="sk-chase-dot"></div><div class="sk-chase-dot"></div>
+                </div>
             </div>
-
             <div class="flex flex-col sm:flex-row items-center gap-6 sm:gap-8">
-                <div
-                    class="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl bg-kraft border-4 border-earth-dark flex-shrink-0 overflow-hidden shadow-md flex items-center justify-center relative gsap-pop">
+                <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl bg-kraft border-4 border-earth-dark flex-shrink-0 overflow-hidden shadow-md flex items-center justify-center relative animate__animated animate__zoomIn">
                     {% if profile.avatar_url %}
-                    <img src="{{ profile.avatar_url }}" alt="{{ profile.full_name }}"
-                        class="w-full h-full object-cover">
+                    <img src="{{ profile.avatar_url }}" alt="{{ profile.full_name }}" class="w-full h-full object-cover">
                     {% else %}
-                    <i data-lucide="user" class="text-earth-dark w-16 h-16"></i>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="text-earth-dark w-16 h-16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                     {% endif %}
                 </div>
-
-                <div class="space-y-3 text-center sm:text-left flex-1 gsap-stagger-text">
-                    <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-accent/15 border border-accent text-accent font-bold text-xs rounded-full craft-sticker">
-                        <i data-lucide="sparkles" class="w-4 h-4"></i> Creative Portfolio
+                <div class="space-y-3 text-center sm:text-left flex-1">
+                    <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-accent/15 border border-accent text-accent font-bold text-xs rounded-full craft-sticker animate__animated animate__fadeInLeft">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>
+                        Creative Portfolio
                     </div>
-                    <h1 class="text-2xl sm:text-4xl font-extrabold text-earth-dark leading-tight">{{ profile.full_name }}</h1>
-                    <p class="text-accent font-bold text-base sm:text-lg">{{ profile.title }}</p>
+                    <h1 class="text-2xl sm:text-4xl font-extrabold text-earth-dark leading-tight animate__animated animate__fadeInUp">{{ profile.full_name }}</h1>
+                    <p class="text-accent font-bold text-base sm:text-lg animate__animated animate__fadeInUp">{{ profile.title }}</p>
                     <p class="text-text-muted text-sm sm:text-base leading-relaxed font-medium max-w-2xl">{{ profile.bio }}</p>
-
-                    <!-- SOCIAL MEDIA & CV BADGES -->
+                    <!-- Wave dekorasi -->
+                    <div class="flex justify-center sm:justify-start pt-1">
+                        <div class="sk-wave">
+                            <div class="sk-rect"></div><div class="sk-rect"></div><div class="sk-rect"></div>
+                            <div class="sk-rect"></div><div class="sk-rect"></div>
+                        </div>
+                    </div>
+                    <!-- Badge sosial & CV -->
                     <div class="pt-2 flex flex-wrap justify-center sm:justify-start gap-2">
                         {% if profile.resume_url %}
-                        <a href="{{ profile.resume_url }}" target="_blank"
-                            class="px-4 py-1.5 bg-accent text-white border-2 border-earth-dark rounded-lg text-xs font-bold hover:bg-accent-hover transition-colors flex items-center gap-1.5 shadow-[2px_2px_0px_#2C1A0E]">
-                            <i data-lucide="download" class="w-4 h-4 text-white"></i> Download CV</a>
+                        <a href="{{ profile.resume_url }}" target="_blank" class="px-4 py-1.5 bg-accent text-white border-2 border-earth-dark rounded-lg text-xs font-bold hover:bg-accent-hover transition-colors flex items-center gap-1.5 shadow-[2px_2px_0px_#2C1A0E] hvr-grow">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                            Download CV
+                        </a>
                         {% endif %}
                         {% if profile.github %}
-                        <a href="{{ profile.github }}" target="_blank"
-                            class="px-3 py-1.5 bg-kraft border-2 border-earth-dark rounded-lg text-xs font-bold text-earth-dark hover:bg-cardboard transition-colors flex items-center gap-1.5 shadow-[2px_2px_0px_#2C1A0E]">
-                            <i data-lucide="github" class="w-4 h-4"></i> GitHub</a>
+                        <a href="{{ profile.github }}" target="_blank" class="px-3 py-1.5 bg-kraft border-2 border-earth-dark rounded-lg text-xs font-bold text-earth-dark hover:bg-cardboard transition-colors flex items-center gap-1.5 shadow-[2px_2px_0px_#2C1A0E] hvr-grow">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+                            GitHub
+                        </a>
                         {% endif %}
                         {% if profile.linkedin %}
-                        <a href="{{ profile.linkedin }}" target="_blank"
-                            class="px-3 py-1.5 bg-kraft border-2 border-earth-dark rounded-lg text-xs font-bold text-earth-dark hover:bg-cardboard transition-colors flex items-center gap-1.5 shadow-[2px_2px_0px_#2C1A0E]">
-                            <i data-lucide="linkedin" class="w-4 h-4"></i> LinkedIn</a>
+                        <a href="{{ profile.linkedin }}" target="_blank" class="px-3 py-1.5 bg-kraft border-2 border-earth-dark rounded-lg text-xs font-bold text-earth-dark hover:bg-cardboard transition-colors flex items-center gap-1.5 shadow-[2px_2px_0px_#2C1A0E] hvr-grow">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+                            LinkedIn
+                        </a>
                         {% endif %}
                         {% if profile.instagram %}
-                        <a href="{{ profile.instagram }}" target="_blank"
-                            class="px-3 py-1.5 bg-kraft border-2 border-earth-dark rounded-lg text-xs font-bold text-earth-dark hover:bg-cardboard transition-colors flex items-center gap-1.5 shadow-[2px_2px_0px_#2C1A0E]">
-                            <i data-lucide="instagram" class="w-4 h-4"></i> Instagram</a>
+                        <a href="{{ profile.instagram }}" target="_blank" class="px-3 py-1.5 bg-kraft border-2 border-earth-dark rounded-lg text-xs font-bold text-earth-dark hover:bg-cardboard transition-colors flex items-center gap-1.5 shadow-[2px_2px_0px_#2C1A0E] hvr-grow">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                            Instagram
+                        </a>
                         {% endif %}
                         {% if profile.twitter %}
-                        <a href="{{ profile.twitter }}" target="_blank"
-                            class="px-3 py-1.5 bg-kraft border-2 border-earth-dark rounded-lg text-xs font-bold text-earth-dark hover:bg-cardboard transition-colors flex items-center gap-1.5 shadow-[2px_2px_0px_#2C1A0E]">
-                            <i data-lucide="twitter" class="w-4 h-4"></i> Twitter</a>
+                        <a href="{{ profile.twitter }}" target="_blank" class="px-3 py-1.5 bg-kraft border-2 border-earth-dark rounded-lg text-xs font-bold text-earth-dark hover:bg-cardboard transition-colors flex items-center gap-1.5 shadow-[2px_2px_0px_#2C1A0E] hvr-grow">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l11.733 16H20L8.267 4z"/><path d="M4 20l6.768-6.768M20 4l-6.768 6.768"/></svg>
+                            Twitter / X
+                        </a>
                         {% endif %}
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- PENDIDIKAN & SERTIFIKAT SECTION -->
-        <section id="pendidikan" class="space-y-4">
-            <div class="flex items-center gap-2 gsap-fade-up">
-                <i data-lucide="graduation-cap" class="text-accent w-7 h-7 craft-sticker"></i>
-                <h2 class="text-xl sm:text-2xl font-bold text-earth-dark">Pendidikan & Sertifikasi</h2>
+        <!-- PENDIDIKAN & SERTIFIKAT -->
+        <section id="pendidikan" class="space-y-4 reveal">
+            <div class="flex items-center gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="text-accent w-7 h-7 craft-sticker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                <h2 class="text-xl sm:text-2xl font-bold text-earth-dark section-heading">Pendidikan &amp; Sertifikasi</h2>
+                <span class="pulse-dot"></span>
             </div>
-
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Education List -->
-                <div class="space-y-3 gsap-fade-up">
+                <div class="space-y-3">
                     <h3 class="font-bold text-earth-dark text-base flex items-center gap-1.5">
-                        <i data-lucide="book-open" class="w-5 h-5 text-accent"></i> Pendidikan Formal
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                        Pendidikan Formal
                     </h3>
-                    
                     <div class="swiper eduSwiper w-full pb-8">
                         <div class="swiper-wrapper">
                             {% for edu in educations %}
                             <div class="swiper-slide w-[85%] sm:w-full">
-                                <div class="cardboard-card cardboard-texture rounded-2xl p-4 shadow-sm relative mr-4 h-full">
+                                <div class="cardboard-card cardboard-texture rounded-2xl p-4 shadow-sm mr-4 h-full section-card">
                                     <span class="text-[11px] font-bold text-earth-brown bg-kraft/40 px-2 py-0.5 rounded border border-border-card">{{ edu.period }}</span>
-                                    <h4 class="font-bold text-earth-dark text-base mt-1.5">{{ edu.degree }} {% if edu.major %}- {{ edu.major }}{% endif %}</h4>
-                                    <p class="text-xs font-bold text-earth-brown flex items-center gap-1"><i data-lucide="building-2" class="w-3 h-3"></i> {{ edu.institution }}</p>
+                                    <h4 class="font-bold text-earth-dark text-base mt-1.5">{{ edu.degree }}{% if edu.major %} - {{ edu.major }}{% endif %}</h4>
+                                    <p class="text-xs font-bold text-earth-brown flex items-center gap-1 mt-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"/><path d="M9 22v-4h6v4M8 6h.01M16 6h.01M12 6h.01M12 10h.01M12 14h.01M16 10h.01M16 14h.01M8 10h.01M8 14h.01"/></svg>
+                                        {{ edu.institution }}
+                                    </p>
                                     <p class="text-xs text-text-muted mt-2 leading-relaxed">{{ edu.description }}</p>
                                 </div>
                             </div>
@@ -207,24 +289,27 @@
                         <div class="swiper-pagination"></div>
                     </div>
                 </div>
-
-                <!-- Certificate List -->
-                <div class="space-y-3 gsap-fade-up">
+                <div class="space-y-3">
                     <h3 class="font-bold text-earth-dark text-base flex items-center gap-1.5">
-                        <i data-lucide="award" class="w-5 h-5 text-accent"></i> Sertifikat & Lisensi
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"/><circle cx="12" cy="8" r="6"/></svg>
+                        Sertifikat &amp; Lisensi
                     </h3>
                     <div class="swiper certSwiper w-full pb-8">
                         <div class="swiper-wrapper">
                             {% for cert in certificates %}
                             <div class="swiper-slide w-[85%] sm:w-full">
-                                <div class="cardboard-card cardboard-texture rounded-2xl p-4 shadow-sm relative mr-4 h-full">
+                                <div class="cardboard-card cardboard-texture rounded-2xl p-4 shadow-sm mr-4 h-full section-card">
                                     <span class="text-[11px] font-bold text-accent bg-accent/10 px-2 py-0.5 rounded border border-accent/30">{{ cert.period }}</span>
                                     <h4 class="font-bold text-earth-dark text-base mt-1.5">{{ cert.degree }}</h4>
-                                    <p class="text-xs font-bold text-earth-brown flex items-center gap-1"><i data-lucide="building-2" class="w-3 h-3"></i> {{ cert.institution }}</p>
+                                    <p class="text-xs font-bold text-earth-brown flex items-center gap-1 mt-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"/><path d="M9 22v-4h6v4M8 6h.01M16 6h.01M12 6h.01M12 10h.01M12 14h.01M16 10h.01M16 14h.01M8 10h.01M8 14h.01"/></svg>
+                                        {{ cert.institution }}
+                                    </p>
                                     <p class="text-xs text-text-muted mt-2 leading-relaxed">{{ cert.description }}</p>
                                     {% if cert.credential_url %}
                                     <a href="{{ cert.credential_url }}" target="_blank" class="text-xs font-bold text-accent hover:underline mt-2 inline-flex items-center gap-0.5">
-                                        <i data-lucide="check-circle" class="w-3 h-3"></i> Verifikasi Credential
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
+                                        Verifikasi Credential
                                     </a>
                                     {% endif %}
                                 </div>
@@ -237,20 +322,20 @@
             </div>
         </section>
 
-        <!-- KEAHLIAN SECTION -->
-        <section id="keahlian" class="space-y-4">
-            <div class="flex items-center gap-2 gsap-fade-up">
-                <i data-lucide="brain" class="text-accent w-7 h-7 craft-sticker"></i>
-                <h2 class="text-xl sm:text-2xl font-bold text-earth-dark">Keahlian & Tech Stack</h2>
+        <!-- KEAHLIAN -->
+        <section id="keahlian" class="space-y-4 reveal">
+            <div class="flex items-center gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="text-accent w-7 h-7 craft-sticker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/><path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/><path d="M17.599 6.5a3 3 0 0 0 .399-1.375M6.003 5.125A3 3 0 0 0 6.401 6.5M3.477 10.896a4 4 0 0 1 .585-.396M19.938 10.5a4 4 0 0 1 .585.396M6 18a4 4 0 0 1-1.967-.516M19.967 17.484A4 4 0 0 1 18 18"/></svg>
+                <h2 class="text-xl sm:text-2xl font-bold text-earth-dark section-heading">Keahlian &amp; Tech Stack</h2>
+                <span class="pulse-dot"></span>
             </div>
-
-            <div class="swiper skillSwiper w-full pb-10 gsap-fade-up">
+            <div class="swiper skillSwiper w-full pb-10">
                 <div class="swiper-wrapper">
                     {% for skill in skills %}
                     <div class="swiper-slide w-[200px] sm:w-[250px] mr-3 h-auto">
-                        <div class="bento-card p-3.5 flex items-center gap-3 h-full">
+                        <div class="bento-card p-3.5 flex items-center gap-3 h-full section-card">
                             <div class="w-10 h-10 bg-accent/15 border-2 border-accent text-accent rounded-lg flex items-center justify-center flex-shrink-0">
-                                <i data-lucide="{{ skill.icon|default('code') }}" class="w-5 h-5"></i>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
                             </div>
                             <div class="flex-1 min-w-0">
                                 <h3 class="font-bold text-earth-dark text-xs truncate">{{ skill.name }}</h3>
@@ -267,25 +352,45 @@
             </div>
         </section>
 
-        <!-- PENGALAMAN SECTION -->
-        <section id="pengalaman" class="space-y-4">
-            <div class="flex items-center gap-2 gsap-fade-up">
-                <i data-lucide="briefcase" class="text-accent w-7 h-7 craft-sticker"></i>
-                <h2 class="text-xl sm:text-2xl font-bold text-earth-dark">Pengalaman</h2>
+        <!-- PENGALAMAN (2 baris jika <= 4, lebih → carousel) -->
+        <section id="pengalaman" class="space-y-4 reveal">
+            <div class="flex items-center gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="text-accent w-7 h-7 craft-sticker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                <h2 class="text-xl sm:text-2xl font-bold text-earth-dark section-heading">Pengalaman</h2>
+                <span class="pulse-dot"></span>
             </div>
-
-            <div class="swiper expSwiper w-full pb-10 gsap-fade-up">
+            {% if experiences|length <= 4 %}
+            <div class="exp-grid-2row">
+                {% for exp in experiences %}
+                <div class="cardboard-card cardboard-texture rounded-2xl p-5 shadow-sm space-y-2 section-card">
+                    <div class="flex items-center justify-between gap-2 flex-wrap">
+                        <span class="px-2.5 py-0.5 bg-accent/15 border border-accent rounded-md text-xs font-bold text-accent">{{ exp.category }}</span>
+                        <span class="text-xs font-bold text-earth-brown bg-kraft/40 px-2 py-0.5 rounded border border-border-card">{{ exp.period }}</span>
+                    </div>
+                    <h3 class="font-bold text-earth-dark text-base">{{ exp.position }}</h3>
+                    <p class="text-xs font-bold text-earth-brown flex items-center gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"/><path d="M9 22v-4h6v4M8 6h.01M16 6h.01M12 6h.01M12 10h.01M12 14h.01M16 10h.01M16 14h.01M8 10h.01M8 14h.01"/></svg>
+                        {{ exp.company }}
+                    </p>
+                    <p class="text-xs text-text-muted leading-relaxed font-medium">{{ exp.description }}</p>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="swiper expSwiper w-full pb-10">
                 <div class="swiper-wrapper">
                     {% for exp in experiences %}
                     <div class="swiper-slide w-[85%] md:w-[45%] lg:w-[40%] mr-4 h-auto">
-                        <div class="cardboard-card cardboard-texture rounded-2xl p-5 shadow-sm space-y-2 h-full">
-                            <div class="flex items-center justify-between gap-2">
+                        <div class="cardboard-card cardboard-texture rounded-2xl p-5 shadow-sm space-y-2 h-full section-card">
+                            <div class="flex items-center justify-between gap-2 flex-wrap">
                                 <span class="px-2.5 py-0.5 bg-accent/15 border border-accent rounded-md text-xs font-bold text-accent">{{ exp.category }}</span>
                                 <span class="text-xs font-bold text-earth-brown bg-kraft/40 px-2 py-0.5 rounded border border-border-card">{{ exp.period }}</span>
                             </div>
-
                             <h3 class="font-bold text-earth-dark text-base">{{ exp.position }}</h3>
-                            <p class="text-xs font-bold text-earth-brown flex items-center gap-1"><i data-lucide="building" class="w-3 h-3"></i> {{ exp.company }}</p>
+                            <p class="text-xs font-bold text-earth-brown flex items-center gap-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"/><path d="M9 22v-4h6v4M8 6h.01M16 6h.01M12 6h.01M12 10h.01M12 14h.01M16 10h.01M16 14h.01M8 10h.01M8 14h.01"/></svg>
+                                {{ exp.company }}
+                            </p>
                             <p class="text-xs text-text-muted leading-relaxed font-medium">{{ exp.description }}</p>
                         </div>
                     </div>
@@ -293,43 +398,40 @@
                 </div>
                 <div class="swiper-pagination"></div>
             </div>
+            {% endif %}
         </section>
 
-        <!-- PROYEK SECTION (GRID CAROUSEL SLIDER) -->
-        <section id="proyek" class="space-y-4">
-            <div class="flex items-center justify-between gsap-fade-up">
-                <div class="flex items-center gap-2">
-                    <i data-lucide="folder-star" class="text-accent w-7 h-7 craft-sticker"></i>
-                    <h2 class="text-xl sm:text-2xl font-bold text-earth-dark">Portofolio Proyek</h2>
+        <!-- PROYEK -->
+        <section id="proyek" class="space-y-4 reveal">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="text-accent w-7 h-7 craft-sticker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/><path d="m16 13-3.5 3.5-2-2L8 17"/></svg>
+                    <h2 class="text-xl sm:text-2xl font-bold text-earth-dark section-heading">Portofolio Proyek</h2>
+                    <span class="pulse-dot"></span>
                 </div>
-
-                <!-- Carousel Controls (Custom Swiper Navigation) -->
                 <div class="flex items-center gap-2">
-                    <button class="swiper-proj-prev p-2 bg-kraft border-2 border-earth-dark rounded-xl text-earth-dark hover:bg-cardboard cursor-pointer font-bold shadow-[2px_2px_0px_#2C1A0E] active:translate-y-0.5 active:translate-x-0.5 active:shadow-[0px_0px_0px_#2C1A0E] transition-all">
-                        <i data-lucide="chevron-left" class="w-5 h-5"></i>
+                    <button class="swiper-proj-prev p-2 bg-kraft border-2 border-earth-dark rounded-xl hover:bg-cardboard cursor-pointer shadow-[2px_2px_0px_#2C1A0E] active:shadow-none active:translate-y-0.5 transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
                     </button>
-                    <button class="swiper-proj-next p-2 bg-kraft border-2 border-earth-dark rounded-xl text-earth-dark hover:bg-cardboard cursor-pointer font-bold shadow-[2px_2px_0px_#2C1A0E] active:translate-y-0.5 active:translate-x-0.5 active:shadow-[0px_0px_0px_#2C1A0E] transition-all">
-                        <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                    <button class="swiper-proj-next p-2 bg-kraft border-2 border-earth-dark rounded-xl hover:bg-cardboard cursor-pointer shadow-[2px_2px_0px_#2C1A0E] active:shadow-none active:translate-y-0.5 transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
                     </button>
                 </div>
             </div>
-
-            <div class="swiper projSwiper w-full pb-10 gsap-fade-up">
+            <div class="swiper projSwiper w-full pb-10">
                 <div class="swiper-wrapper">
                     {% for proj in projects %}
                     <div class="swiper-slide w-[90%] md:w-[45%] lg:w-[40%] mr-6 h-auto">
-                        <div class="cardboard-card cardboard-texture rounded-2xl p-5 shadow-cardboard flex flex-col justify-between relative h-full">
+                        <div class="cardboard-card cardboard-texture rounded-2xl p-5 shadow-cardboard flex flex-col justify-between relative h-full section-card">
                             <div class="tape-accent"></div>
                             <div>
                                 {% if proj.image_url %}
-                                <img src="{{ proj.image_url }}" alt="{{ proj.title }}"
-                                    class="w-full h-48 object-cover rounded-xl border-2 border-border-card mb-4 shadow-sm">
+                                <img src="{{ proj.image_url }}" alt="{{ proj.title }}" class="w-full h-48 object-cover rounded-xl border-2 border-border-card mb-4 shadow-sm">
                                 {% else %}
                                 <div class="w-full h-48 bg-kraft/40 rounded-xl border-2 border-dashed border-border-card flex items-center justify-center mb-4">
-                                    <i data-lucide="folder" class="w-12 h-12 text-border-card"></i>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-border-card" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
                                 </div>
                                 {% endif %}
-
                                 <div class="flex items-center justify-between mb-2">
                                     <span class="px-2.5 py-0.5 bg-accent/15 border border-accent rounded-md text-xs font-bold text-accent">{{ proj.category }}</span>
                                 </div>
@@ -337,22 +439,21 @@
                                 <p class="text-xs sm:text-sm text-text-muted leading-relaxed mb-3 font-medium line-clamp-3">{{ proj.description }}</p>
                                 <p class="text-xs font-bold text-earth-brown bg-kraft/30 p-2 rounded-lg border border-border-light inline-block">Tech: {{ proj.tags }}</p>
                             </div>
-
                             <div class="mt-5 pt-3 border-t-2 border-dashed border-border-light flex flex-wrap gap-2 text-xs">
-                                <a href="{{ url_for('public.project_detail', project_id=proj.id) }}" 
-                                    class="btn-primary px-3.5 py-2 rounded-lg text-white font-bold flex items-center gap-1 hover:-translate-y-1 transition-transform">
-                                    <i data-lucide="info" class="w-4 h-4 text-white"></i> Detail
+                                <a href="{{ url_for('public.project_detail', project_id=proj.id) }}" class="btn-primary px-3.5 py-2 rounded-lg text-white font-bold flex items-center gap-1.5 hover:-translate-y-1 transition-transform hvr-grow">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                                    Detail
                                 </a>
                                 {% if proj.demo_url %}
-                                <a href="{{ proj.demo_url }}" target="_blank"
-                                    class="btn-secondary px-3.5 py-2 rounded-lg font-bold flex items-center gap-1 hover:-translate-y-1 transition-transform">
-                                    <i data-lucide="external-link" class="w-4 h-4"></i> Live Demo
+                                <a href="{{ proj.demo_url }}" target="_blank" class="btn-secondary px-3.5 py-2 rounded-lg font-bold flex items-center gap-1.5 hover:-translate-y-1 transition-transform">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+                                    Live Demo
                                 </a>
                                 {% endif %}
                                 {% if proj.github_url %}
-                                <a href="{{ proj.github_url }}" target="_blank"
-                                    class="btn-secondary px-3.5 py-2 rounded-lg font-bold flex items-center gap-1 hover:-translate-y-1 transition-transform">
-                                    <i data-lucide="code" class="w-4 h-4"></i> Repo
+                                <a href="{{ proj.github_url }}" target="_blank" class="btn-secondary px-3.5 py-2 rounded-lg font-bold flex items-center gap-1.5 hover:-translate-y-1 transition-transform">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+                                    Repo
                                 </a>
                                 {% endif %}
                             </div>
@@ -364,208 +465,216 @@
             </div>
         </section>
 
-        <!-- CONTACT FORM SECTION -->
-        <section id="kontak" class="cardboard-card cardboard-texture rounded-3xl p-6 sm:p-8 shadow-cardboard relative max-w-2xl mx-auto gsap-fade-up">
+        <!-- KONTAK -->
+        <section id="kontak" class="cardboard-card cardboard-texture rounded-3xl p-6 sm:p-8 shadow-cardboard relative max-w-2xl mx-auto reveal">
             <div class="tape-accent"></div>
             <div class="text-center mb-6 flex flex-col items-center">
-                <i data-lucide="mail" class="text-accent w-10 h-10 mb-2 craft-sticker"></i>
+                <svg xmlns="http://www.w3.org/2000/svg" class="text-accent w-10 h-10 mb-2 craft-sticker animate__animated animate__heartBeat animate__infinite animate__slow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
                 <h2 class="text-2xl font-bold text-earth-dark">Kirim Pesan Langsung</h2>
-                <p class="text-text-muted text-xs sm:text-sm font-medium">Ada pertanyaan atau penawaran kerja sama?
-                    Silakan kirimkan pesan di bawah ini.</p>
+                <p class="text-text-muted text-xs sm:text-sm font-medium">Ada pertanyaan atau penawaran kerja sama? Silakan kirimkan pesan di bawah ini.</p>
             </div>
-
             <div id="contactAlert" class="hidden mb-4 p-3 rounded-lg text-sm font-semibold border-2"></div>
-
             <form id="publicContactForm" class="space-y-4">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label class="block font-bold text-earth-dark text-xs mb-1">Nama Anda</label>
-                        <input type="text" id="sender_name" required
-                            class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" placeholder="Nama Lengkap">
+                        <input type="text" id="sender_name" required class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" placeholder="Nama Lengkap">
                     </div>
                     <div>
                         <label class="block font-bold text-earth-dark text-xs mb-1">Email Anda</label>
-                        <input type="email" id="sender_email" required
-                            class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" placeholder="email@domain.com">
+                        <input type="email" id="sender_email" required class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" placeholder="email@domain.com">
                     </div>
                 </div>
                 <div>
                     <label class="block font-bold text-earth-dark text-xs mb-1">Subjek</label>
-                    <input type="text" id="subject" class="w-full h-11 px-3 input-cardboard rounded-lg text-sm"
-                        placeholder="Tawaran Proyek / Pertanyaan">
+                    <input type="text" id="subject" class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" placeholder="Tawaran Proyek / Pertanyaan">
                 </div>
                 <div>
                     <label class="block font-bold text-earth-dark text-xs mb-1">Pesan Anda</label>
-                    <textarea id="message_content" rows="4" required
-                        class="w-full p-3 input-cardboard rounded-lg text-sm"
-                        placeholder="Tuliskan pesan Anda..."></textarea>
+                    <textarea id="message_content" rows="4" required class="w-full p-3 input-cardboard rounded-lg text-sm" placeholder="Tuliskan pesan Anda..."></textarea>
                 </div>
-                <button type="submit" class="btn-primary w-full py-3 rounded-xl font-bold text-sm cursor-pointer flex items-center justify-center gap-2">
-                    <i data-lucide="send" class="w-4 h-4 text-white"></i> Kirim Pesan Sekarang
+                <button type="submit" id="submitContactBtn" class="btn-primary w-full py-3 rounded-xl font-bold text-sm cursor-pointer flex items-center justify-center gap-2 hvr-grow">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+                    Kirim Pesan Sekarang
                 </button>
             </form>
         </section>
-        
+
     </main>
 
-    <footer
-        class="p-6 text-center text-xs text-text-muted border-t-2 border-dashed border-border-light bg-card-bg mt-12">
-        © 2026 {{ profile.full_name }}. Crafted with Cardboard Theme & Mobile-First UI/UX.
+    <footer class="p-6 text-center text-xs text-text-muted border-t-2 border-dashed border-border-light bg-card-bg mt-12">
+        &copy; 2026 {{ profile.full_name }}. Crafted with Cardboard Theme &amp; Mobile-First UI/UX.
     </footer>
-    
-    <!-- GSAP Cartoon Character Element -->
-    <div id="cartoon-character"></div>
 
-    <!-- Scripts: Lucide, Swiper, GSAP -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script>
-        // Initialize Lucide Icons
         lucide.createIcons();
-        
-        // Register GSAP plugins
         gsap.registerPlugin(ScrollTrigger);
 
-        document.addEventListener("DOMContentLoaded", function() {
-            // GSAP Animations
-            // 1. Initial Hero Stagger
-            gsap.from(".gsap-fade-in", { y: -20, opacity: 0, duration: 0.8, stagger: 0.1, ease: "back.out(1.7)" });
-            gsap.from(".gsap-pop", { scale: 0, rotation: -10, opacity: 0, duration: 1, ease: "elastic.out(1, 0.5)" });
-            gsap.from(".gsap-stagger-text > *", { x: -30, opacity: 0, duration: 0.8, stagger: 0.1, ease: "power2.out", delay: 0.3 });
-            
-            // 2. Scroll Triggered Fade Up
-            gsap.utils.toArray(".gsap-fade-up").forEach(elem => {
-                gsap.from(elem, {
-                    scrollTrigger: {
-                        trigger: elem,
-                        start: "top 85%",
-                    },
-                    y: 50,
-                    opacity: 0,
-                    duration: 0.8,
-                    ease: "power2.out"
-                });
-            });
+        // GSAP ScrollTrigger reveal
+        gsap.utils.toArray(".reveal").forEach(el => {
+            gsap.fromTo(el,
+                { opacity: 0, y: 50 },
+                { opacity: 1, y: 0, duration: 0.9, ease: "power3.out",
+                  scrollTrigger: { trigger: el, start: "top 88%", toggleActions: "play none none none" }
+                }
+            );
+        });
 
-            // 3. Interactive Pull String Animation
-            const string = document.getElementById("pull-string");
-            let isPulled = false;
-            string.addEventListener("click", () => {
-                if (isPulled) return;
-                isPulled = true;
-                
-                // Pull down animation
-                gsap.to(string, {
-                    y: 100, 
-                    duration: 0.5, 
-                    ease: "power1.inOut",
-                    yoyo: true,
-                    repeat: 1,
-                    onComplete: () => {
-                        isPulled = false;
-                    }
-                });
-                
-                // Wobble effect on the profile card
-                gsap.to("#profil", {
-                    rotation: 2,
-                    duration: 0.1,
-                    yoyo: true,
-                    repeat: 5,
-                    ease: "power1.inOut"
-                });
-            });
-
-            // 4. Character Passing Animation
-            const character = document.getElementById("cartoon-character");
-            // Randomly pass character across screen every 15-30 seconds
-            function walkCharacter() {
-                gsap.fromTo(character, 
-                    { x: -150, rotation: 0 }, 
-                    { 
-                        x: window.innerWidth + 150, 
-                        duration: 8, 
-                        ease: "none",
-                        onComplete: () => {
-                            setTimeout(walkCharacter, gsap.utils.random(15000, 30000));
-                        }
-                    }
-                );
-                
-                // Wobble while walking
-                gsap.to(character, {
-                    rotation: 10,
-                    duration: 0.3,
-                    yoyo: true,
-                    repeat: 26, // 8s / 0.3s approx
-                    ease: "sine.inOut"
-                });
-            }
-            setTimeout(walkCharacter, 5000);
-
-            // Swiper Initializations
-            const swiperOptions = {
-                slidesPerView: 'auto',
-                pagination: { el: '.swiper-pagination', clickable: true },
-            };
-
-            new Swiper(".eduSwiper", swiperOptions);
-            new Swiper(".certSwiper", swiperOptions);
-            new Swiper(".skillSwiper", swiperOptions);
-            new Swiper(".expSwiper", swiperOptions);
-            
-            new Swiper(".projSwiper", {
-                slidesPerView: 'auto',
-                pagination: { el: '.swiper-pagination', clickable: true },
-                navigation: {
-                    nextEl: '.swiper-proj-next',
-                    prevEl: '.swiper-proj-prev',
-                },
+        // Animasi section heading shimmer underline saat scroll
+        gsap.utils.toArray(".section-heading").forEach(h => {
+            ScrollTrigger.create({
+                trigger: h,
+                start: "top 85%",
+                onEnter: () => h.classList.add("active")
             });
         });
 
-        document.getElementById('publicContactForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const alertBox = document.getElementById('contactAlert');
-            const btn = e.target.querySelector('button[type="submit"]');
-            
-            const data = {
-                name: document.getElementById('sender_name').value,
-                email: document.getElementById('sender_email').value,
-                subject: document.getElementById('subject').value,
-                message: document.getElementById('message_content').value
+        // GSAP stagger animasi card per section
+        gsap.utils.toArray("section").forEach(sec => {
+            const cards = sec.querySelectorAll(".section-card");
+            if (cards.length > 0) {
+                gsap.fromTo(cards,
+                    { opacity: 0, y: 30, scale: 0.97 },
+                    {
+                        opacity: 1, y: 0, scale: 1,
+                        duration: 0.6, ease: "back.out(1.5)", stagger: 0.12,
+                        scrollTrigger: { trigger: sec, start: "top 85%", toggleActions: "play none none none" }
+                    }
+                );
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // === Swiper dengan autoplay & efek slide ===
+            const autoOpts = {
+                slidesPerView: "auto",
+                spaceBetween: 12,
+                autoplay: { delay: 3000, disableOnInteraction: false, pauseOnMouseEnter: true },
+                speed: 600,
+                loop: true,
+                pagination: { el: ".swiper-pagination", clickable: true },
+                effect: "slide",
             };
 
-            // Button animation during submit
-            gsap.to(btn, { scale: 0.95, duration: 0.1, yoyo: true, repeat: 1 });
-            
+            // Pendidikan & Sertifikat: 1 per tampilan
+            new Swiper(".eduSwiper", {
+                ...autoOpts,
+                slidesPerView: 1,
+                loop: true,
+            });
+            new Swiper(".certSwiper", {
+                ...autoOpts,
+                slidesPerView: 1,
+                loop: true,
+            });
+
+            // Keahlian: 2 kolom × 2 baris (grid)
+            new Swiper(".skillSwiper", {
+                slidesPerView: 2,
+                slidesPerGroup: 2,
+                grid: { rows: 2, fill: "row" },
+                spaceBetween: 10,
+                autoplay: { delay: 2500, disableOnInteraction: false, pauseOnMouseEnter: true },
+                speed: 500,
+                loop: false,
+                pagination: { el: ".swiper-pagination", clickable: true },
+                breakpoints: {
+                    640: { slidesPerView: 3, slidesPerGroup: 3 },
+                    1024: { slidesPerView: 4, slidesPerGroup: 4 },
+                }
+            });
+
+            // Pengalaman carousel (jika ada)
+            if (document.querySelector(".expSwiper")) {
+                new Swiper(".expSwiper", {
+                    ...autoOpts,
+                    slidesPerView: 1,
+                    breakpoints: { 768: { slidesPerView: 2 } },
+                    loop: true,
+                });
+            }
+
+            // Proyek: 2 baris dengan grid
+            new Swiper(".projSwiper", {
+                slidesPerView: 1,
+                slidesPerGroup: 1,
+                grid: { rows: 2, fill: "row" },
+                spaceBetween: 16,
+                autoplay: { delay: 3500, disableOnInteraction: false, pauseOnMouseEnter: true },
+                speed: 600,
+                loop: false,
+                pagination: { el: ".swiper-pagination", clickable: true },
+                navigation: { nextEl: ".swiper-proj-next", prevEl: ".swiper-proj-prev" },
+                breakpoints: {
+                    640: { slidesPerView: 2, slidesPerGroup: 2 },
+                    1024: { slidesPerView: 2, slidesPerGroup: 2 },
+                }
+            });
+
+            // GSAP hover micro-animation pada card
+            document.querySelectorAll(".section-card").forEach(card => {
+                card.addEventListener("mouseenter", () => gsap.to(card, { scale: 1.02, duration: 0.2, ease: "back.out(2)" }));
+                card.addEventListener("mouseleave", () => gsap.to(card, { scale: 1, duration: 0.2, ease: "power2.out" }));
+            });
+
+            // Partikel bintang random
+            function spawnStar() {
+                const s = document.createElement("div");
+                s.className = "star-particle";
+                s.style.left = Math.random() * 97 + "vw";
+                s.style.top = Math.random() * 85 + "vh";
+                s.style.animationDelay = Math.random() * 1.5 + "s";
+                s.style.animationDuration = (2 + Math.random() * 2.5) + "s";
+                const sz = (4 + Math.random() * 7) + "px";
+                s.style.width = sz; s.style.height = sz;
+                s.style.background = Math.random() > 0.5 ? "#D2691E" : "#8B5A3C";
+                document.body.appendChild(s);
+                setTimeout(() => s.remove(), 5500);
+            }
+            setInterval(spawnStar, 900);
+        });
+
+        // Form kontak
+        document.getElementById("publicContactForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const alertBox = document.getElementById("contactAlert");
+            const btn = document.getElementById("submitContactBtn");
+            btn.disabled = true;
+            btn.innerHTML = `<svg class="animate-spin w-4 h-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path></svg> Mengirim...`;
+            const data = {
+                name: document.getElementById("sender_name").value,
+                email: document.getElementById("sender_email").value,
+                subject: document.getElementById("subject").value,
+                message: document.getElementById("message_content").value
+            };
             try {
-                const res = await fetch('/dashboard/messages/send-public', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
+                const res = await fetch("/dashboard/messages/send-public", {
+                    method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data)
                 });
                 const result = await res.json();
-                alertBox.classList.remove('hidden', 'bg-red-100', 'border-red-600', 'text-red-900', 'bg-green-100', 'border-green-600', 'text-green-900');
+                alertBox.classList.remove("hidden","bg-red-100","border-red-600","text-red-900","bg-green-100","border-green-600","text-green-900");
                 if (res.ok && result.success) {
-                    alertBox.classList.add('bg-green-100', 'border-green-600', 'text-green-900');
+                    alertBox.classList.add("bg-green-100","border-green-600","text-green-900");
                     alertBox.innerText = result.message;
-                    document.getElementById('publicContactForm').reset();
-                    
-                    // Success animation
+                    document.getElementById("publicContactForm").reset();
                     gsap.from(alertBox, { y: -10, opacity: 0, duration: 0.5, ease: "back.out(2)" });
                 } else {
-                    alertBox.classList.add('bg-red-100', 'border-red-600', 'text-red-900');
-                    alertBox.innerText = result.message || 'Gagal mengirim pesan.';
-                    gsap.from(alertBox, { x: -10, duration: 0.1, yoyo: true, repeat: 3 });
+                    alertBox.classList.add("bg-red-100","border-red-600","text-red-900");
+                    alertBox.innerText = result.message || "Gagal mengirim pesan.";
+                    gsap.from(alertBox, { x: -8, duration: 0.08, yoyo: true, repeat: 4 });
                 }
-            } catch (err) {
-                alertBox.classList.remove('hidden');
-                alertBox.classList.add('bg-red-100', 'border-red-600', 'text-red-900');
-                alertBox.innerText = 'Terjadi kesalahan koneksi.';
-                gsap.from(alertBox, { x: -10, duration: 0.1, yoyo: true, repeat: 3 });
+            } catch {
+                alertBox.classList.remove("hidden");
+                alertBox.classList.add("bg-red-100","border-red-600","text-red-900");
+                alertBox.innerText = "Terjadi kesalahan koneksi.";
+                gsap.from(alertBox, { x: -8, duration: 0.08, yoyo: true, repeat: 4 });
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg> Kirim Pesan Sekarang`;
             }
         });
     </script>

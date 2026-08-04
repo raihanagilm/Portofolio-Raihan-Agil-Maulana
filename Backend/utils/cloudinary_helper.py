@@ -1,27 +1,51 @@
 from Backend.config import Config
 
+
 def upload_media(file_storage, folder="portfolio"):
-    """
-    Upload file gambar ke Cloudinary. Fallback jika package / credentials belum siap.
-    """
-    if not (Config.CLOUDINARY_CLOUD_NAME and Config.CLOUDINARY_API_KEY):
+    """Upload file ke Cloudinary. Mengembalikan secure_url atau None."""
+    cloud_name = Config.CLOUDINARY_CLOUD_NAME
+    api_key = Config.CLOUDINARY_API_KEY
+    api_secret = Config.CLOUDINARY_API_SECRET
+
+    if not (cloud_name and api_key and api_secret):
+        print("[CLOUDINARY] Kredensial belum diset di .env")
         return None
 
     try:
-        # pyrefly: ignore [missing-import]
         import cloudinary
-        # pyrefly: ignore [missing-import]
         import cloudinary.uploader
+
         cloudinary.config(
-            cloud_name=Config.CLOUDINARY_CLOUD_NAME,
-            api_key=Config.CLOUDINARY_API_KEY,
-            api_secret=Config.CLOUDINARY_API_SECRET
+            cloud_name=cloud_name,
+            api_key=api_key,
+            api_secret=api_secret,
+            secure=True
         )
-        upload_result = cloudinary.uploader.upload(file_storage, folder=folder, resource_type="auto")
-        return upload_result.get('secure_url')
+
+        # Reset pointer stream agar bisa dibaca dari awal
+        if hasattr(file_storage, "seek"):
+            file_storage.seek(0)
+
+        # Baca ke bytes
+        if hasattr(file_storage, "read"):
+            file_bytes = file_storage.read()
+        else:
+            file_bytes = file_storage
+
+        print(f"[CLOUDINARY] Upload folder={folder}, size={len(file_bytes)} bytes")
+
+        result = cloudinary.uploader.upload(
+            file_bytes,
+            folder=folder,
+            resource_type="auto"
+        )
+        url = result.get("secure_url")
+        print(f"[CLOUDINARY] Berhasil: {url}")
+        return url
+
     except ImportError:
-        print("[CLOUDINARY SDK NOT INSTALLED]")
+        print("[CLOUDINARY] SDK tidak terpasang. pip install cloudinary")
         return None
     except Exception as e:
-        print(f"[CLOUDINARY ERROR] {str(e)}")
+        print(f"[CLOUDINARY] Error {type(e).__name__}: {e}")
         return None
