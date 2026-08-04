@@ -1,0 +1,114 @@
+/* ========================================
+   Manajemen Portofolio - Tema Kardus
+   CSS untuk Login Page
+   ======================================== */
+
+/* Background dengan gradient seperti kardus */
+body {
+    background-image: linear-gradient(135deg, #E8D4B8 0%, #D4B896 50%, #C9A87C 100%);
+    background-attachment: fixed;
+}
+
+/* Tekstur grid halus seperti serat kardus */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(139, 90, 60, 0.03) 2px, rgba(139, 90, 60, 0.03) 4px),
+        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(139, 90, 60, 0.03) 2px, rgba(139, 90, 60, 0.03) 4px);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Card utama dengan tema kardus */
+.cardboard-card {
+    background: linear-gradient(135deg, #FFF8F0 0%, #FAF0E6 100%);
+    border: 3px solid #A67C52;
+    position: relative;
+}
+
+/* Tekstur diagonal halus pada card */
+.cardboard-texture {
+    background-image: 
+        repeating-linear-gradient(45deg, transparent, transparent 1px, rgba(139, 90, 60, 0.02) 1px, rgba(139, 90, 60, 0.02) 2px);
+}
+
+/* Transition halus untuk semua animasi */
+.transition-soft {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Input field dengan focus ring oranye */
+.input-cardboard:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(210, 105, 30, 0.15);
+    border-color: #D2691E;
+}
+
+/* Button utama dengan gradient oranye-coklat */
+.btn-primary {
+    background: linear-gradient(135deg, #D2691E 0%, #B8581A 100%);
+    border: 2px solid #8B4513;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #B8581A 0%, #8B4513 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(139, 69, 19, 0.3);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+/* Button secondary dengan tema cardboard */
+.btn-secondary {
+    background: linear-gradient(135deg, #FFF8F0 0%, #FAF0E6 100%);
+    border: 2px solid #A67C52;
+}
+
+.btn-secondary:hover {
+    background: linear-gradient(135deg, #FAF0E6 0%, #F5E6D3 100%);
+    border-color: #8B5A3C;
+}
+
+/* Input OTP dengan border coklat */
+.otp-input {
+    background: linear-gradient(135deg, #FFF8F0 0%, #FAF0E6 100%);
+    border: 2px solid #A67C52;
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+
+.otp-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(210, 105, 30, 0.2);
+    border-color: #D2691E;
+}
+
+/* Responsive untuk mobile first */
+@media (max-width: 640px) {
+    .otp-input {
+        width: 2.5rem;
+        height: 2.5rem;
+        font-size: 1rem;
+    }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+    .otp-input {
+        width: 3rem;
+        height: 3rem;
+    }
+}
+
+@media (min-width: 1025px) {
+    .otp-input {
+        width: 3.5rem;
+        height: 3.5rem;
+    }
+}
