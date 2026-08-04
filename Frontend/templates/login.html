@@ -7,9 +7,7 @@
     <meta name="description" content="Manajemen Portofolio - Login Page dengan tema kardus">
     <title>Manajemen Portofolio - Login</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=block"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=block" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script id="tailwind-config">
         try {
@@ -24,170 +22,136 @@
                             "cardboard": "#C9A87C",
                             "cardboard-dark": "#A67C52",
                             "cardboard-darker": "#8B5A3C",
-                            "earth-brown": "#6B4423",
-                            "earth-dark": "#3E2723",
-                            "card-bg": "#FFF8F0",
+                            "earth-brown": "#5C3214",
+                            "earth-dark": "#2C1A0E",
+                            "card-bg": "#FFFBF5",
                             "surface": "#FAF0E6",
                             "accent": "#D2691E",
                             "accent-hover": "#B8581A",
-                            "on-surface": "#3E2723",
+                            "on-surface": "#2C1A0E",
                             "on-primary": "#FFFFFF",
-                            "border-card": "#A67C52",
-                            "border-light": "#D4B896",
-                            "text-muted": "#8B6F47"
-                        },
-                        "borderRadius": {
-                            "DEFAULT": "0.25rem",
-                            "lg": "0.5rem",
-                            "xl": "0.75rem",
-                            "full": "1rem"
-                        },
-                        "spacing": {
-                            "xs": "0.25rem",
-                            "sm": "0.5rem",
-                            "gutter": "1rem",
-                            "lg": "1.5rem",
-                            "container-max": "480px",
-                            "xl": "2rem",
-                            "base": "4px",
-                            "2xl": "3rem",
-                            "md": "1rem"
-                        },
-                        "boxShadow": {
-                            "cardboard": "0 4px 6px -1px rgba(139, 90, 60, 0.15), 0 2px 4px -2px rgba(139, 90, 60, 0.1)",
-                            "cardboard-lg": "0 10px 15px -3px rgba(139, 90, 60, 0.2), 0 4px 6px -2px rgba(139, 90, 60, 0.15)"
+                            "border-card": "#8B5A3C",
+                            "border-light": "#A67C52",
+                            "text-muted": "#6E5033"
                         }
                     }
-                },
+                }
             }
         } catch (_e) { }
     </script>
-    <!-- External CSS -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/css/style-base.css">
+    <link rel="stylesheet" href="/css/style-login.css">
 </head>
 
-<body class="bg-surface text-on-surface font-body-md min-h-screen flex flex-col">
-    <main
-        class="flex-grow flex items-center justify-center px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16 relative overflow-hidden min-h-screen">
-        <div class="w-full max-w-md z-10">
-            <div
-                class="cardboard-card cardboard-texture rounded-xl p-6 sm:p-8 lg:p-10 transition-soft shadow-cardboard">
-                <div class="mb-6 text-center">
-                    <div class="inline-block mb-4">
-                        <div
-                            class="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-cardboard to-cardboard-dark rounded-full flex items-center justify-center shadow-lg">
-                            <span
-                                class="material-symbols-outlined text-white text-3xl sm:text-4xl">folder_managed</span>
-                        </div>
+<body class="bg-surface text-earth-dark font-body-md min-h-screen flex flex-col justify-center items-center p-4">
+    <main class="w-full max-w-md z-10 my-auto">
+        <div class="cardboard-card cardboard-texture rounded-2xl p-6 sm:p-8 shadow-cardboard relative">
+            <div class="tape-accent"></div>
+            
+            <div class="mb-6 text-center">
+                <div class="inline-block mb-3">
+                    <div class="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-cardboard-dark to-cardboard-darker rounded-2xl flex items-center justify-center shadow-md border-2 border-earth-dark">
+                        <span class="material-symbols-outlined text-white text-3xl sm:text-4xl">folder_managed</span>
                     </div>
-                    <h1 class="font-display text-2xl sm:text-3xl lg:text-4xl text-earth-dark mb-2">Manajemen Portofolio
-                    </h1>
-                    <p class="font-body-sm text-text-muted text-sm sm:text-base">Silakan masuk untuk mengelola
-                        portofolio aset Anda secara aman.</p>
                 </div>
+                <h1 class="font-bold text-2xl sm:text-3xl text-earth-dark mb-1">Manajemen Portofolio</h1>
+                <p class="text-text-muted text-xs sm:text-sm font-medium">Masuk untuk mengelola portofolio Raihan Agil Maulana.</p>
+            </div>
 
-                <form class="space-y-5 sm:space-y-6" id="loginForm">
-                    <div class="space-y-2">
-                        <label class="block font-label-md text-earth-dark text-sm sm:text-base" for="username">Username
-                            atau Email</label>
-                        <div class="relative">
-                            <input
-                                class="w-full h-11 sm:h-12 px-4 bg-card-bg border-2 border-border-light rounded-lg text-body-md placeholder:text-text-muted input-cardboard transition-soft"
-                                id="username" name="username" placeholder="nama@email.com" type="text"
-                                autocomplete="username">
-                        </div>
-                    </div>
+            <!-- Flash Alert Box -->
+            <div id="alertBox" class="hidden mb-4 p-3 rounded-lg text-sm font-semibold border-2 transition-all"></div>
 
-                    <div class="space-y-2">
-                        <div class="flex justify-between items-center">
-                            <label class="block font-label-md text-earth-dark text-sm sm:text-base" for="password">Kata
-                                Sandi</label>
-                            <a class="text-label-sm hover:underline font-semibold text-accent text-xs sm:text-sm"
-                                href="#">Lupa Kata Sandi?</a>
-                        </div>
-                        <div class="relative">
-                            <input
-                                class="w-full h-11 sm:h-12 px-4 bg-card-bg border-2 border-border-light rounded-lg text-body-md placeholder:text-text-muted input-cardboard transition-soft pr-10"
-                                id="password" name="password" placeholder="••••••••" type="password"
-                                autocomplete="current-password">
-                            <button
-                                class="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-accent transition-colors"
-                                onclick="togglePassword()" type="button" aria-label="Toggle password visibility">
-                                <span class="material-symbols-outlined text-xl sm:text-2xl"
-                                    id="passwordIcon">visibility</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <button
-                        class="btn-primary w-full h-12 sm:h-14 text-on-primary font-label-md rounded-xl transition-soft active:scale-[0.98] shadow-md text-sm sm:text-base"
-                        type="submit">
-                        Masuk
-                    </button>
-                </form>
-
-                <div class="relative my-6 sm:my-8">
-                    <div class="absolute inset-0 flex items-center">
-                        <div class="w-full border-t-2 border-border-light"></div>
-                    </div>
-                    <div class="relative flex justify-center text-label-sm">
-                        <span class="px-3 bg-card-bg text-text-muted text-xs sm:text-sm">Atau gunakan akses
-                            khusus</span>
+            <form class="space-y-4 sm:space-y-5" id="loginForm">
+                <div class="space-y-1.5">
+                    <label class="block font-bold text-earth-dark text-sm" for="username">Username atau Email</label>
+                    <div class="relative">
+                        <input class="w-full h-11 sm:h-12 px-4 input-cardboard rounded-lg text-sm transition-soft"
+                            id="username" name="username" placeholder="raihanagilm@gmail.com" type="text"
+                            autocomplete="username" required value="raihanagilm@gmail.com">
                     </div>
                 </div>
 
-                <div class="space-y-4">
-                    <button
-                        class="btn-secondary w-full flex items-center justify-between p-3 sm:p-4 rounded-xl transition-soft group"
-                        onclick="toggleEmergency()" type="button" aria-expanded="false"
-                        aria-controls="emergencySection">
-                        <div class="flex items-center gap-3">
-                            <span
-                                class="material-symbols-outlined text-accent text-xl sm:text-2xl">security_update_warning</span>
-                            <span class="font-label-md text-earth-dark text-sm sm:text-base">Login Darurat</span>
-                        </div>
-                        <span class="material-symbols-outlined text-text-muted transition-transform duration-300"
-                            id="emergencyChevron" style="transform: rotate(0deg);">expand_more</span>
-                    </button>
-
-                    <div class="space-y-3 animate-in fade-in slide-in-from-top-2 duration-300 hidden"
-                        id="emergencySection">
-                        <p class="text-label-sm text-text-muted leading-relaxed text-xs sm:text-sm">
-                            Masukkan 6 digit kode yang telah kami kirimkan ke email Anda untuk akses darurat.
-                        </p>
-                        <div class="otp-container flex gap-2 justify-between py-3">
-                            <input class="otp-input w-12 h-12 text-center rounded-lg" inputmode="numeric" maxlength="1"
-                                type="text" aria-label="Digit 1">
-                            <input class="otp-input w-12 h-12 text-center rounded-lg" inputmode="numeric" maxlength="1"
-                                type="text" aria-label="Digit 2">
-                            <input class="otp-input w-12 h-12 text-center rounded-lg" inputmode="numeric" maxlength="1"
-                                type="text" aria-label="Digit 3">
-                            <input class="otp-input w-12 h-12 text-center rounded-lg" inputmode="numeric" maxlength="1"
-                                type="text" aria-label="Digit 4">
-                            <input class="otp-input w-12 h-12 text-center rounded-lg" inputmode="numeric" maxlength="1"
-                                type="text" aria-label="Digit 5">
-                            <input class="otp-input w-12 h-12 text-center rounded-lg" inputmode="numeric" maxlength="1"
-                                type="text" aria-label="Digit 6">
-                        </div>
-                        <button
-                            class="btn-primary w-full h-12 sm:h-14 text-on-primary font-label-md rounded-xl transition-soft active:scale-[0.98] shadow-md mt-4 text-sm sm:text-base"
-                            type="button">
-                            Verifikasi Kode
+                <div class="space-y-1.5">
+                    <div class="flex justify-between items-center">
+                        <label class="block font-bold text-earth-dark text-sm" for="password">Kata Sandi</label>
+                        <!-- Lupa kata sandi telah dihapus sesuai instruksi user -->
+                    </div>
+                    <div class="relative">
+                        <input class="w-full h-11 sm:h-12 px-4 input-cardboard rounded-lg text-sm transition-soft pr-10"
+                            id="password" name="password" placeholder="••••••••" type="password"
+                            autocomplete="current-password" required value="123456">
+                        <button class="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-earth-dark transition-colors"
+                            onclick="togglePassword()" type="button" aria-label="Toggle password visibility">
+                            <span class="material-symbols-outlined text-xl" id="passwordIcon">visibility</span>
                         </button>
                     </div>
                 </div>
 
-                <div class="mt-8 pt-6 border-t-2 border-border-light text-center">
-                    <p class="text-xs sm:text-sm text-text-muted">
-                        &copy; 2026 Manajemen Portofolio. Semua hak dilindungi.
-                    </p>
+                <button class="btn-primary w-full h-12 text-white font-bold rounded-xl transition-soft text-sm sm:text-base cursor-pointer"
+                    type="submit">
+                    Masuk Ke Sistem
+                </button>
+            </form>
+
+            <div class="relative my-6">
+                <div class="absolute inset-0 flex items-center">
+                    <div class="w-full border-t-2 border-dashed border-border-light"></div>
                 </div>
+                <div class="relative flex justify-center text-xs">
+                    <span class="px-3 bg-card-bg text-earth-dark font-bold">Atau Akses Darurat (1 Jam / OTP)</span>
+                </div>
+            </div>
+
+            <div class="space-y-3">
+                <button class="btn-secondary w-full flex items-center justify-between p-3.5 rounded-xl transition-soft cursor-pointer"
+                    onclick="toggleEmergency()" type="button" id="emergencyToggleBtn">
+                    <div class="flex items-center gap-2.5">
+                        <span class="material-symbols-outlined text-accent text-2xl">shield_lock</span>
+                        <span class="font-bold text-earth-dark text-sm sm:text-base">Login Darurat Via OTP</span>
+                    </div>
+                    <span class="material-symbols-outlined text-earth-dark transition-transform duration-300"
+                        id="emergencyChevron">expand_more</span>
+                </button>
+
+                <div class="space-y-3 hidden bg-[#FFF8F0] p-4 rounded-xl border-2 border-dashed border-border-light" id="emergencySection">
+                    <p class="text-xs text-text-muted font-medium leading-relaxed">
+                        Fitur ini dibatasi <strong>1 kali per 1 jam</strong>. Kode OTP 6-digit akan dikirimkan langsung ke email pribadi <code>raihanagilm@gmail.com</code>.
+                    </p>
+                    
+                    <button class="btn-secondary w-full py-2.5 px-3 rounded-lg text-xs font-bold flex items-center justify-center gap-2 cursor-pointer"
+                        id="requestOtpBtn" onclick="requestOtp()">
+                        <span class="material-symbols-outlined text-base">send</span>
+                        <span>Minta Kode OTP Ke Email</span>
+                    </button>
+
+                    <div id="otpFormArea" class="hidden space-y-3 pt-2">
+                        <label class="block text-xs font-bold text-earth-dark">Masukkan 6-Digit OTP:</label>
+                        <div class="otp-container flex gap-1.5 justify-between">
+                            <input class="otp-input w-10 h-11 text-center rounded-lg border-2 border-border-card font-bold text-lg" inputmode="numeric" maxlength="1" type="text" aria-label="Digit 1">
+                            <input class="otp-input w-10 h-11 text-center rounded-lg border-2 border-border-card font-bold text-lg" inputmode="numeric" maxlength="1" type="text" aria-label="Digit 2">
+                            <input class="otp-input w-10 h-11 text-center rounded-lg border-2 border-border-card font-bold text-lg" inputmode="numeric" maxlength="1" type="text" aria-label="Digit 3">
+                            <input class="otp-input w-10 h-11 text-center rounded-lg border-2 border-border-card font-bold text-lg" inputmode="numeric" maxlength="1" type="text" aria-label="Digit 4">
+                            <input class="otp-input w-10 h-11 text-center rounded-lg border-2 border-border-card font-bold text-lg" inputmode="numeric" maxlength="1" type="text" aria-label="Digit 5">
+                            <input class="otp-input w-10 h-11 text-center rounded-lg border-2 border-border-card font-bold text-lg" inputmode="numeric" maxlength="1" type="text" aria-label="Digit 6">
+                        </div>
+                        <button class="btn-primary w-full h-11 text-white font-bold rounded-xl transition-soft text-xs sm:text-sm cursor-pointer"
+                            type="button" onclick="verifyOtp()">
+                            Verifikasi & Masuk
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-6 pt-4 border-t-2 border-dashed border-border-light text-center">
+                <a href="/" class="text-xs text-accent font-bold hover:underline inline-flex items-center gap-1">
+                    <span class="material-symbols-outlined text-sm">arrow_back</span> Lihat Portofolio Publik
+                </a>
             </div>
         </div>
     </main>
 
-    <!-- External JavaScript -->
-    <script src="script.js"></script>
+    <script src="/js/script-base.js"></script>
+    <script src="/js/script-login.js"></script>
 </body>
 
 </html>

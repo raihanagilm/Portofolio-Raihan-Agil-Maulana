@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block page_title %}Kelola Keahlian (Technical, Kepemimpinan, Bahasa, Tools){% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- FORM TAMBAH SKILL (POSISI ATAS) -->
+    <div class="cardboard-card cardboard-texture rounded-2xl p-5 shadow-cardboard relative">
+        <div class="tape-accent"></div>
+        <h3 class="font-bold text-earth-dark text-lg mb-4 flex items-center gap-2">
+            <span class="material-symbols-outlined text-accent">psychology</span> Tambah Keahlian Baru
+        </h3>
+        <form action="{{ url_for('skills.add') }}" method="POST" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div>
+                <label class="block font-bold text-earth-dark text-xs mb-1">Nama Skill / Bahasa / Kepemimpinan</label>
+                <input type="text" name="name" class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" required placeholder="Python / Public Speaking / English">
+            </div>
+            <div>
+                <label class="block font-bold text-earth-dark text-xs mb-1">Kategori Skill</label>
+                <select name="category" class="w-full h-11 px-3 input-cardboard rounded-lg text-sm font-bold">
+                    <option value="Technical">Backend & Technical</option>
+                    <option value="Frontend">Frontend & Mobile</option>
+                    <option value="Soft Skill">Soft Skill / Kepemimpinan</option>
+                    <option value="Bahasa">Kemampuan Bahasa</option>
+                    <option value="Tools">Tools & Software</option>
+                    <option value="UI/UX">UI / UX Design</option>
+                </select>
+            </div>
+            <div>
+                <label class="block font-bold text-earth-dark text-xs mb-1">Tingkat Penguasaan (0 - 100%)</label>
+                <input type="number" min="10" max="100" name="proficiency" value="85" class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" required>
+            </div>
+            <div>
+                <label class="block font-bold text-earth-dark text-xs mb-1">Material Icon</label>
+                <input type="text" name="icon" class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" value="code" placeholder="code, record_voice_over, translate">
+            </div>
+            <div class="md:col-span-4">
+                <button type="submit" class="btn-primary w-full py-3 rounded-xl font-bold text-sm cursor-pointer">
+                    + Tambah Keahlian Ke Portofolio
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- DAFTAR SKILL TERSIMPAN (POSISI BAWAH) -->
+    <div class="space-y-4">
+        <h3 class="font-bold text-earth-dark text-lg">Daftar Keahlian Tersimpan ({{ skills|length }})</h3>
+        {% if skills %}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {% for skill in skills %}
+                    <div class="cardboard-card cardboard-texture rounded-xl p-4 shadow-sm flex flex-col justify-between {% if not skill.is_visible %}opacity-60 border-dashed{% endif %}">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-accent/15 border-2 border-accent text-accent rounded-lg flex items-center justify-center flex-shrink-0">
+                                <span class="material-symbols-outlined">{{ skill.icon }}</span>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-bold text-earth-dark text-sm">{{ skill.name }}</h4>
+                                <p class="text-[10px] font-bold text-text-muted">{{ skill.category }}</p>
+                                <div class="w-full bg-kraft rounded-full h-2 mt-1 border border-border-card">
+                                    <div class="bg-accent h-full rounded-full" style="width: {{ skill.proficiency }}%"></div>
+                                </div>
+                            </div>
+                            <span class="font-bold text-xs text-earth-brown">{{ skill.proficiency }}%</span>
+                        </div>
+
+                        <div class="mt-4 pt-2 border-t border-dashed border-border-light flex items-center justify-between">
+                            <span class="text-[10px] font-bold {% if skill.is_visible %}text-green-700{% else %}text-red-700{% endif %}">
+                                {% if skill.is_visible %}👁️ Tampil{% else %}🙈 Disembunyikan{% endif %}
+                            </span>
+                            <div class="flex gap-1">
+                                <form action="{{ url_for('skills.toggle_visibility', skill_id=skill.id) }}" method="POST" class="inline">
+                                    <button type="submit" title="Sembunyikan/Tampilkan" class="p-1 bg-yellow-100 border border-yellow-400 text-yellow-800 rounded hover:bg-yellow-200">
+                                        <span class="material-symbols-outlined text-xs">{% if skill.is_visible %}visibility_off{% else %}visibility{% endif %}</span>
+                                    </button>
+                                </form>
+                                <button onclick="openEditSkillModal('{{ skill.id }}', '{{ skill.name|e }}', '{{ skill.category|e }}', '{{ skill.proficiency }}', '{{ skill.icon|e }}')" class="p-1 bg-blue-100 border border-blue-400 text-blue-800 rounded hover:bg-blue-200">
+                                    <span class="material-symbols-outlined text-xs">edit</span>
+                                </button>
+                                <form action="{{ url_for('skills.delete', skill_id=skill.id) }}" method="POST" class="inline">
+                                    <button type="submit" onclick="return confirm('Hapus skill ini?')" class="p-1 bg-red-100 border border-red-400 text-red-700 rounded hover:bg-red-200">
+                                        <span class="material-symbols-outlined text-xs">delete</span>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="p-6 bg-card-bg rounded-xl border-2 border-dashed border-border-light text-center text-text-muted text-sm">
+                Belum ada keahlian yang ditambahkan.
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- EDIT SKILL MODAL -->
+<div id="editSkillModal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 hidden">
+    <div class="cardboard-card cardboard-texture rounded-2xl p-6 w-full max-w-md shadow-2xl relative">
+        <h3 class="font-bold text-earth-dark text-lg mb-3">Edit Keahlian</h3>
+        <form id="editSkillForm" method="POST" class="space-y-3">
+            <div>
+                <label class="block font-bold text-earth-dark text-xs mb-1">Nama Skill</label>
+                <input type="text" name="name" id="edit_skill_name" required class="w-full h-10 px-3 input-cardboard rounded-lg text-sm">
+            </div>
+            <div>
+                <label class="block font-bold text-earth-dark text-xs mb-1">Kategori</label>
+                <select name="category" id="edit_skill_category" class="w-full h-10 px-3 input-cardboard rounded-lg text-sm font-bold">
+                    <option value="Technical">Backend & Technical</option>
+                    <option value="Frontend">Frontend & Mobile</option>
+                    <option value="Soft Skill">Soft Skill / Kepemimpinan</option>
+                    <option value="Bahasa">Kemampuan Bahasa</option>
+                    <option value="Tools">Tools & Software</option>
+                    <option value="UI/UX">UI / UX Design</option>
+                </select>
+            </div>
+            <div>
+                <label class="block font-bold text-earth-dark text-xs mb-1">Tingkat (%)</label>
+                <input type="number" min="10" max="100" name="proficiency" id="edit_skill_proficiency" required class="w-full h-10 px-3 input-cardboard rounded-lg text-sm">
+            </div>
+            <div>
+                <label class="block font-bold text-earth-dark text-xs mb-1">Icon Name</label>
+                <input type="text" name="icon" id="edit_skill_icon" required class="w-full h-10 px-3 input-cardboard rounded-lg text-sm">
+            </div>
+            <div class="flex justify-end gap-2 pt-2">
+                <button type="button" onclick="closeEditSkillModal()" class="btn-secondary px-4 py-2 rounded-lg text-xs font-bold">Batal</button>
+                <button type="submit" class="btn-primary px-5 py-2 rounded-lg text-xs font-bold text-white">Simpan Perubahan</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+function openEditSkillModal(id, name, category, proficiency, icon) {
+    document.getElementById('editSkillForm').action = '/dashboard/skills/edit/' + id;
+    document.getElementById('edit_skill_name').value = name;
+    document.getElementById('edit_skill_category').value = category;
+    document.getElementById('edit_skill_proficiency').value = proficiency;
+    document.getElementById('edit_skill_icon').value = icon;
+    document.getElementById('editSkillModal').classList.remove('hidden');
+}
+function closeEditSkillModal() {
+    document.getElementById('editSkillModal').classList.add('hidden');
+}
+</script>
+{% endblock %}

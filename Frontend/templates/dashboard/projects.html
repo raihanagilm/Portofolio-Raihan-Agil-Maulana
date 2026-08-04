@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+
+{% block page_title %}Kelola Proyek Portofolio{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- FORM TAMBAH PROYEK (POSISI ATAS) -->
+    <div class="cardboard-card cardboard-texture rounded-2xl p-5 shadow-cardboard relative">
+        <div class="tape-accent"></div>
+        <h3 class="font-bold text-earth-dark text-lg mb-4 flex items-center gap-2">
+            <span class="material-symbols-outlined text-accent">folder_special</span> Tambah Proyek Portofolio Baru
+        </h3>
+        <form action="{{ url_for('projects.add') }}" method="POST" enctype="multipart/form-data" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label class="block font-bold text-earth-dark text-xs mb-1">Judul Proyek</label>
+                <input type="text" name="title" class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" required placeholder="E-Commerce Cardboard Craft">
+            </div>
+            <div>
+                <label class="block font-bold text-earth-dark text-xs mb-1">Kategori Proyek</label>
+                <select name="category" class="w-full h-11 px-3 input-cardboard rounded-lg text-sm font-bold">
+                    <option value="Web App">Web Application</option>
+                    <option value="Mobile App">Mobile Application</option>
+                    <option value="UI/UX Design">UI / UX Concept</option>
+                    <option value="Backend API">Backend & Microservice</option>
+                </select>
+            </div>
+            <div>
+                <label class="block font-bold text-earth-dark text-xs mb-1">Tags / Tech Stack (Pisahkan Koma)</label>
+                <input type="text" name="tags" class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" placeholder="Flask, Tailwind, MySQL, Resend">
+            </div>
+            <div>
+                <label class="block font-bold text-earth-dark text-xs mb-1">Upload Gambar Screenshot (Cloudinary)</label>
+                <input type="file" name="image" accept="image/*" class="w-full p-2 bg-white border-2 border-border-card rounded-lg text-xs font-bold">
+            </div>
+            <div>
+                <label class="block font-bold text-earth-dark text-xs mb-1">Link Demo Live (Opsional)</label>
+                <input type="text" name="demo_url" class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" placeholder="https://demo.com">
+            </div>
+            <div>
+                <label class="block font-bold text-earth-dark text-xs mb-1">Link Repository GitHub (Opsional)</label>
+                <input type="text" name="github_url" class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" placeholder="https://github.com/...">
+            </div>
+            <div class="md:col-span-2">
+                <label class="block font-bold text-earth-dark text-xs mb-1">Deskripsi Proyek</label>
+                <textarea name="description" rows="3" class="w-full p-3 input-cardboard rounded-lg text-sm" required placeholder="Jelaskan tantangan dan solusi proyek..."></textarea>
+            </div>
+            <div class="md:col-span-2">
+                <button type="submit" class="btn-primary w-full py-3 rounded-xl font-bold text-sm cursor-pointer">
+                    + Tambah Proyek Ke Portofolio
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- DAFTAR PROYEK TERSIMPAN (POSISI BAWAH) -->
+    <div class="space-y-4">
+        <h3 class="font-bold text-earth-dark text-lg">Daftar Proyek Tersimpan ({{ projects|length }})</h3>
+        {% if projects %}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                {% for proj in projects %}
+                    <div class="cardboard-card cardboard-texture rounded-2xl p-4 shadow-sm flex flex-col justify-between {% if not proj.is_visible %}opacity-60 border-dashed{% endif %}">
+                        <div>
+                            {% if proj.image_url %}
+                                <img src="{{ proj.image_url }}" alt="{{ proj.title }}" class="w-full h-36 object-cover rounded-xl border-2 border-border-card mb-3">
+                            {% else %}
+                                <div class="w-full h-36 bg-kraft/40 rounded-xl border-2 border-dashed border-border-card flex items-center justify-center mb-3">
+                                    <span class="material-symbols-outlined text-border-card text-4xl">image</span>
+                                </div>
+                            {% endif %}
+
+                            <div class="flex items-center justify-between gap-2 mb-1">
+                                <span class="px-2.5 py-0.5 bg-accent/15 border border-accent/40 rounded text-[10px] font-bold text-accent">{{ proj.category }}</span>
+                                <span class="text-[10px] text-text-muted font-bold">{{ proj.created_at.strftime('%d %b %Y') }}</span>
+                            </div>
+
+                            <h4 class="font-bold text-earth-dark text-base mb-1">{{ proj.title }}</h4>
+                            <p class="text-xs text-text-muted leading-relaxed line-clamp-3 mb-2">{{ proj.description }}</p>
+                            <p class="text-[11px] font-bold text-earth-brown bg-kraft/30 p-1.5 rounded border border-border-light">Tech: {{ proj.tags }}</p>
+                        </div>
+
+                        <div class="mt-4 pt-3 border-t border-dashed border-border-light flex items-center justify-between">
+                            <span class="text-[11px] font-bold {% if proj.is_visible %}text-green-700{% else %}text-red-700{% endif %}">
+                                {% if proj.is_visible %}👁️ Tampil{% else %}🙈 Disembunyikan{% endif %}
+                            </span>
+
+                            <div class="flex gap-1.5">
+                                <form action="{{ url_for('projects.toggle_visibility', proj_id=proj.id) }}" method="POST" class="inline">
+                                    <button type="submit" title="Sembunyikan/Tampilkan" class="p-1.5 bg-yellow-100 border border-yellow-400 text-yellow-800 rounded-lg hover:bg-yellow-200">
+                                        <span class="material-symbols-outlined text-xs">{% if proj.is_visible %}visibility_off{% else %}visibility{% endif %}</span>
+                                    </button>
+                                </form>
+                                <button onclick="openEditProjModal('{{ proj.id }}', '{{ proj.title|e }}', '{{ proj.category|e }}', '{{ proj.tags|e }}', '{{ proj.demo_url|e }}', '{{ proj.github_url|e }}', '{{ proj.description|e }}')" class="p-1.5 bg-blue-100 border border-blue-400 text-blue-800 rounded-lg hover:bg-blue-200">
+                                    <span class="material-symbols-outlined text-xs">edit</span>
+                                </button>
+                                <form action="{{ url_for('projects.delete', proj_id=proj.id) }}" method="POST" class="inline">
+                                    <button type="submit" onclick="return confirm('Hapus proyek ini?')" class="p-1.5 bg-red-100 border border-red-400 text-red-700 rounded-lg hover:bg-red-200">
+                                        <span class="material-symbols-outlined text-xs">delete</span>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="p-6 bg-card-bg rounded-xl border-2 border-dashed border-border-light text-center text-text-muted text-sm">
+                Belum ada proyek yang ditambahkan. Gunakan form di atas untuk menambahkan.
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- EDIT PROJ MODAL -->
+<div id="editProjModal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 hidden">
+    <div class="cardboard-card cardboard-texture rounded-2xl p-6 w-full max-w-xl shadow-2xl relative max-h-[90vh] overflow-y-auto">
+        <h3 class="font-bold text-earth-dark text-lg mb-3">Edit Proyek Portofolio</h3>
+        <form id="editProjForm" method="POST" enctype="multipart/form-data" class="space-y-3">
+            <div>
+                <label class="block font-bold text-earth-dark text-xs mb-1">Judul Proyek</label>
+                <input type="text" name="title" id="edit_proj_title" required class="w-full h-10 px-3 input-cardboard rounded-lg text-sm">
+            </div>
+            <div>
+                <label class="block font-bold text-earth-dark text-xs mb-1">Kategori</label>
+                <select name="category" id="edit_proj_category" class="w-full h-10 px-3 input-cardboard rounded-lg text-sm font-bold">
+                    <option value="Web App">Web Application</option>
+                    <option value="Mobile App">Mobile Application</option>
+                    <option value="UI/UX Design">UI / UX Concept</option>
+                    <option value="Backend API">Backend & Microservice</option>
+                </select>
+            </div>
+            <div>
+                <label class="block font-bold text-earth-dark text-xs mb-1">Tags / Tech Stack</label>
+                <input type="text" name="tags" id="edit_proj_tags" class="w-full h-10 px-3 input-cardboard rounded-lg text-sm">
+            </div>
+            <div>
+                <label class="block font-bold text-earth-dark text-xs mb-1">Link Demo Live</label>
+                <input type="text" name="demo_url" id="edit_proj_demo_url" class="w-full h-10 px-3 input-cardboard rounded-lg text-sm">
+            </div>
+            <div>
+                <label class="block font-bold text-earth-dark text-xs mb-1">Link Repository GitHub</label>
+                <input type="text" name="github_url" id="edit_proj_github_url" class="w-full h-10 px-3 input-cardboard rounded-lg text-sm">
+            </div>
+            <div>
+                <label class="block font-bold text-earth-dark text-xs mb-1">Ganti Gambar Screenshot (Opsional)</label>
+                <input type="file" name="image" accept="image/*" class="w-full p-2 bg-white border border-border-card rounded-lg text-xs font-bold">
+            </div>
+            <div>
+                <label class="block font-bold text-earth-dark text-xs mb-1">Deskripsi</label>
+                <textarea name="description" id="edit_proj_description" rows="3" required class="w-full p-2.5 input-cardboard rounded-lg text-sm"></textarea>
+            </div>
+            <div class="flex justify-end gap-2 pt-2">
+                <button type="button" onclick="closeEditProjModal()" class="btn-secondary px-4 py-2 rounded-lg text-xs font-bold">Batal</button>
+                <button type="submit" class="btn-primary px-5 py-2 rounded-lg text-xs font-bold text-white">Simpan Perubahan</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+function openEditProjModal(id, title, category, tags, demo_url, github_url, description) {
+    document.getElementById('editProjForm').action = '/dashboard/projects/edit/' + id;
+    document.getElementById('edit_proj_title').value = title;
+    document.getElementById('edit_proj_category').value = category;
+    document.getElementById('edit_proj_tags').value = tags;
+    document.getElementById('edit_proj_demo_url').value = demo_url;
+    document.getElementById('edit_proj_github_url').value = github_url;
+    document.getElementById('edit_proj_description').value = description;
+    document.getElementById('editProjModal').classList.remove('hidden');
+}
+function closeEditProjModal() {
+    document.getElementById('editProjModal').classList.add('hidden');
+}
+</script>
+{% endblock %}

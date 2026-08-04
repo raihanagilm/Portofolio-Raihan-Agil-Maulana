@@ -1,0 +1,302 @@
+/* ========================================
+   STYLE BASE - Styling Umum Tema Kardus
+   Digunakan di seluruh aplikasi portofolio
+   ======================================== */
+
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    display: inline-block;
+    line-height: 1;
+    vertical-align: middle;
+}
+
+/* Background dengan gradient kraft paper kardus */
+body {
+    background-color: #E8D4B8;
+    background-image: linear-gradient(135deg, #F0DEC5 0%, #E2C9A6 50%, #D4B48A 100%);
+    background-attachment: fixed;
+    color: #2C1A0E; /* Kontras tinggi untuk teks */
+}
+
+/* Tekstur serat kardus vertikal & horizontal */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(100, 60, 30, 0.04) 3px, rgba(100, 60, 30, 0.04) 5px),
+        repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(100, 60, 30, 0.03) 3px, rgba(100, 60, 30, 0.03) 5px);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ================================
+   STIKER KARDUS BERGERAK & STAMP CRAFT
+   ================================ */
+@keyframes floatSticker {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-8px) rotate(3deg); }
+}
+
+@keyframes pulseStamp {
+    0%, 100% { transform: scale(1) rotate(-5deg); }
+    50% { transform: scale(1.05) rotate(-2deg); }
+}
+
+.craft-sticker {
+    animation: floatSticker 4s ease-in-out infinite;
+    display: inline-block;
+}
+
+.craft-stamp {
+    animation: pulseStamp 3s ease-in-out infinite;
+    border: 2px dashed #D2691E;
+    background: rgba(210, 105, 30, 0.1);
+    color: #D2691E;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* ================================
+   CARD COMPONENT & CONTRAST
+   ================================ */
+.cardboard-card {
+    background: #FFFBF5; /* Terang agar kontras tinggi dengan teks gelap */
+    border: 3px solid #8B5A3C;
+    position: relative;
+    z-index: 1;
+    box-shadow: 4px 6px 0px rgba(80, 45, 20, 0.25);
+    border-radius: 14px;
+}
+
+/* Aksesoris Pita / Isolasi Kardus (Tape Accent) */
+.tape-accent {
+    position: absolute;
+    top: -12px;
+    left: 24px;
+    width: 80px;
+    height: 24px;
+    background: rgba(230, 200, 150, 0.7);
+    border: 1px dashed rgba(139, 90, 60, 0.4);
+    transform: rotate(-3deg);
+    z-index: 2;
+    pointer-events: none;
+}
+
+.cardboard-texture {
+    background-image:
+        repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(139, 90, 60, 0.03) 2px, rgba(139, 90, 60, 0.03) 4px);
+}
+
+.shadow-cardboard {
+    box-shadow: 0 4px 8px -1px rgba(80, 45, 20, 0.2), 0 2px 4px -2px rgba(80, 45, 20, 0.15);
+}
+
+/* ================================
+   TYPOGRAPHY CONTRAST FIXES
+   ================================ */
+.text-earth-dark {
+    color: #2C1A0E !important;
+}
+
+.text-earth-brown {
+    color: #5C3214 !important;
+}
+
+.text-text-muted {
+    color: #6E5033 !important;
+}
+
+/* ================================
+   BUTTONS
+   ================================ */
+.btn-primary {
+    background: linear-gradient(135deg, #D2691E 0%, #A64B00 100%);
+    color: #FFFFFF !important;
+    font-weight: 700;
+    border: 2px solid #6E2D00;
+    box-shadow: 0 4px 0 #6E2D00;
+    transition: all 0.15s ease-in-out;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #B8581A 0%, #8B3B00 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 #6E2D00;
+}
+
+.btn-primary:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #6E2D00;
+}
+
+.btn-secondary {
+    background: #FFF5EA;
+    color: #3E2723 !important;
+    font-weight: 600;
+    border: 2px solid #8B5A3C;
+    box-shadow: 0 3px 0 #8B5A3C;
+    transition: all 0.15s ease-in-out;
+}
+
+.btn-secondary:hover {
+    background: #F8E6D3;
+    transform: translateY(-1px);
+    border-color: #6B4423;
+}
+
+.btn-secondary:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 0 #8B5A3C;
+}
+
+/* Input Form Styling & High Contrast */
+.input-cardboard {
+    background-color: #FFFFFF !important;
+    color: #2C1A0E !important;
+    border: 2px solid #A67C52 !important;
+    font-weight: 500;
+}
+
+.input-cardboard::placeholder {
+    color: #9C7D5C !important;
+}
+
+.input-cardboard:focus {
+    outline: none;
+    border-color: #D2691E !important;
+    box-shadow: 0 0 0 3px rgba(210, 105, 30, 0.25) !important;
+}
+
+/* ================================
+   SIDEBAR & NAV
+   ================================ */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 16rem;
+    background: linear-gradient(180deg, #FFF8F0 0%, #F3E2CC 100%);
+    border-right: 3px solid #8B5A3C;
+    box-shadow: 4px 0 12px rgba(80, 45, 20, 0.15);
+    z-index: 50;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar-header {
+    padding: 0.5rem 0.5rem 1rem 0.5rem;
+    border-bottom: 2px dashed #C9A87C;
+    margin-bottom: 0.5rem;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 0.875rem;
+    border-radius: 0.5rem;
+    color: #4A2E16;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.nav-item:hover {
+    background: rgba(184, 138, 90, 0.2);
+    color: #2C1A0E;
+}
+
+.nav-item-active {
+    background: linear-gradient(135deg, #D2691E 0%, #B8581A 100%) !important;
+    color: #FFFFFF !important;
+    font-weight: 700;
+    box-shadow: 0 3px 0 #6E2D00;
+}
+
+.nav-item-active .material-symbols-outlined {
+    color: #FFFFFF !important;
+}
+
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(44, 26, 14, 0.6);
+    z-index: 45;
+    backdrop-filter: blur(3px);
+}
+
+.sidebar-overlay.active {
+    display: block;
+}
+
+.topbar {
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: #FFF8F0;
+    border-bottom: 3px solid #8B5A3C;
+    box-shadow: 0 3px 6px rgba(80, 45, 20, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+    height: 4rem;
+}
+
+.bento-card {
+    background: #FFFBF5;
+    border: 2px solid #8B5A3C;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    box-shadow: 3px 3px 0px rgba(80, 45, 20, 0.15);
+    transition: transform 0.2s ease;
+}
+
+.bento-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 4px 5px 0px rgba(80, 45, 20, 0.2);
+}
+
+.bento-icon {
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #8B5A3C;
+}
+
+.icon-brown {
+    background: #F3E2CC;
+    color: #5C3214;
+}
+
+.icon-accent {
+    background: #FFE8D6;
+    color: #D2691E;
+}
+
+@media (max-width: 767px) {
+    .sidebar {
+        transform: translateX(-100%);
+    }
+
+    .sidebar.sidebar-open {
+        transform: translateX(0);
+    }
+}

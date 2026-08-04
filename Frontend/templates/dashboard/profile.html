@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block page_title %}Kelola Profil & Media Sosial{% endblock %}
+
+{% block content %}
+<div class="cardboard-card cardboard-texture rounded-2xl p-6 shadow-cardboard relative max-w-3xl">
+    <div class="tape-accent"></div>
+    <h3 class="text-xl font-bold text-earth-dark mb-4 flex items-center gap-2">
+        <span class="material-symbols-outlined text-accent text-2xl">person_edit</span> Edit Profil Portofolio
+    </h3>
+
+    <form method="POST" enctype="multipart/form-data" class="space-y-6">
+        <!-- AVATAR UPLOAD AT THE VERY TOP WITH INSTANT PREVIEW -->
+        <div class="bg-card-bg p-4 rounded-xl border-2 border-dashed border-border-card space-y-3">
+            <label class="block font-extrabold text-earth-dark text-sm">📷 Upload Foto Profil (Cloudinary)</label>
+            <div class="flex items-center gap-5">
+                <div class="w-24 h-24 rounded-2xl border-4 border-earth-dark overflow-hidden bg-kraft shadow-md flex-shrink-0 flex items-center justify-center">
+                    {% if profile.avatar_url %}
+                        <img id="avatarPreview" src="{{ profile.avatar_url }}" alt="Preview" class="w-full h-full object-cover">
+                    {% else %}
+                        <img id="avatarPreview" src="" alt="Preview" class="w-full h-full object-cover hidden">
+                        <span id="avatarIcon" class="material-symbols-outlined text-earth-dark text-4xl">account_circle</span>
+                    {% endif %}
+                </div>
+                <div class="flex-1 space-y-1.5">
+                    <input type="file" name="avatar" id="avatarInput" accept="image/*" onchange="previewImage(event)" class="w-full p-2 bg-white border-2 border-border-card rounded-lg text-xs font-bold">
+                    <p class="text-[11px] text-text-muted font-medium">Pilih file foto untuk melihat pratinjau secara langsung. Foto akan diunggah ke Cloudinary saat Anda menyimpan.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label class="block font-bold text-earth-dark text-xs mb-1">Nama Lengkap</label>
+                <input type="text" name="full_name" value="{{ profile.full_name }}" class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" required>
+            </div>
+            <div>
+                <label class="block font-bold text-earth-dark text-xs mb-1">Title / Profession</label>
+                <input type="text" name="title" value="{{ profile.title }}" class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" required>
+            </div>
+        </div>
+
+        <div>
+            <label class="block font-bold text-earth-dark text-xs mb-1">Biografi Singkat</label>
+            <textarea name="bio" rows="4" class="w-full p-3 input-cardboard rounded-lg text-sm" required>{{ profile.bio }}</textarea>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+                <label class="block font-bold text-earth-dark text-xs mb-1">Email Publik / Kontak</label>
+                <input type="email" name="email" value="{{ profile.email }}" class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" required>
+            </div>
+            <div>
+                <label class="block font-bold text-earth-dark text-xs mb-1">Nomor Telepon/WhatsApp</label>
+                <input type="text" name="phone" value="{{ profile.phone }}" class="w-full h-11 px-3 input-cardboard rounded-lg text-sm">
+            </div>
+            <div>
+                <label class="block font-bold text-earth-dark text-xs mb-1">Lokasi</label>
+                <input type="text" name="location" value="{{ profile.location }}" class="w-full h-11 px-3 input-cardboard rounded-lg text-sm">
+            </div>
+        </div>
+
+        <!-- FLEXIBLE SOCIAL MEDIA LINKS -->
+        <div class="bg-card-bg p-4 rounded-xl border-2 border-border-light space-y-3">
+            <h4 class="font-bold text-earth-dark text-sm flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-accent text-lg">share</span> Tautan Media Sosial & Portofolio
+            </h4>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div>
+                    <label class="block font-bold text-earth-dark text-xs mb-1">Instagram URL</label>
+                    <input type="text" name="instagram" value="{{ profile.instagram or '' }}" placeholder="https://instagram.com/username" class="w-full h-10 px-3 input-cardboard rounded-lg text-xs">
+                </div>
+                <div>
+                    <label class="block font-bold text-earth-dark text-xs mb-1">Facebook URL</label>
+                    <input type="text" name="facebook" value="{{ profile.facebook or '' }}" placeholder="https://facebook.com/username" class="w-full h-10 px-3 input-cardboard rounded-lg text-xs">
+                </div>
+                <div>
+                    <label class="block font-bold text-earth-dark text-xs mb-1">GitHub URL</label>
+                    <input type="text" name="github" value="{{ profile.github or '' }}" placeholder="https://github.com/username" class="w-full h-10 px-3 input-cardboard rounded-lg text-xs">
+                </div>
+                <div>
+                    <label class="block font-bold text-earth-dark text-xs mb-1">LinkedIn URL</label>
+                    <input type="text" name="linkedin" value="{{ profile.linkedin or '' }}" placeholder="https://linkedin.com/in/username" class="w-full h-10 px-3 input-cardboard rounded-lg text-xs">
+                </div>
+                <div>
+                    <label class="block font-bold text-earth-dark text-xs mb-1">Twitter / X URL</label>
+                    <input type="text" name="twitter" value="{{ profile.twitter or '' }}" placeholder="https://x.com/username" class="w-full h-10 px-3 input-cardboard rounded-lg text-xs">
+                </div>
+                <div>
+                    <label class="block font-bold text-earth-dark text-xs mb-1">YouTube URL</label>
+                    <input type="text" name="youtube" value="{{ profile.youtube or '' }}" placeholder="https://youtube.com/@channel" class="w-full h-10 px-3 input-cardboard rounded-lg text-xs">
+                </div>
+            </div>
+
+            <div>
+                <label class="block font-bold text-earth-dark text-xs mb-1">Website Pribadi / Blog URL</label>
+                <input type="text" name="website" value="{{ profile.website or '' }}" placeholder="https://domainanda.com" class="w-full h-10 px-3 input-cardboard rounded-lg text-xs">
+            </div>
+        </div>
+
+        <button type="submit" class="btn-primary w-full py-3 rounded-xl font-bold text-sm cursor-pointer">
+            Simpan Perubahan Profil & Media Sosial
+        </button>
+    </form>
+</div>
+
+<script>
+function previewImage(event) {
+    const reader = new FileReader();
+    reader.onload = function() {
+        const output = document.getElementById('avatarPreview');
+        const icon = document.getElementById('avatarIcon');
+        output.src = reader.result;
+        output.classList.remove('hidden');
+        if (icon) icon.classList.add('hidden');
+    };
+    if (event.target.files[0]) {
+        reader.readAsDataURL(event.target.files[0]);
+    }
+}
+</script>
+{% endblock %}

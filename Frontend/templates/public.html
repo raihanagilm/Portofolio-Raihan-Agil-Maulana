@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html class="light" lang="id">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0" name="viewport">
+    <title>Portofolio - {{ profile.full_name }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=block"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        try {
+            tailwind.config = {
+                darkMode: "class",
+                theme: {
+                    extend: {
+                        "colors": {
+                            "kraft-light": "#F5E6D3",
+                            "kraft": "#E8D4B8",
+                            "kraft-dark": "#D4B896",
+                            "cardboard": "#C9A87C",
+                            "cardboard-dark": "#A67C52",
+                            "cardboard-darker": "#8B5A3C",
+                            "earth-brown": "#5C3214",
+                            "earth-dark": "#2C1A0E",
+                            "card-bg": "#FFFBF5",
+                            "surface": "#FAF0E6",
+                            "accent": "#D2691E",
+                            "accent-hover": "#B8581A",
+                            "on-surface": "#2C1A0E",
+                            "on-primary": "#FFFFFF",
+                            "border-card": "#8B5A3C",
+                            "border-light": "#A67C52",
+                            "text-muted": "#6E5033"
+                        }
+                    }
+                }
+            }
+        } catch (_e) { }
+    </script>
+    <link rel="stylesheet" href="/css/style-base.css">
+</head>
+
+<body class="bg-surface text-earth-dark font-body-md min-h-screen flex flex-col antialiased">
+    <!-- Top Header Navigation -->
+    <header class="topbar sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto w-full flex items-center justify-between px-4">
+            <a href="#" class="font-bold text-lg text-earth-dark flex items-center gap-2">
+                <span class="material-symbols-outlined text-accent text-2xl craft-sticker">style</span>
+                <span>{{ profile.full_name }}</span>
+            </a>
+
+            <!-- Full Navigation Bar -->
+            <nav class="hidden md:flex items-center gap-5 text-xs font-bold">
+                <a href="#profil" class="text-earth-dark hover:text-accent transition-colors">Profil</a>
+                <a href="#pendidikan" class="text-earth-dark hover:text-accent transition-colors">Pendidikan</a>
+                <a href="#keahlian" class="text-earth-dark hover:text-accent transition-colors">Keahlian</a>
+                <a href="#pengalaman" class="text-earth-dark hover:text-accent transition-colors">Pengalaman</a>
+                <a href="#proyek" class="text-earth-dark hover:text-accent transition-colors">Proyek</a>
+                <a href="#kontak" class="text-earth-dark hover:text-accent transition-colors">Kontak</a>
+            </nav>
+
+            <!-- Tombol Admin Login DISEMBUNYIKAN (Diakses via /admin) -->
+            <div class="flex md:hidden items-center">
+                <a href="#kontak" class="btn-primary px-3 py-1.5 rounded-lg text-xs font-bold">Hubungi</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto w-full px-4 py-8 space-y-12 flex-1">
+        <!-- HERO / PROFIL SECTION -->
+        <section id="profil" class="cardboard-card cardboard-texture rounded-3xl p-6 sm:p-10 shadow-cardboard relative">
+            <div class="tape-accent"></div>
+
+            <!-- Floating Animated Craft Stickers & Stamps -->
+            <div class="absolute -top-4 right-6 craft-stamp px-3 py-1 rounded-md text-[10px] hidden sm:block">
+                📦 CARDBOARD CRAFT VERIFIED
+            </div>
+
+            <div class="flex flex-col sm:flex-row items-center gap-6 sm:gap-8">
+                <div
+                    class="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl bg-kraft border-4 border-earth-dark flex-shrink-0 overflow-hidden shadow-md flex items-center justify-center relative">
+                    {% if profile.avatar_url %}
+                    <img src="{{ profile.avatar_url }}" alt="{{ profile.full_name }}"
+                        class="w-full h-full object-cover">
+                    {% else %}
+                    <span class="material-symbols-outlined text-earth-dark text-6xl">account_circle</span>
+                    {% endif %}
+                </div>
+
+                <div class="space-y-3 text-center sm:text-left flex-1">
+                    <div
+                        class="inline-flex items-center gap-1.5 px-3 py-1 bg-accent/15 border border-accent text-accent font-bold text-xs rounded-full craft-sticker">
+                        <span class="material-symbols-outlined text-sm">auto_awesome</span> Creative Portfolio
+                    </div>
+                    <h1 class="text-2xl sm:text-4xl font-extrabold text-earth-dark leading-tight">{{ profile.full_name
+                        }}</h1>
+                    <p class="text-accent font-bold text-base sm:text-lg">{{ profile.title }}</p>
+                    <p class="text-text-muted text-sm sm:text-base leading-relaxed font-medium max-w-2xl">{{ profile.bio
+                        }}</p>
+
+                    <!-- FLEXIBLE SOCIAL MEDIA BADGES -->
+                    <div class="pt-1 flex flex-wrap justify-center sm:justify-start gap-2">
+                        {% if profile.github %}
+                        <a href="{{ profile.github }}" target="_blank"
+                            class="px-3 py-1 bg-kraft border-2 border-earth-dark rounded-lg text-xs font-bold text-earth-dark hover:bg-cardboard transition-colors">💻
+                            GitHub</a>
+                        {% endif %}
+                        {% if profile.linkedin %}
+                        <a href="{{ profile.linkedin }}" target="_blank"
+                            class="px-3 py-1 bg-kraft border-2 border-earth-dark rounded-lg text-xs font-bold text-earth-dark hover:bg-cardboard transition-colors">💼
+                            LinkedIn</a>
+                        {% endif %}
+                        {% if profile.instagram %}
+                        <a href="{{ profile.instagram }}" target="_blank"
+                            class="px-3 py-1 bg-kraft border-2 border-earth-dark rounded-lg text-xs font-bold text-earth-dark hover:bg-cardboard transition-colors">📸
+                            Instagram</a>
+                        {% endif %}
+                        {% if profile.facebook %}
+                        <a href="{{ profile.facebook }}" target="_blank"
+                            class="px-3 py-1 bg-kraft border-2 border-earth-dark rounded-lg text-xs font-bold text-earth-dark hover:bg-cardboard transition-colors">👥
+                            Facebook</a>
+                        {% endif %}
+                        {% if profile.twitter %}
+                        <a href="{{ profile.twitter }}" target="_blank"
+                            class="px-3 py-1 bg-kraft border-2 border-earth-dark rounded-lg text-xs font-bold text-earth-dark hover:bg-cardboard transition-colors">🐦
+                            Twitter / X</a>
+                        {% endif %}
+                        {% if profile.youtube %}
+                        <a href="{{ profile.youtube }}" target="_blank"
+                            class="px-3 py-1 bg-kraft border-2 border-earth-dark rounded-lg text-xs font-bold text-earth-dark hover:bg-cardboard transition-colors">▶️
+                            YouTube</a>
+                        {% endif %}
+                        {% if profile.website %}
+                        <a href="{{ profile.website }}" target="_blank"
+                            class="px-3 py-1 bg-kraft border-2 border-earth-dark rounded-lg text-xs font-bold text-earth-dark hover:bg-cardboard transition-colors">🌐
+                            Website</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PENDIDIKAN & SERTIFIKAT SECTION (TARUH DI BAWAH PROFIL) -->
+        <section id="pendidikan" class="space-y-4">
+            <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-accent text-2xl craft-sticker">school</span>
+                <h2 class="text-xl sm:text-2xl font-bold text-earth-dark">Pendidikan & Sertifikasi</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Education List -->
+                <div class="space-y-3">
+                    <h3 class="font-bold text-earth-dark text-base flex items-center gap-1.5">
+                        <span>🎓 Pendidikan Formal</span>
+                    </h3>
+                    {% for edu in educations %}
+                    <div class="cardboard-card cardboard-texture rounded-2xl p-4 shadow-sm relative">
+                        <span
+                            class="text-[11px] font-bold text-earth-brown bg-kraft/40 px-2 py-0.5 rounded border border-border-card">{{
+                            edu.period }}</span>
+                        <h4 class="font-bold text-earth-dark text-base mt-1.5">{{ edu.degree }} {% if edu.major %}- {{
+                            edu.major }}{% endif %}</h4>
+                        <p class="text-xs font-bold text-earth-brown">{{ edu.institution }}</p>
+                        <p class="text-xs text-text-muted mt-2 leading-relaxed">{{ edu.description }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Certificate List -->
+                <div class="space-y-3">
+                    <h3 class="font-bold text-earth-dark text-base flex items-center gap-1.5">
+                        <span>📜 Sertifikat & Lisensi</span>
+                    </h3>
+                    {% for cert in certificates %}
+                    <div class="cardboard-card cardboard-texture rounded-2xl p-4 shadow-sm relative">
+                        <span
+                            class="text-[11px] font-bold text-accent bg-accent/10 px-2 py-0.5 rounded border border-accent/30">{{
+                            cert.period }}</span>
+                        <h4 class="font-bold text-earth-dark text-base mt-1.5">{{ cert.degree }}</h4>
+                        <p class="text-xs font-bold text-earth-brown">Penerbit: {{ cert.institution }}</p>
+                        <p class="text-xs text-text-muted mt-2 leading-relaxed">{{ cert.description }}</p>
+                        {% if cert.credential_url %}
+                        <a href="{{ cert.credential_url }}" target="_blank"
+                            class="text-xs font-bold text-accent hover:underline mt-2 inline-flex items-center gap-0.5">
+                            <span class="material-symbols-outlined text-xs">verified</span> Verifikasi Credential
+                        </a>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+        <!-- KEAHLIAN SECTION -->
+        <section id="keahlian" class="space-y-4">
+            <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-accent text-2xl craft-sticker">psychology</span>
+                <h2 class="text-xl sm:text-2xl font-bold text-earth-dark">Keahlian & Tech Stack</h2>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                {% for skill in skills %}
+                <div class="bento-card p-3.5 flex items-center gap-3">
+                    <div
+                        class="w-10 h-10 bg-accent/15 border-2 border-accent text-accent rounded-lg flex items-center justify-center flex-shrink-0">
+                        <span class="material-symbols-outlined text-xl">{{ skill.icon }}</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h3 class="font-bold text-earth-dark text-xs truncate">{{ skill.name }}</h3>
+                        <p class="text-[10px] text-text-muted font-bold">{{ skill.category }}</p>
+                        <div class="w-full bg-kraft rounded-full h-1.5 mt-1 border border-border-card">
+                            <div class="bg-accent h-full rounded-full" style="width: {{ skill.proficiency }}%"></div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- PENGALAMAN SECTION -->
+        <section id="pengalaman" class="space-y-4">
+            <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-accent text-2xl craft-sticker">work</span>
+                <h2 class="text-xl sm:text-2xl font-bold text-earth-dark">Pengalaman (Kerja, Magang, Organisasi, Asdos)
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {% for exp in experiences %}
+                <div class="cardboard-card cardboard-texture rounded-2xl p-5 shadow-sm space-y-2">
+                    <div class="flex items-center justify-between gap-2">
+                        <span
+                            class="px-2.5 py-0.5 bg-accent/15 border border-accent rounded-md text-xs font-bold text-accent">{{
+                            exp.category }}</span>
+                        <span
+                            class="text-xs font-bold text-earth-brown bg-kraft/40 px-2 py-0.5 rounded border border-border-card">{{
+                            exp.period }}</span>
+                    </div>
+
+                    <h3 class="font-bold text-earth-dark text-base">{{ exp.position }}</h3>
+                    <p class="text-xs font-bold text-earth-brown">{{ exp.company }}</p>
+                    <p class="text-xs text-text-muted leading-relaxed font-medium">{{ exp.description }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- PROYEK SECTION (GRID CAROUSEL SLIDER) -->
+        <section id="proyek" class="space-y-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-accent text-2xl craft-sticker">folder_special</span>
+                    <h2 class="text-xl sm:text-2xl font-bold text-earth-dark">Portofolio Proyek</h2>
+                </div>
+
+                <!-- Carousel Controls -->
+                <div class="flex items-center gap-2">
+                    <button onclick="scrollProjectCarousel(-1)"
+                        class="p-2 bg-kraft border-2 border-earth-dark rounded-xl text-earth-dark hover:bg-cardboard cursor-pointer font-bold">
+                        <span class="material-symbols-outlined text-base">chevron_left</span>
+                    </button>
+                    <button onclick="scrollProjectCarousel(1)"
+                        class="p-2 bg-kraft border-2 border-earth-dark rounded-xl text-earth-dark hover:bg-cardboard cursor-pointer font-bold">
+                        <span class="material-symbols-outlined text-base">chevron_right</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Carousel Grid Container -->
+            <div id="projectCarousel"
+                class="flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory py-2 scrollbar-none"
+                style="scrollbar-width: none;">
+                {% for proj in projects %}
+                <div
+                    class="snap-start flex-none w-full md:w-[calc(50%-12px)] cardboard-card cardboard-texture rounded-2xl p-5 shadow-cardboard flex flex-col justify-between relative">
+                    <div class="tape-accent"></div>
+                    <div>
+                        {% if proj.image_url %}
+                        <img src="{{ proj.image_url }}" alt="{{ proj.title }}"
+                            class="w-full h-48 object-cover rounded-xl border-2 border-border-card mb-4 shadow-sm">
+                        {% else %}
+                        <div
+                            class="w-full h-48 bg-kraft/40 rounded-xl border-2 border-dashed border-border-card flex items-center justify-center mb-4">
+                            <span class="material-symbols-outlined text-border-card text-5xl">folder</span>
+                        </div>
+                        {% endif %}
+
+                        <div class="flex items-center justify-between mb-2">
+                            <span
+                                class="px-2.5 py-0.5 bg-accent/15 border border-accent rounded-md text-xs font-bold text-accent">{{
+                                proj.category }}</span>
+                        </div>
+                        <h3 class="font-bold text-earth-dark text-lg mb-2">{{ proj.title }}</h3>
+                        <p class="text-xs sm:text-sm text-text-muted leading-relaxed mb-3 font-medium line-clamp-3">{{
+                            proj.description }}</p>
+                        <p
+                            class="text-xs font-bold text-earth-brown bg-kraft/30 p-2 rounded-lg border border-border-light inline-block">
+                            Tech: {{ proj.tags }}</p>
+                    </div>
+
+                    <div class="mt-5 pt-3 border-t-2 border-dashed border-border-light flex gap-3 text-xs">
+                        {% if proj.demo_url %}
+                        <a href="{{ proj.demo_url }}" target="_blank"
+                            class="btn-primary px-3.5 py-2 rounded-lg text-white font-bold flex items-center gap-1">
+                            <span class="material-symbols-outlined text-sm">open_in_new</span> Live Demo
+                        </a>
+                        {% endif %}
+                        {% if proj.github_url %}
+                        <a href="{{ proj.github_url }}" target="_blank"
+                            class="btn-secondary px-3.5 py-2 rounded-lg font-bold flex items-center gap-1">
+                            <span class="material-symbols-outlined text-sm">code</span> Code Repository
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- CONTACT FORM SECTION -->
+        <section id="kontak"
+            class="cardboard-card cardboard-texture rounded-3xl p-6 sm:p-8 shadow-cardboard relative max-w-2xl mx-auto">
+            <div class="tape-accent"></div>
+            <div class="text-center mb-6">
+                <span class="material-symbols-outlined text-accent text-4xl mb-1 craft-sticker">mark_email_unread</span>
+                <h2 class="text-2xl font-bold text-earth-dark">Kirim Pesan Langsung</h2>
+                <p class="text-text-muted text-xs sm:text-sm font-medium">Ada pertanyaan atau penawaran kerja sama?
+                    Silakan kirimkan pesan di bawah ini.</p>
+            </div>
+
+            <div id="contactAlert" class="hidden mb-4 p-3 rounded-lg text-sm font-semibold border-2"></div>
+
+            <form id="publicContactForm" class="space-y-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block font-bold text-earth-dark text-xs mb-1">Nama Anda</label>
+                        <input type="text" id="sender_name" required
+                            class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" placeholder="Nama Lengkap">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-earth-dark text-xs mb-1">Email Anda</label>
+                        <input type="email" id="sender_email" required
+                            class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" placeholder="email@domain.com">
+                    </div>
+                </div>
+                <div>
+                    <label class="block font-bold text-earth-dark text-xs mb-1">Subjek</label>
+                    <input type="text" id="subject" class="w-full h-11 px-3 input-cardboard rounded-lg text-sm"
+                        placeholder="Tawaran Proyek / Pertanyaan">
+                </div>
+                <div>
+                    <label class="block font-bold text-earth-dark text-xs mb-1">Pesan Anda</label>
+                    <textarea id="message_content" rows="4" required
+                        class="w-full p-3 input-cardboard rounded-lg text-sm"
+                        placeholder="Tuliskan pesan Anda..."></textarea>
+                </div>
+                <button type="submit" class="btn-primary w-full py-3 rounded-xl font-bold text-sm cursor-pointer">
+                    🚀 Kirim Pesan Sekarang
+                </button>
+            </form>
+        </section>
+    </main>
+
+    <footer
+        class="p-6 text-center text-xs text-text-muted border-t-2 border-dashed border-border-light bg-card-bg mt-12">
+        © 2026 {{ profile.full_name }}. Crafted with Cardboard Theme & Mobile-First UI/UX.
+    </footer>
+
+    <script>
+        function scrollProjectCarousel(direction) {
+            const container = document.getElementById('projectCarousel');
+            const scrollAmount = container.clientWidth * 0.8;
+            container.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+        }
+
+        document.getElementById('publicContactForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const alertBox = document.getElementById('contactAlert');
+            const data = {
+                name: document.getElementById('sender_name').value,
+                email: document.getElementById('sender_email').value,
+                subject: document.getElementById('subject').value,
+                message: document.getElementById('message_content').value
+            };
+
+            try {
+                const res = await fetch('/dashboard/messages/send-public', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await res.json();
+                alertBox.classList.remove('hidden', 'bg-red-100', 'border-red-600', 'text-red-900', 'bg-green-100', 'border-green-600', 'text-green-900');
+                if (res.ok && result.success) {
+                    alertBox.classList.add('bg-green-100', 'border-green-600', 'text-green-900');
+                    alertBox.innerText = result.message;
+                    document.getElementById('publicContactForm').reset();
+                } else {
+                    alertBox.classList.add('bg-red-100', 'border-red-600', 'text-red-900');
+                    alertBox.innerText = result.message || 'Gagal mengirim pesan.';
+                }
+            } catch (err) {
+                alertBox.classList.remove('hidden');
+                alertBox.classList.add('bg-red-100', 'border-red-600', 'text-red-900');
+                alertBox.innerText = 'Terjadi kesalahan koneksi.';
+            }
+        });
+    </script>
+</body>
+
+</html>

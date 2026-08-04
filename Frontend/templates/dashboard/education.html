@@ -1,0 +1,264 @@
+{% extends "base.html" %}
+
+{% block page_title %}Kelola Pendidikan & Sertifikasi{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- TABS / SHEETS CONTROL -->
+    <div class="flex border-b-2 border-border-card gap-2">
+        <button id="tabBtnEdu" onclick="switchSheet('edu')" class="px-5 py-2.5 font-extrabold text-sm border-b-4 border-accent text-accent bg-kraft/20 rounded-t-xl cursor-pointer">
+            🎓 Sheet 1: Pendidikan Formal
+        </button>
+        <button id="tabBtnCert" onclick="switchSheet('cert')" class="px-5 py-2.5 font-extrabold text-sm border-b-4 border-transparent text-text-muted hover:text-earth-dark rounded-t-xl cursor-pointer">
+            📜 Sheet 2: Sertifikat & Lisensi
+        </button>
+    </div>
+
+    <!-- SHEET 1: PENDIDIKAN FORMAL -->
+    <div id="sheetEdu" class="space-y-6">
+        <!-- FORM TAMBAH PENDIDIKAN (POSISI ATAS) -->
+        <div class="cardboard-card cardboard-texture rounded-2xl p-5 shadow-cardboard relative">
+            <div class="tape-accent"></div>
+            <h3 class="font-bold text-earth-dark text-lg mb-4 flex items-center gap-2">
+                <span class="material-symbols-outlined text-accent">school</span> Tambah Riwayat Pendidikan Formal
+            </h3>
+            <form action="{{ url_for('education.add') }}" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input type="hidden" name="type" value="education">
+                <div>
+                    <label class="block font-bold text-earth-dark text-xs mb-1">Universitas / Sekolah / Institusi</label>
+                    <input type="text" name="institution" required class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" placeholder="Universitas XYZ / SMA 1">
+                </div>
+                <div>
+                    <label class="block font-bold text-earth-dark text-xs mb-1">Gelar / Tingkat</label>
+                    <input type="text" name="degree" required class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" placeholder="S1 / D3 / SMA">
+                </div>
+                <div>
+                    <label class="block font-bold text-earth-dark text-xs mb-1">Jurusan / Program Studi</label>
+                    <input type="text" name="major" class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" placeholder="Teknik Informatika">
+                </div>
+                <div>
+                    <label class="block font-bold text-earth-dark text-xs mb-1">Periode Tahun</label>
+                    <input type="text" name="period" required class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" placeholder="2020 - 2024">
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block font-bold text-earth-dark text-xs mb-1">Keterangan / Deskripsi Tamat</label>
+                    <textarea name="description" rows="2" class="w-full p-3 input-cardboard rounded-lg text-sm" placeholder="IPK, predikat kelulusan, atau mata kuliah pilihan..."></textarea>
+                </div>
+                <div class="md:col-span-2">
+                    <button type="submit" class="btn-primary w-full py-3 rounded-xl font-bold text-sm cursor-pointer">
+                        + Tambah Data Pendidikan
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- DAFTAR PENDIDIKAN TERSIMPAN (POSISI BAWAH) -->
+        <div class="space-y-4">
+            <h3 class="font-bold text-earth-dark text-lg">Daftar Pendidikan Tersimpan ({{ educations|length }})</h3>
+            {% if educations %}
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {% for edu in educations %}
+                        <div class="cardboard-card cardboard-texture rounded-xl p-4 shadow-sm flex flex-col justify-between {% if not edu.is_visible %}opacity-60 border-dashed{% endif %}">
+                            <div class="space-y-2">
+                                <div class="flex items-center justify-between gap-2">
+                                    <h4 class="font-bold text-earth-dark text-base">{{ edu.degree }} {% if edu.major %}- {{ edu.major }}{% endif %}</h4>
+                                    <span class="px-2 py-0.5 bg-cardboard/30 rounded text-xs font-bold text-earth-brown">{{ edu.period }}</span>
+                                </div>
+                                <p class="text-xs font-bold text-earth-brown">{{ edu.institution }}</p>
+                                <p class="text-xs text-text-muted leading-relaxed">{{ edu.description }}</p>
+                            </div>
+
+                            <div class="mt-4 pt-3 border-t border-dashed border-border-light flex items-center justify-between">
+                                <span class="text-[11px] font-bold {% if edu.is_visible %}text-green-700{% else %}text-red-700{% endif %}">
+                                    {% if edu.is_visible %}👁️ Tampil{% else %}🙈 Disembunyikan{% endif %}
+                                </span>
+                                <div class="flex gap-1.5">
+                                    <form action="{{ url_for('education.toggle_visibility', edu_id=edu.id) }}" method="POST" class="inline">
+                                        <button type="submit" title="Sembunyikan/Tampilkan" class="p-1.5 bg-yellow-100 border border-yellow-400 text-yellow-800 rounded-lg hover:bg-yellow-200">
+                                            <span class="material-symbols-outlined text-sm">{% if edu.is_visible %}visibility_off{% else %}visibility{% endif %}</span>
+                                        </button>
+                                    </form>
+                                    <button onclick="openEditEduModal('{{ edu.id }}', '{{ edu.institution|e }}', '{{ edu.degree|e }}', '{{ edu.major|e }}', '{{ edu.period|e }}', '{{ edu.description|e }}', '')" class="p-1.5 bg-blue-100 border border-blue-400 text-blue-800 rounded-lg hover:bg-blue-200">
+                                        <span class="material-symbols-outlined text-sm">edit</span>
+                                    </button>
+                                    <form action="{{ url_for('education.delete', edu_id=edu.id) }}" method="POST" class="inline">
+                                        <button type="submit" onclick="return confirm('Hapus data pendidikan ini?')" class="p-1.5 bg-red-100 border border-red-400 text-red-700 rounded-lg hover:bg-red-200">
+                                            <span class="material-symbols-outlined text-sm">delete</span>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="p-6 bg-card-bg rounded-xl border-2 border-dashed border-border-light text-center text-text-muted text-sm">
+                    Belum ada riwayat pendidikan yang ditambahkan.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- SHEET 2: SERTIFIKAT & LISENSI -->
+    <div id="sheetCert" class="space-y-6 hidden">
+        <!-- FORM TAMBAH SERTIFIKAT (POSISI ATAS) -->
+        <div class="cardboard-card cardboard-texture rounded-2xl p-5 shadow-cardboard relative">
+            <div class="tape-accent"></div>
+            <h3 class="font-bold text-earth-dark text-lg mb-4 flex items-center gap-2">
+                <span class="material-symbols-outlined text-accent">workspace_premium</span> Tambah Sertifikat & Lisensi
+            </h3>
+            <form action="{{ url_for('education.add') }}" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input type="hidden" name="type" value="certificate">
+                <div>
+                    <label class="block font-bold text-earth-dark text-xs mb-1">Nama Sertifikasi / Pelatihan</label>
+                    <input type="text" name="degree" required class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" placeholder="AWS Certified Solutions Architect / Bootcamp Web">
+                </div>
+                <div>
+                    <label class="block font-bold text-earth-dark text-xs mb-1">Penerbit / Organisation</label>
+                    <input type="text" name="institution" required class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" placeholder="Amazon Web Services / Coursera / Dicoding">
+                </div>
+                <div>
+                    <label class="block font-bold text-earth-dark text-xs mb-1">Tahun / Masa Berlaku</label>
+                    <input type="text" name="period" required class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" placeholder="2024 - 2027">
+                </div>
+                <div>
+                    <label class="block font-bold text-earth-dark text-xs mb-1">URL Verifikasi Credential (Opsional)</label>
+                    <input type="text" name="credential_url" class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" placeholder="https://credential.net/...">
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block font-bold text-earth-dark text-xs mb-1">Keterangan Sertifikasi</label>
+                    <textarea name="description" rows="2" class="w-full p-3 input-cardboard rounded-lg text-sm" placeholder="Keterangan materi sertifikasi..."></textarea>
+                </div>
+                <div class="md:col-span-2">
+                    <button type="submit" class="btn-primary w-full py-3 rounded-xl font-bold text-sm cursor-pointer">
+                        + Tambah Data Sertifikat
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- DAFTAR SERTIFIKAT TERSIMPAN (POSISI BAWAH) -->
+        <div class="space-y-4">
+            <h3 class="font-bold text-earth-dark text-lg">Daftar Sertifikat Tersimpan ({{ certificates|length }})</h3>
+            {% if certificates %}
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {% for cert in certificates %}
+                        <div class="cardboard-card cardboard-texture rounded-xl p-4 shadow-sm flex flex-col justify-between {% if not cert.is_visible %}opacity-60 border-dashed{% endif %}">
+                            <div class="space-y-2">
+                                <div class="flex items-center justify-between gap-2">
+                                    <h4 class="font-bold text-earth-dark text-base">{{ cert.degree }}</h4>
+                                    <span class="px-2 py-0.5 bg-accent/15 border border-accent/40 rounded text-xs font-bold text-accent">{{ cert.period }}</span>
+                                </div>
+                                <p class="text-xs font-bold text-earth-brown">Penerbit: {{ cert.institution }}</p>
+                                <p class="text-xs text-text-muted leading-relaxed">{{ cert.description }}</p>
+                                {% if cert.credential_url %}
+                                    <a href="{{ cert.credential_url }}" target="_blank" class="text-xs font-bold text-accent hover:underline flex items-center gap-0.5">
+                                        <span class="material-symbols-outlined text-xs">verified</span> Verifikasi Credential
+                                    </a>
+                                {% endif %}
+                            </div>
+
+                            <div class="mt-4 pt-3 border-t border-dashed border-border-light flex items-center justify-between">
+                                <span class="text-[11px] font-bold {% if cert.is_visible %}text-green-700{% else %}text-red-700{% endif %}">
+                                    {% if cert.is_visible %}👁️ Tampil{% else %}🙈 Disembunyikan{% endif %}
+                                </span>
+                                <div class="flex gap-1.5">
+                                    <form action="{{ url_for('education.toggle_visibility', edu_id=cert.id) }}" method="POST" class="inline">
+                                        <button type="submit" title="Sembunyikan/Tampilkan" class="p-1.5 bg-yellow-100 border border-yellow-400 text-yellow-800 rounded-lg hover:bg-yellow-200">
+                                            <span class="material-symbols-outlined text-sm">{% if cert.is_visible %}visibility_off{% else %}visibility{% endif %}</span>
+                                        </button>
+                                    </form>
+                                    <button onclick="openEditEduModal('{{ cert.id }}', '{{ cert.institution|e }}', '{{ cert.degree|e }}', '{{ cert.major|e }}', '{{ cert.period|e }}', '{{ cert.description|e }}', '{{ cert.credential_url|e }}')" class="p-1.5 bg-blue-100 border border-blue-400 text-blue-800 rounded-lg hover:bg-blue-200">
+                                        <span class="material-symbols-outlined text-sm">edit</span>
+                                    </button>
+                                    <form action="{{ url_for('education.delete', edu_id=cert.id) }}" method="POST" class="inline">
+                                        <button type="submit" onclick="return confirm('Hapus sertifikat ini?')" class="p-1.5 bg-red-100 border border-red-400 text-red-700 rounded-lg hover:bg-red-200">
+                                            <span class="material-symbols-outlined text-sm">delete</span>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="p-6 bg-card-bg rounded-xl border-2 border-dashed border-border-light text-center text-text-muted text-sm">
+                    Belum ada data sertifikat yang ditambahkan.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- EDIT EDU MODAL -->
+<div id="editEduModal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 hidden">
+    <div class="cardboard-card cardboard-texture rounded-2xl p-6 w-full max-w-lg shadow-2xl relative">
+        <h3 class="font-bold text-earth-dark text-lg mb-3">Edit Data Pendidikan / Sertifikat</h3>
+        <form id="editEduForm" method="POST" class="space-y-3">
+            <div>
+                <label class="block font-bold text-earth-dark text-xs mb-1">Institusi / Penerbit</label>
+                <input type="text" name="institution" id="edit_edu_institution" required class="w-full h-10 px-3 input-cardboard rounded-lg text-sm">
+            </div>
+            <div>
+                <label class="block font-bold text-earth-dark text-xs mb-1">Gelar / Nama Sertifikasi</label>
+                <input type="text" name="degree" id="edit_edu_degree" required class="w-full h-10 px-3 input-cardboard rounded-lg text-sm">
+            </div>
+            <div>
+                <label class="block font-bold text-earth-dark text-xs mb-1">Jurusan (Jika ada)</label>
+                <input type="text" name="major" id="edit_edu_major" class="w-full h-10 px-3 input-cardboard rounded-lg text-sm">
+            </div>
+            <div>
+                <label class="block font-bold text-earth-dark text-xs mb-1">Periode</label>
+                <input type="text" name="period" id="edit_edu_period" required class="w-full h-10 px-3 input-cardboard rounded-lg text-sm">
+            </div>
+            <div>
+                <label class="block font-bold text-earth-dark text-xs mb-1">Deskripsi</label>
+                <textarea name="description" id="edit_edu_description" rows="2" class="w-full p-2.5 input-cardboard rounded-lg text-sm"></textarea>
+            </div>
+            <div>
+                <label class="block font-bold text-earth-dark text-xs mb-1">URL Credential (Opsional)</label>
+                <input type="text" name="credential_url" id="edit_edu_credential_url" class="w-full h-10 px-3 input-cardboard rounded-lg text-sm">
+            </div>
+            <div class="flex justify-end gap-2 pt-2">
+                <button type="button" onclick="closeEditEduModal()" class="btn-secondary px-4 py-2 rounded-lg text-xs font-bold">Batal</button>
+                <button type="submit" class="btn-primary px-5 py-2 rounded-lg text-xs font-bold text-white">Simpan Perubahan</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+function switchSheet(type) {
+    const btnEdu = document.getElementById('tabBtnEdu');
+    const btnCert = document.getElementById('tabBtnCert');
+    const sheetEdu = document.getElementById('sheetEdu');
+    const sheetCert = document.getElementById('sheetCert');
+
+    if (type === 'edu') {
+        btnEdu.className = "px-5 py-2.5 font-extrabold text-sm border-b-4 border-accent text-accent bg-kraft/20 rounded-t-xl cursor-pointer";
+        btnCert.className = "px-5 py-2.5 font-extrabold text-sm border-b-4 border-transparent text-text-muted hover:text-earth-dark rounded-t-xl cursor-pointer";
+        sheetEdu.classList.remove('hidden');
+        sheetCert.classList.add('hidden');
+    } else {
+        btnCert.className = "px-5 py-2.5 font-extrabold text-sm border-b-4 border-accent text-accent bg-kraft/20 rounded-t-xl cursor-pointer";
+        btnEdu.className = "px-5 py-2.5 font-extrabold text-sm border-b-4 border-transparent text-text-muted hover:text-earth-dark rounded-t-xl cursor-pointer";
+        sheetCert.classList.remove('hidden');
+        sheetEdu.classList.add('hidden');
+    }
+}
+
+function openEditEduModal(id, institution, degree, major, period, description, credential_url) {
+    document.getElementById('editEduForm').action = '/dashboard/education/edit/' + id;
+    document.getElementById('edit_edu_institution').value = institution;
+    document.getElementById('edit_edu_degree').value = degree;
+    document.getElementById('edit_edu_major').value = major;
+    document.getElementById('edit_edu_period').value = period;
+    document.getElementById('edit_edu_description').value = description;
+    document.getElementById('edit_edu_credential_url').value = credential_url;
+    document.getElementById('editEduModal').classList.remove('hidden');
+}
+function closeEditEduModal() {
+    document.getElementById('editEduModal').classList.add('hidden');
+}
+</script>
+{% endblock %}

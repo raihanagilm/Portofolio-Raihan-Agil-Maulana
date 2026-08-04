@@ -1,0 +1,46 @@
+/* ========================================
+   STYLE LOGIN - Styling Khusus Halaman Login
+   Hanya digunakan di login.html
+   ======================================== */
+
+.input-cardboard:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(210, 105, 30, 0.15);
+    border-color: #D2691E;
+}
+
+.otp-input {
+    background: linear-gradient(135deg, #FFF8F0 0%, #FAF0E6 100%);
+    border: 2px solid #A67C52;
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+
+.otp-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(210, 105, 30, 0.2);
+    border-color: #D2691E;
+}
+
+/* Responsive untuk mobile first */
+@media (max-width: 640px) {
+    .otp-input {
+        width: 2.5rem;
+        height: 2.5rem;
+        font-size: 1rem;
+    }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+    .otp-input {
+        width: 3rem;
+        height: 3rem;
+    }
+}
+
+@media (min-width: 1025px) {
+    .otp-input {
+        width: 3.5rem;
+        height: 3.5rem;
+    }
+}

@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+
+{% block page_title %}Kelola Pengalaman (Kerja, Magang, Organisasi, Asdos, dll){% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- FORM TAMBAH PENGALAMAN (POSISI ATAS) -->
+    <div class="cardboard-card cardboard-texture rounded-2xl p-5 shadow-cardboard relative">
+        <div class="tape-accent"></div>
+        <h3 class="font-bold text-earth-dark text-lg mb-4 flex items-center gap-2">
+            <span class="material-symbols-outlined text-accent">add_circle</span> Tambah Pengalaman Baru
+        </h3>
+        <form action="{{ url_for('experience.add') }}" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label class="block font-bold text-earth-dark text-xs mb-1">Kategori Pengalaman</label>
+                <select name="category" class="w-full h-11 px-3 input-cardboard rounded-lg text-sm font-bold" required>
+                    <option value="Kerja">Pengalaman Kerja</option>
+                    <option value="Magang">Pengalaman Magang / Internship</option>
+                    <option value="Organisasi">Pengalaman Organisasi / Komunitas</option>
+                    <option value="Asdos">Asisten Dosen / Lab</option>
+                    <option value="Lainnya">Pengalaman Lainnya</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="block font-bold text-earth-dark text-xs mb-1">Perusahaan / Organisasi / Kampus</label>
+                <input type="text" name="company" class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" required placeholder="PT. Solusi Digital / HIMA / Lab AI">
+            </div>
+
+            <div>
+                <label class="block font-bold text-earth-dark text-xs mb-1">Posisi / Peran</label>
+                <input type="text" name="position" class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" required placeholder="Full-Stack Engineer / Ketua / Asdos">
+            </div>
+
+            <div>
+                <label class="block font-bold text-earth-dark text-xs mb-1">Periode</label>
+                <input type="text" name="period" class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" required placeholder="2023 - Sekarang">
+            </div>
+
+            <div class="md:col-span-2">
+                <label class="block font-bold text-earth-dark text-xs mb-1">Deskripsi Tugas & Tanggung Jawab</label>
+                <textarea name="description" rows="3" class="w-full p-3 input-cardboard rounded-lg text-sm" placeholder="Tuliskan peranan dan pencapaian Anda..."></textarea>
+            </div>
+
+            <div class="md:col-span-2">
+                <button type="submit" class="btn-primary w-full py-3 rounded-xl font-bold text-sm cursor-pointer">
+                    + Tambah Pengalaman Ke Portofolio
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- DAFTAR PENGALAMAN TERSIMPAN (POSISI BAWAH) -->
+    <div class="space-y-4">
+        <h3 class="font-bold text-earth-dark text-lg flex items-center gap-2">
+            <span class="material-symbols-outlined text-earth-brown">list_alt</span> Daftar Pengalaman Tersimpan ({{ experiences|length }})
+        </h3>
+
+        {% if experiences %}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {% for exp in experiences %}
+                    <div class="cardboard-card cardboard-texture rounded-xl p-4 shadow-sm flex flex-col justify-between relative {% if not exp.is_visible %}opacity-60 border-dashed{% endif %}">
+                        <div class="space-y-2">
+                            <div class="flex items-center justify-between gap-2">
+                                <span class="px-2.5 py-0.5 bg-accent/15 border border-accent rounded-md text-xs font-bold text-accent">{{ exp.category }}</span>
+                                <span class="text-xs font-bold text-earth-brown bg-kraft/40 px-2 py-0.5 rounded border border-border-card">{{ exp.period }}</span>
+                            </div>
+
+                            <h4 class="font-bold text-earth-dark text-base">{{ exp.position }}</h4>
+                            <p class="text-xs font-bold text-earth-brown">{{ exp.company }}</p>
+                            <p class="text-xs text-text-muted leading-relaxed">{{ exp.description }}</p>
+                        </div>
+
+                        <!-- ACTIONS: EDIT, TOGGLE VISIBILITY, DELETE -->
+                        <div class="mt-4 pt-3 border-t border-dashed border-border-light flex items-center justify-between">
+                            <span class="text-[11px] font-bold {% if exp.is_visible %}text-green-700{% else %}text-red-700{% endif %}">
+                                {% if exp.is_visible %}👁️ Tampil di Publik{% else %}🙈 Disembunyikan{% endif %}
+                            </span>
+
+                            <div class="flex gap-1.5">
+                                <!-- Toggle Visibility Button -->
+                                <form action="{{ url_for('experience.toggle_visibility', exp_id=exp.id) }}" method="POST" class="inline">
+                                    <button type="submit" title="Sembunyikan/Tampilkan" class="p-1.5 bg-yellow-100 border border-yellow-400 text-yellow-800 rounded-lg hover:bg-yellow-200">
+                                        <span class="material-symbols-outlined text-sm">{% if exp.is_visible %}visibility_off{% else %}visibility{% endif %}</span>
+                                    </button>
+                                </form>
+
+                                <!-- Edit Button -->
+                                <button onclick="openEditExpModal('{{ exp.id }}', '{{ exp.category|e }}', '{{ exp.company|e }}', '{{ exp.position|e }}', '{{ exp.period|e }}', '{{ exp.description|e }}')" class="p-1.5 bg-blue-100 border border-blue-400 text-blue-800 rounded-lg hover:bg-blue-200">
+                                    <span class="material-symbols-outlined text-sm">edit</span>
+                                </button>
+
+                                <!-- Delete Button -->
+                                <form action="{{ url_for('experience.delete', exp_id=exp.id) }}" method="POST" class="inline">
+                                    <button type="submit" onclick="return confirm('Hapus pengalaman ini?')" class="p-1.5 bg-red-100 border border-red-400 text-red-700 rounded-lg hover:bg-red-200">
+                                        <span class="material-symbols-outlined text-sm">delete</span>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="p-6 bg-card-bg rounded-xl border-2 border-dashed border-border-light text-center text-text-muted text-sm">
+                Belum ada data pengalaman yang ditambahkan. Gunakan form di atas untuk menambahkan.
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- EDIT EXP MODAL -->
+<div id="editExpModal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 hidden">
+    <div class="cardboard-card cardboard-texture rounded-2xl p-6 w-full max-w-lg shadow-2xl relative">
+        <h3 class="font-bold text-earth-dark text-lg mb-3">Edit Data Pengalaman</h3>
+        <form id="editExpForm" method="POST" class="space-y-3">
+            <div>
+                <label class="block font-bold text-earth-dark text-xs mb-1">Kategori</label>
+                <select name="category" id="edit_exp_category" class="w-full h-10 px-3 input-cardboard rounded-lg text-sm font-bold">
+                    <option value="Kerja">Pengalaman Kerja</option>
+                    <option value="Magang">Pengalaman Magang / Internship</option>
+                    <option value="Organisasi">Pengalaman Organisasi / Komunitas</option>
+                    <option value="Asdos">Asisten Dosen / Lab</option>
+                    <option value="Lainnya">Pengalaman Lainnya</option>
+                </select>
+            </div>
+            <div>
+                <label class="block font-bold text-earth-dark text-xs mb-1">Perusahaan / Organisasi</label>
+                <input type="text" name="company" id="edit_exp_company" required class="w-full h-10 px-3 input-cardboard rounded-lg text-sm">
+            </div>
+            <div>
+                <label class="block font-bold text-earth-dark text-xs mb-1">Posisi / Peran</label>
+                <input type="text" name="position" id="edit_exp_position" required class="w-full h-10 px-3 input-cardboard rounded-lg text-sm">
+            </div>
+            <div>
+                <label class="block font-bold text-earth-dark text-xs mb-1">Periode</label>
+                <input type="text" name="period" id="edit_exp_period" required class="w-full h-10 px-3 input-cardboard rounded-lg text-sm">
+            </div>
+            <div>
+                <label class="block font-bold text-earth-dark text-xs mb-1">Deskripsi</label>
+                <textarea name="description" id="edit_exp_description" rows="3" class="w-full p-2.5 input-cardboard rounded-lg text-sm"></textarea>
+            </div>
+            <div class="flex justify-end gap-2 pt-2">
+                <button type="button" onclick="closeEditExpModal()" class="btn-secondary px-4 py-2 rounded-lg text-xs font-bold">Batal</button>
+                <button type="submit" class="btn-primary px-5 py-2 rounded-lg text-xs font-bold text-white">Simpan Perubahan</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+function openEditExpModal(id, category, company, position, period, description) {
+    document.getElementById('editExpForm').action = '/dashboard/experience/edit/' + id;
+    document.getElementById('edit_exp_category').value = category;
+    document.getElementById('edit_exp_company').value = company;
+    document.getElementById('edit_exp_position').value = position;
+    document.getElementById('edit_exp_period').value = period;
+    document.getElementById('edit_exp_description').value = description;
+    document.getElementById('editExpModal').classList.remove('hidden');
+}
+function closeEditExpModal() {
+    document.getElementById('editExpModal').classList.add('hidden');
+}
+</script>
+{% endblock %}
