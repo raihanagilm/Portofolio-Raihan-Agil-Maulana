@@ -42,8 +42,19 @@ class Profile(db.Model):
     instagram = db.Column(db.String(150), default="")
     facebook = db.Column(db.String(150), default="")
     twitter = db.Column(db.String(150), default="")
+    show_twitter = db.Column(db.Boolean, default=True)
     youtube = db.Column(db.String(150), default="")
     website = db.Column(db.String(150), default="")
+    show_website = db.Column(db.Boolean, default=True)
+    show_email = db.Column(db.Boolean, default=True)
+    show_phone = db.Column(db.Boolean, default=True)
+    show_location = db.Column(db.Boolean, default=True)
+    show_github = db.Column(db.Boolean, default=True)
+    show_linkedin = db.Column(db.Boolean, default=True)
+    show_instagram = db.Column(db.Boolean, default=True)
+    show_facebook = db.Column(db.Boolean, default=True)
+    show_youtube = db.Column(db.Boolean, default=True)
+    show_resume = db.Column(db.Boolean, default=True)
     email = db.Column(db.String(120), default="raihanagilm@gmail.com")
     phone = db.Column(db.String(30), default="+62 812-3456-7890")
     location = db.Column(db.String(100), default="Indonesia")
@@ -76,7 +87,6 @@ class Skill(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False)
     category = db.Column(db.String(50), default="Technical") # Technical, Soft Skill / Kepemimpinan, Bahasa, Tools
-    proficiency = db.Column(db.Integer, default=85) # 0 - 100
     icon = db.Column(db.String(50), default="code")
     is_visible = db.Column(db.Boolean, default=True)
 

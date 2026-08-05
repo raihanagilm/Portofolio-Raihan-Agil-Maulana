@@ -16,11 +16,10 @@ def index():
 def add():
     name = request.form.get('name')
     category = request.form.get('category', 'Technical')
-    proficiency = int(request.form.get('proficiency', 80))
     icon = request.form.get('icon', 'code')
 
     if name:
-        skill = Skill(name=name, category=category, proficiency=proficiency, icon=icon, is_visible=True)
+        skill = Skill(name=name, category=category, icon=icon, is_visible=True)
         db.session.add(skill)
         db.session.commit()
         flash('Skill/Keahlian berhasil ditambahkan!', 'success')
@@ -33,7 +32,7 @@ def edit(skill_id):
     skill = Skill.query.get_or_404(skill_id)
     skill.name = request.form.get('name', skill.name)
     skill.category = request.form.get('category', skill.category)
-    skill.proficiency = int(request.form.get('proficiency', skill.proficiency))
+# proficiency removed
     skill.icon = request.form.get('icon', skill.icon)
 
     db.session.commit()

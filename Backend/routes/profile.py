@@ -32,6 +32,19 @@ def index():
         profile.youtube = request.form.get('youtube', '')
         profile.website = request.form.get('website', '')
 
+        # Toggles
+        profile.show_email = request.form.get('show_email') == 'on'
+        profile.show_phone = request.form.get('show_phone') == 'on'
+        profile.show_location = request.form.get('show_location') == 'on'
+        profile.show_github = request.form.get('show_github') == 'on'
+        profile.show_linkedin = request.form.get('show_linkedin') == 'on'
+        profile.show_instagram = request.form.get('show_instagram') == 'on'
+        profile.show_facebook = request.form.get('show_facebook') == 'on'
+        profile.show_twitter = request.form.get('show_twitter') == 'on'
+        profile.show_youtube = request.form.get('show_youtube') == 'on'
+        profile.show_website = request.form.get('show_website') == 'on'
+        profile.show_resume = request.form.get('show_resume') == 'on'
+
         if 'avatar' in request.files and request.files['avatar'].filename != '':
             uploaded_url = upload_media(request.files['avatar'], folder="avatar")
             if uploaded_url:

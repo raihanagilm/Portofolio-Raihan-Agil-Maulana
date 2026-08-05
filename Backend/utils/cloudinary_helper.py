@@ -1,8 +1,11 @@
 from Backend.config import Config
 
-
 def upload_media(file_storage, folder="portfolio"):
     """Upload file ke Cloudinary. Mengembalikan secure_url atau None."""
+    
+    if not folder.startswith("portofolio"):
+        folder = f"portofolio/{folder}"
+        
     cloud_name = Config.CLOUDINARY_CLOUD_NAME
     api_key = Config.CLOUDINARY_API_KEY
     api_secret = Config.CLOUDINARY_API_SECRET
@@ -22,11 +25,9 @@ def upload_media(file_storage, folder="portfolio"):
             secure=True
         )
 
-        # Reset pointer stream agar bisa dibaca dari awal
         if hasattr(file_storage, "seek"):
             file_storage.seek(0)
 
-        # Baca ke bytes
         if hasattr(file_storage, "read"):
             file_bytes = file_storage.read()
         else:
