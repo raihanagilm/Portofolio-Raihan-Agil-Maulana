@@ -66,8 +66,8 @@
                     <label class="block font-bold text-earth-dark text-sm" for="username">Username atau Email</label>
                     <div class="relative">
                         <input class="w-full h-11 sm:h-12 px-4 input-cardboard rounded-lg text-sm transition-soft"
-                            id="username" name="username" placeholder="raihanagilm@gmail.com" type="text"
-                            autocomplete="username" required value="raihanagilm@gmail.com">
+                            id="username" name="username" placeholder="Email atau username" type="text"
+                            autocomplete="username" required>
                     </div>
                 </div>
 
@@ -79,7 +79,7 @@
                     <div class="relative">
                         <input class="w-full h-11 sm:h-12 px-4 input-cardboard rounded-lg text-sm transition-soft pr-10"
                             id="password" name="password" placeholder="••••••••" type="password"
-                            autocomplete="current-password" required value="123456">
+                            autocomplete="current-password" required>
                         <button class="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-earth-dark transition-colors"
                             onclick="togglePassword()" type="button" aria-label="Toggle password visibility">
                             <i class="lucide text-xl" id="passwordIcon" data-lucide="eye"></i>
@@ -115,8 +115,7 @@
 
                 <div class="space-y-3 hidden bg-[#FFF8F0] p-4 rounded-xl border-2 border-dashed border-border-light" id="emergencySection">
                     <p class="text-xs text-text-muted font-medium leading-relaxed">
-                        Fitur ini dibatasi <strong>1 kali per 1 jam</strong>. Kode OTP 6-digit akan dikirimkan langsung ke email pribadi <code>raihanagilm@gmail.com</code>.
-                    </p>
+                        Fitur ini dibatasi <strong>1 kali per 1 jam</strong>. Kode OTP 6-digit akan dikirimkan langsung ke email terdaftar.
                     
                     <button class="btn-secondary w-full py-2.5 px-3 rounded-lg text-xs font-bold flex items-center justify-center gap-2 cursor-pointer"
                         id="requestOtpBtn" onclick="requestOtp()">

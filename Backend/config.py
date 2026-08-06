@@ -6,7 +6,7 @@ load_dotenv()
 db_url = os.environ.get('DATABASE_URL')
 
 class Config:
-    SECRET_KEY = os.environ.get('SECRET_KEY', 'kardus_secret_key_portofolio_2026_raihan')
+    SECRET_KEY = os.environ.get('SECRET_KEY', 'kardus_secret_key_portofolio_2026')
     SQLALCHEMY_DATABASE_URI = db_url
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
@@ -25,7 +25,7 @@ class Config:
     # Resend API Key
     RESEND_API_KEY = os.environ.get('RESEND_API_KEY', '')
     SENDER_EMAIL = os.environ.get('SENDER_EMAIL', 'onboarding@resend.dev')
-    PERSONAL_EMAIL = os.environ.get('PERSONAL_EMAIL', 'raihanagilm@gmail.com')
+    PERSONAL_EMAIL = os.environ.get('PERSONAL_EMAIL', '')
 
     # Cloudinary Config
     CLOUDINARY_CLOUD_NAME = os.environ.get('CLOUDINARY_CLOUD_NAME', '')

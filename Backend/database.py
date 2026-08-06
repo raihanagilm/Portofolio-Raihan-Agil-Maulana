@@ -32,13 +32,13 @@ class VisitorLog(db.Model):
 class Profile(db.Model):
     __tablename__ = 'profiles'
     id = db.Column(db.Integer, primary_key=True)
-    full_name = db.Column(db.String(100), nullable=False, default="Raihan Agil Maulana")
+    full_name = db.Column(db.String(100), nullable=False, default="Full Name")
     title = db.Column(db.String(150), default="Full-Stack Developer & UI/UX Designer")
     bio = db.Column(db.Text, default="Pengembang perangkat lunak berbakat dengan fokus pada estetika dan efisiensi.")
     avatar_url = db.Column(db.String(255), default="")
     resume_url = db.Column(db.String(255), default="")
-    github = db.Column(db.String(150), default="https://github.com")
-    linkedin = db.Column(db.String(150), default="https://linkedin.com")
+    github = db.Column(db.String(150), default="")
+    linkedin = db.Column(db.String(150), default="")
     instagram = db.Column(db.String(150), default="")
     facebook = db.Column(db.String(150), default="")
     twitter = db.Column(db.String(150), default="")
@@ -55,9 +55,9 @@ class Profile(db.Model):
     show_facebook = db.Column(db.Boolean, default=True)
     show_youtube = db.Column(db.Boolean, default=True)
     show_resume = db.Column(db.Boolean, default=True)
-    email = db.Column(db.String(120), default="raihanagilm@gmail.com")
-    phone = db.Column(db.String(30), default="+62 812-3456-7890")
-    location = db.Column(db.String(100), default="Indonesia")
+    email = db.Column(db.String(120), default="")
+    phone = db.Column(db.String(30), default="")
+    location = db.Column(db.String(100), default="")
 
 class Experience(db.Model):
     __tablename__ = 'experiences'

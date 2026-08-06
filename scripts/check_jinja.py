@@ -1,6 +1,7 @@
+import os
 import re
-p='d:/Projek/Portofolio-Raihan-Agil-Maulana/Frontend/templates/public.html'
-s=open(p,encoding='utf-8').read()
+p=os.path.join(os.path.dirname(__file__), '..', 'Frontend', 'templates', 'public.html')
+s=open(p, encoding='utf-8').read()
 # find all tags like {% ... %}
 tags=list(re.finditer(r"{%\s*(.*?)\s*%}",s,re.S))
 stack=[]

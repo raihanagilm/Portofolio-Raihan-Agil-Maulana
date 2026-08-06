@@ -1,4 +1,3 @@
--- Active: 1785846325818@@gateway01.ap-southeast-1.prod.aws.tidbcloud.com@4000@Portofolio
 -- Schema Creation
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -27,21 +26,21 @@ CREATE TABLE IF NOT EXISTS visitor_logs (
 
 CREATE TABLE IF NOT EXISTS profiles (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    full_name VARCHAR(100) NOT NULL DEFAULT 'Raihan Agil Maulana',
+    full_name VARCHAR(100) NOT NULL DEFAULT 'Full Name',
     title VARCHAR(150) DEFAULT 'Full-Stack Developer & UI/UX Designer',
     bio TEXT,
     avatar_url VARCHAR(255) DEFAULT '',
     resume_url VARCHAR(255) DEFAULT '',
-    github VARCHAR(150) DEFAULT 'https://github.com',
-    linkedin VARCHAR(150) DEFAULT 'https://linkedin.com',
+    github VARCHAR(150) DEFAULT '',
+    linkedin VARCHAR(150) DEFAULT '',
     instagram VARCHAR(150) DEFAULT '',
     facebook VARCHAR(150) DEFAULT '',
     twitter VARCHAR(150) DEFAULT '',
     youtube VARCHAR(150) DEFAULT '',
     website VARCHAR(150) DEFAULT '',
-    email VARCHAR(120) DEFAULT 'raihanagilm@gmail.com',
-    phone VARCHAR(30) DEFAULT '+62 812-3456-7890',
-    location VARCHAR(100) DEFAULT 'Indonesia'
+    email VARCHAR(120) DEFAULT 'admin@example.com',
+    phone VARCHAR(30) DEFAULT '+62 800-000-0000',
+    location VARCHAR(100) DEFAULT 'City, Country'
 );
 
 CREATE TABLE IF NOT EXISTS experiences (
@@ -126,7 +125,7 @@ ALTER TABLE projects ADD COLUMN projects_images VARCHAR(255);
 INSERT IGNORE INTO
     users (email, password_hash, role)
 VALUES (
-        'raihanagilm@gmail.com',
+        'admin@example.com',
         'scrypt:32768:8:1$C6Z2K4Vb$4a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b',
         'admin'
     );
@@ -143,7 +142,7 @@ INSERT INTO
         github,
         linkedin
     )
-SELECT 'Raihan Agil Maulana', 'Full-Stack Developer & Tech Enthusiast', 'Passionate developer creating aesthetic, performant, and cardboard-craft inspired digital experiences.', 'raihanagilm@gmail.com', '+62 812-3456-7890', 'Bandung, Indonesia', 'https://github.com', 'https://linkedin.com'
+SELECT 'Full Name', 'Full-Stack Developer & Tech Enthusiast', 'Passionate developer creating aesthetic, performant, and cardboard-craft inspired digital experiences.', 'admin@example.com', '+62 800-000-0000', 'City, Country', '', ''
 WHERE
     NOT EXISTS (
         SELECT id
