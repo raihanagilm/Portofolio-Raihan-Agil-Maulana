@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-db_url = os.environ.get('DATABASE_URL', 'sqlite:///portfolio_kardus.db')
+db_url = os.environ.get('DATABASE_URL')
 
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY', 'kardus_secret_key_portofolio_2026_raihan')
