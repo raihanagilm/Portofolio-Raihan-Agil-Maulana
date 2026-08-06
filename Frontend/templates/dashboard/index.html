@@ -129,6 +129,60 @@
         {% endif %}
     </div>
 </div>
+    <div class="tape-accent"></div>
+    <h3 class="text-xl font-bold text-earth-dark mb-4 flex items-center gap-2">
+        <i class="lucide text-accent text-2xl" data-lucidе="user"></i> Profil Saya
+    </h3>
+    <div class="flex items-center gap-4">
+        {% if profile.avatar_url %}
+            <img src="{{ profile.avatar_url }}" alt="Avatar" class="w-24 h-24 rounded-full object-cover">
+        {% else %}
+            <div class="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center">
+                <i class="lucide text-earth-dark" data-lucidе="user"></i>
+            </div>
+        {% endif %}
+        <div>
+            <p class="text-lg font-bold">{{ profile.full_name }}</p>
+            <p class="text-sm text-text-muted">{{ profile.title }}</p>
+            <p class="mt-2">{{ profile.bio }}</p>
+        </div>
+    </div>
+    <div class="mt-4 space-y-2">
+        {% if profile.resume_url and profile.show_resume %}
+            <p><strong>CV:</strong> <a href="{{ profile.resume_url }}" target="_blank" class="text-accent underline">Lihat CV</a></p>
+        {% endif %}
+        {% if profile.show_email %}
+            <p><strong>Email:</strong> <a href="mailto:{{ profile.email }}" class="text-accent underline">{{ profile.email }}</a></p>
+        {% endif %}
+        {% if profile.show_phone %}
+            <p><strong>WhatsApp:</strong> <a href="tel:{{ profile.phone }}" class="text-accent underline">{{ profile.phone }}</a></p>
+        {% endif %}
+        {% if profile.show_website %}
+            <p><strong>Website:</strong> <a href="{{ profile.website }}" target="_blank" class="text-accent underline">{{ profile.website }}</a></p>
+        {% endif %}
+        {% if profile.show_location %}
+            <p><strong>Lokasi:</strong> {{ profile.location }}</p>
+        {% endif %}
+        {% if profile.show_instagram %}
+            <p><strong>Instagram:</strong> <a href="{{ profile.instagram }}" target="_blank" class="text-accent underline">{{ profile.instagram }}</a></p>
+        {% endif %}
+        {% if profile.show_facebook %}
+            <p><strong>Facebook:</strong> <a href="{{ profile.facebook }}" target="_blank" class="text-accent underline">{{ profile.facebook }}</a></p>
+        {% endif %}
+        {% if profile.show_github %}
+            <p><strong>GitHub:</strong> <a href="{{ profile.github }}" target="_blank" class="text-accent underline">{{ profile.github }}</a></p>
+        {% endif %}
+        {% if profile.show_linkedin %}
+            <p><strong>LinkedIn:</strong> <a href="{{ profile.linkedin }}" target="_blank" class="text-accent underline">{{ profile.linkedin }}</a></p>
+        {% endif %}
+        {% if profile.show_twitter %}
+            <p><strong>Twitter:</strong> <a href="{{ profile.twitter }}" target="_blank" class="text-accent underline">{{ profile.twitter }}</a></p>
+        {% endif %}
+        {% if profile.show_youtube %}
+            <p><strong>YouTube:</strong> <a href="{{ profile.youtube }}" target="_blank" class="text-accent underline">{{ profile.youtube }}</a></p>
+        {% endif %}
+    </div>
+</div>
 
 <!-- Recent Real-Time Visitors Log -->
 <div class="cardboard-card cardboard-texture rounded-xl p-5 shadow-cardboard">
