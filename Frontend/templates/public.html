@@ -189,7 +189,6 @@
         <!-- PROFIL -->
         <section id="profil" class="cardboard-card cardboard-texture rounded-3xl p-6 sm:p-10 shadow-cardboard relative reveal">
             <div class="tape-accent"></div>
-            <div class="absolute -top-4 right-6 craft-stamp px-3 py-1 rounded-md text-[10px] hidden sm:block">📦 CARDBOARD CRAFT VERIFIED</div>
             <!-- SpinKit pojok -->
             <div class="absolute top-4 right-4 opacity-30">
                 <div class="sk-chase">
@@ -206,10 +205,6 @@
                     {% endif %}
                 </div>
                 <div class="space-y-3 text-center sm:text-left flex-1">
-                    <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-accent/15 border border-accent text-accent font-bold text-xs rounded-full craft-sticker animate__animated animate__fadeInLeft">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>
-                        Creative Portfolio
-                    </div>
                     <h1 class="text-2xl sm:text-4xl font-extrabold text-earth-dark leading-tight animate__animated animate__fadeInUp">{{ profile.full_name }}</h1>
                     <p class="text-accent font-bold text-base sm:text-lg animate__animated animate__fadeInUp">{{ profile.title }}</p>
                     <p class="text-text-muted text-sm sm:text-base leading-relaxed font-medium max-w-2xl">{{ profile.bio }}</p>
