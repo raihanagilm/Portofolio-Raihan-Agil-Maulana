@@ -25,6 +25,8 @@ def upload_media(file_storage, folder="portfolio"):
             secure=True
         )
 
+        file_name = getattr(file_storage, 'filename', None)
+        content_type = getattr(file_storage, 'content_type', None)
         if hasattr(file_storage, "seek"):
             file_storage.seek(0)
 
@@ -33,7 +35,11 @@ def upload_media(file_storage, folder="portfolio"):
         else:
             file_bytes = file_storage
 
-        print(f"[CLOUDINARY] Upload folder={folder}, size={len(file_bytes)} bytes")
+        if not file_bytes:
+            print(f"[CLOUDINARY] Error: file is empty (name={file_name}, content_type={content_type})")
+            return None
+
+        print(f"[CLOUDINARY] Upload file={file_name} content_type={content_type} folder={folder} size={len(file_bytes)} bytes")
 
         result = cloudinary.uploader.upload(
             file_bytes,

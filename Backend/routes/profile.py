@@ -45,18 +45,29 @@ def index():
         profile.show_website = request.form.get('show_website') == 'on'
         profile.show_resume = request.form.get('show_resume') == 'on'
 
+        upload_failed = False
+
         if 'avatar' in request.files and request.files['avatar'].filename != '':
             uploaded_url = upload_media(request.files['avatar'], folder="avatar")
             if uploaded_url:
                 profile.avatar_url = uploaded_url
+            else:
+                upload_failed = True
+                flash('Gagal upload foto profil. Mohon periksa file dan coba lagi.', 'danger')
 
         if 'resume' in request.files and request.files['resume'].filename != '':
             resume_url = upload_media(request.files['resume'], folder="documents")
             if resume_url:
                 profile.resume_url = resume_url
+            else:
+                upload_failed = True
+                flash('Gagal upload CV/Resume. Mohon periksa file dan coba lagi.', 'danger')
 
         db.session.commit()
-        flash('Profil berhasil diperbarui!', 'success')
+        if upload_failed:
+            flash('Profil diperbarui, tetapi beberapa media gagal diunggah.', 'warning')
+        else:
+            flash('Profil berhasil diperbarui!', 'success')
         return redirect(url_for('profile.index'))
 
     return render_template('dashboard/profile.html', profile=profile, active_page='profil')
