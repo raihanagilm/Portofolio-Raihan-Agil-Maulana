@@ -1,703 +1,1014 @@
 <!DOCTYPE html>
-<html class="light" lang="id">
+<html lang="id">
 <head>
-    <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0" name="viewport">
-    <title>Portofolio - {{ profile.full_name }}</title>
-    <meta name="description" content="Portofolio {{ profile.full_name }} - {{ profile.title }}">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <script id="tailwind-config">
-        try {
-            tailwind.config = {
-                darkMode: "class",
-                theme: { extend: { colors: {
-                    "kraft-light":"#F5E6D3","kraft":"#E8D4B8","kraft-dark":"#D4B896",
-                    "cardboard":"#C9A87C","cardboard-dark":"#A67C52","cardboard-darker":"#8B5A3C",
-                    "earth-brown":"#5C3214","earth-dark":"#2C1A0E","card-bg":"#FFFBF5",
-                    "surface":"#FAF0E6","accent":"#D2691E","accent-hover":"#B8581A",
-                    "on-surface":"#2C1A0E","on-primary":"#FFFFFF","border-card":"#8B5A3C",
-                    "border-light":"#A67C52","text-muted":"#6E5033"
-                }}}
-            }
-        } catch(_e){}
-    </script>
-    <link rel="stylesheet" href="/css/style-base.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-    <link rel="stylesheet" href="/css/hover.css">
-    <style>
-        /* ===== Swiper ===== */
-        .swiper-slide{height:auto}.swiper-wrapper{align-items:stretch}
-        .bento-card,.cardboard-card{height:100%}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ profile.full_name }} — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-        /* ===== SpinKit Chase ===== */
-        .sk-chase{width:36px;height:36px;position:relative;animation:sk-chase 2.5s infinite linear both}
-        .sk-chase-dot{width:100%;height:100%;position:absolute;left:0;top:0;animation:sk-chase-dot 2s infinite ease-in-out both}
-        .sk-chase-dot:before{content:'';display:block;width:25%;height:25%;background:#D2691E;border-radius:100%;animation:sk-chase-dot-before 2s infinite ease-in-out both}
-        .sk-chase-dot:nth-child(1){animation-delay:-1.1s}.sk-chase-dot:nth-child(2){animation-delay:-1s}
-        .sk-chase-dot:nth-child(3){animation-delay:-.9s}.sk-chase-dot:nth-child(4){animation-delay:-.8s}
-        .sk-chase-dot:nth-child(5){animation-delay:-.7s}.sk-chase-dot:nth-child(6){animation-delay:-.6s}
-        .sk-chase-dot:nth-child(1):before{animation-delay:-1.1s}.sk-chase-dot:nth-child(2):before{animation-delay:-1s}
-        .sk-chase-dot:nth-child(3):before{animation-delay:-.9s}.sk-chase-dot:nth-child(4):before{animation-delay:-.8s}
-        .sk-chase-dot:nth-child(5):before{animation-delay:-.7s}.sk-chase-dot:nth-child(6):before{animation-delay:-.6s}
-        @keyframes sk-chase{100%{transform:rotate(360deg)}}
-        @keyframes sk-chase-dot{80%,100%{transform:rotate(360deg)}}
-        @keyframes sk-chase-dot-before{50%{transform:scale(.4)}100%,0%{transform:scale(1)}}
+:root {
+  --bg: #f8f9fc;
+  --surface: #ffffff;
+  --ink: #1e293b;
+  --ink-light: #64748b;
+  --ink-lighter: #94a3b8;
+  --border: #e2e8f0;
+  --accent: #3b82f6;
+  --accent-soft: #eff6ff;
+  --shadow: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
+  --shadow-lg: 0 20px 50px -12px rgba(0,0,0,0.15);
+  --shadow-book: 0 25px 60px -15px rgba(0,0,0,0.2);
+  --radius: 12px;
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-dramatic: cubic-bezier(0.77, 0, 0.175, 1);
+}
 
-        /* ===== SpinKit Wave ===== */
-        .sk-wave{display:flex;gap:3px;align-items:center}
-        .sk-wave .sk-rect{width:4px;height:16px;background:#D2691E;border-radius:2px;animation:sk-wave-anim 1.2s infinite ease-in-out}
-        .sk-rect:nth-child(2){animation-delay:-1.1s}.sk-rect:nth-child(3){animation-delay:-1s}
-        .sk-rect:nth-child(4){animation-delay:-.9s}.sk-rect:nth-child(5){animation-delay:-.8s}
-        @keyframes sk-wave-anim{0%,40%,100%{transform:scaleY(.4)}20%{transform:scaleY(1)}}
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Inter', -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
 
-        /* ===== Bola dekorasi mengambang ===== */
-        .magic-float{position:fixed;pointer-events:none;z-index:0;border-radius:50%;opacity:.09;animation:magicFloat 9s ease-in-out infinite}
-        .magic-float:nth-child(1){width:90px;height:90px;background:#D2691E;top:8%;left:3%;animation-delay:0s}
-        .magic-float:nth-child(2){width:55px;height:55px;background:#8B5A3C;top:60%;left:92%;animation-delay:2.5s}
-        .magic-float:nth-child(3){width:110px;height:110px;background:#C9A87C;top:80%;left:10%;animation-delay:5s}
-        .magic-float:nth-child(4){width:45px;height:45px;background:#D2691E;top:25%;left:87%;animation-delay:1.2s}
-        @keyframes magicFloat{
-            0%,100%{transform:translateY(0) rotate(0deg)}
-            33%{transform:translateY(-30px) rotate(10deg)}
-            66%{transform:translateY(15px) rotate(-6deg)}
-        }
+/* ═══════ ICONS ═══════ */
+.icon {
+  width: 18px; height: 18px;
+  stroke: currentColor; stroke-width: 2;
+  fill: none; stroke-linecap: round; stroke-linejoin: round;
+  flex-shrink: 0;
+}
+.icon-sm { width: 14px; height: 14px; }
+.icon-lg { width: 22px; height: 22px; }
 
-        /* ===== Partikel Bintang ===== */
-        .star-particle{position:fixed;pointer-events:none;z-index:1;border-radius:50%;opacity:0;animation:starPop 3s ease-in-out forwards}
-        @keyframes starPop{
-            0%{opacity:0;transform:scale(0) translateY(0)}
-            20%{opacity:.7;transform:scale(1) translateY(-15px)}
-            100%{opacity:0;transform:scale(.1) translateY(-80px)}
-        }
+/* ═══════ HEADER ═══════ */
+.header {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 100; padding: 18px 32px;
+  display: flex; justify-content: space-between; align-items: center;
+  background: rgba(248,249,252,0.9);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
 
-        /* ===== Pulse Dot ===== */
-        .pulse-dot{display:inline-block;width:8px;height:8px;background:#D2691E;border-radius:50%;
-            animation:pulseDot 1.5s ease-in-out infinite;vertical-align:middle;margin-left:4px}
-        @keyframes pulseDot{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.7);opacity:.4}}
+.brand { display: flex; align-items: center; gap: 12px; }
 
-        /* ===== GSAP reveal ===== */
-        .reveal{opacity:0;transform:translateY(40px)}
+.brand-avatar {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-weight: 700; font-size: 14px;
+  font-family: 'Playfair Display', serif;
+}
 
-        /* ===== Grid 2 baris pengalaman ===== */
-        .exp-grid-2row{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
-        @media(max-width:640px){.exp-grid-2row{grid-template-columns:1fr}}
+.brand-name { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 16px; color: var(--ink); }
+.brand-title { font-size: 11px; color: var(--ink-light); margin-top: 1px; }
 
-        /* ===== Hover card ===== */
-        .section-card{transition:box-shadow .3s ease,transform .3s ease}
-        .section-card:hover{box-shadow:4px 8px 24px rgba(44,26,14,.18);transform:translateY(-4px)}
+.header-hint {
+  font-size: 11px; color: var(--ink-lighter);
+  display: flex; align-items: center; gap: 8px;
+}
 
-        /* ===== Section heading animasi shimmer ===== */
-        .section-heading{
-            position:relative;
-            display:inline-block;
-        }
-        .section-heading::after{
-            content:'';
-            position:absolute;
-            bottom:-3px;left:0;
-            width:0%;height:3px;
-            background:linear-gradient(90deg,#D2691E,#C9A87C,#D2691E);
-            border-radius:2px;
-            transition:width .6s ease;
-        }
-        .section-heading.active::after{width:100%}
+/* ═══════ 3D STAGE ═══════ */
+.stage {
+  position: fixed; inset: 0;
+  perspective: 2400px; perspective-origin: 50% 45%;
+  display: flex; align-items: center; justify-content: center;
+  padding-top: 40px;
+}
 
-        /* ===== Swiper 2 baris (grid) ===== */
-        .swiper-grid .swiper-wrapper{flex-wrap:wrap}
-        .swiper-grid-2 .swiper-wrapper{
-            flex-direction:row;
-            flex-wrap:wrap;
-        }
+/* ═══════ SHELF ═══════ */
+.shelf {
+  position: absolute; bottom: calc(50% - 210px);
+  left: 50%; transform: translateX(-50%);
+  width: 600px; height: 16px;
+  background: linear-gradient(180deg, #e2e8f0 0%, #cbd5e1 100%);
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.8);
+  transition: opacity 0.6s, transform 0.8s var(--ease-smooth);
+}
+.shelf.hidden { opacity: 0; transform: translateX(-50%) translateY(20px); pointer-events: none; }
+.shelf::after {
+  content: ''; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%);
+  width: 80%; height: 8px;
+  background: radial-gradient(ellipse, rgba(0,0,0,0.06) 0%, transparent 70%);
+}
 
-        /* ===== Entry animasi untuk swiper slide ===== */
-        .swiper-slide-active,.swiper-slide-next,.swiper-slide-prev{
-            animation:slideIn .4s ease;
-        }
-        @keyframes slideIn{
-            from{opacity:.5;transform:translateX(20px)}
-            to{opacity:1;transform:translateX(0)}
-        }
+/* ═══════ SINGLE BOOK ═══════ */
+.book-scene {
+  position: relative; transform-style: preserve-3d;
+  transition: transform 1s var(--ease-dramatic), opacity 0.5s;
+}
+.book-scene.opened { transform: translateX(-40px); }
 
-        /* ===== Section dekorasi sparkle di pojok ===== */
-        .section-sparkle{
-            position:absolute;top:-10px;right:16px;
-            display:flex;gap:4px;align-items:flex-end;
-        }
-        .section-sparkle span{
-            display:block;width:4px;
-            background:#D2691E;border-radius:2px;opacity:.5;
-            animation:sparkleBar 1.4s ease-in-out infinite;
-        }
-        .section-sparkle span:nth-child(1){height:8px;animation-delay:0s}
-        .section-sparkle span:nth-child(2){height:14px;animation-delay:.2s}
-        .section-sparkle span:nth-child(3){height:10px;animation-delay:.4s}
-        .section-sparkle span:nth-child(4){height:6px;animation-delay:.1s}
-        @keyframes sparkleBar{0%,100%{opacity:.3;transform:scaleY(.7)}50%{opacity:.9;transform:scaleY(1)}}
+.book-3d {
+  position: relative; width: 300px; height: 420px;
+  transform-style: preserve-3d; cursor: pointer;
+  transition: transform 0.7s var(--ease-smooth);
+  transform: rotateY(-10deg) rotateX(2deg);
+}
+.book-3d:hover { transform: rotateY(-16deg) rotateX(0deg) translateY(-8px); }
+.book-3d.opened { transform: rotateY(0deg) rotateX(4deg); cursor: default; }
 
-        /* ===== Floating label animasi pada section ===== */
-        .section-float-badge{
-            animation:floatBadge 3s ease-in-out infinite;
-            display:inline-block;
-        }
-        @keyframes floatBadge{
-            0%,100%{transform:translateY(0)}
-            50%{transform:translateY(-5px)}
-        }
+.bf { position: absolute; backface-visibility: hidden; overflow: hidden; }
 
-        /* ===== Counter number animasi ===== */
-        .count-badge{
-            display:inline-flex;align-items:center;justify-content:center;
-            background:#D2691E;color:white;
-            border-radius:50%;width:22px;height:22px;
-            font-size:11px;font-weight:800;
-            animation:pulseDot 2s ease-in-out infinite;
-            margin-left:6px;
-        }
-    </style>
+.book-3d .front {
+  width: 100%; height: 100%;
+  transform: translateZ(22px);
+  background: linear-gradient(145deg, #3b82f6 0%, #1d4ed8 50%, #1e40af 100%);
+  border-radius: 4px 12px 12px 4px;
+  display: flex; flex-direction: column; justify-content: space-between;
+  padding: 32px 26px;
+  box-shadow: inset 0 0 40px rgba(0,0,0,0.1), inset -2px 0 6px rgba(0,0,0,0.15), inset 2px 0 4px rgba(255,255,255,0.15);
+  color: white;
+}
+.book-3d .front::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.book-3d .spine {
+  width: 44px; height: 100%; left: 0;
+  transform: rotateY(-90deg) translateX(-22px); transform-origin: left;
+  background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
+  border-radius: 4px 0 0 4px;
+  display: flex; align-items: center; justify-content: center;
+  color: white; box-shadow: inset -2px 0 4px rgba(0,0,0,0.2);
+}
+
+.book-3d .pages-side {
+  width: 42px; height: 97%; top: 1.5%; right: 1px;
+  background: repeating-linear-gradient(90deg, #f1f5f9 0px, #ffffff 0.5px, #e2e8f0 1px, #f1f5f9 2px);
+  transform: translateZ(-21px); border-radius: 0 2px 2px 0;
+  box-shadow: inset 1px 0 2px rgba(0,0,0,0.08);
+}
+
+.book-3d .back {
+  width: 100%; height: 100%;
+  transform: rotateY(180deg) translateZ(22px);
+  background: linear-gradient(145deg, #1e40af 0%, #1d4ed8 100%);
+  border-radius: 12px 4px 4px 12px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: inset 0 0 40px rgba(0,0,0,0.15);
+}
+
+.book-3d .edge-top, .book-3d .edge-bottom {
+  width: 100%; height: 44px;
+  background: repeating-linear-gradient(90deg, #f1f5f9 0px, #e2e8f0 1px, #f1f5f9 2px);
+  border-radius: 2px;
+}
+.book-3d .edge-top { top: 0; transform: rotateX(90deg) translateZ(22px); transform-origin: top; }
+.book-3d .edge-bottom { bottom: 0; transform: rotateX(-90deg) translateZ(22px); transform-origin: bottom; }
+
+.cover-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 12px; background: rgba(255,255,255,0.15);
+  border-radius: 20px; font-size: 9px; letter-spacing: 0.15em;
+  text-transform: uppercase; font-weight: 600;
+  width: fit-content; position: relative; z-index: 1;
+}
+
+.cover-art { flex: 1; display: flex; align-items: center; justify-content: center; position: relative; z-index: 1; }
+.cover-art svg { width: 100px; height: 100px; opacity: 0.9; }
+
+.cover-title {
+  font-family: 'Playfair Display', serif; font-weight: 900; font-size: 28px;
+  text-align: center; line-height: 1.15; position: relative; z-index: 1;
+}
+.cover-subtitle {
+  font-size: 11px; text-align: center; margin-top: 8px; opacity: 0.8;
+  letter-spacing: 0.08em; font-weight: 500; position: relative; z-index: 1;
+}
+.cover-line { width: 40px; height: 2px; background: rgba(255,255,255,0.4); margin: 12px auto 0; border-radius: 1px; }
+
+.spine-text {
+  writing-mode: vertical-rl; transform: rotate(180deg);
+  font-family: 'Playfair Display', serif; font-weight: 700;
+  font-size: 13px; letter-spacing: 0.1em; opacity: 0.9;
+}
+
+.back-logo {
+  width: 48px; height: 48px; border: 2px solid rgba(255,255,255,0.4);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-family: 'Playfair Display', serif; font-style: italic;
+  font-size: 22px; opacity: 0.6; color: white;
+}
+
+.book-shadow {
+  position: absolute; bottom: -24px; left: 50%; transform: translateX(-50%);
+  width: 260px; height: 16px;
+  background: radial-gradient(ellipse, rgba(0,0,0,0.12) 0%, transparent 70%);
+  filter: blur(6px); transition: opacity 0.6s;
+}
+.book-scene.opened .book-shadow { opacity: 0.4; }
+
+/* ═══════ OPEN BOOK VIEW ═══════ */
+.open-book-view {
+  position: fixed; inset: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: center;
+  padding: 80px 100px 40px 40px;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.6s var(--ease-smooth);
+}
+.open-book-view.active { opacity: 1; pointer-events: auto; }
+
+.open-book {
+  position: relative; width: 100%; max-width: 900px; height: 540px;
+  transform-style: preserve-3d; transform: rotateX(6deg);
+}
+
+.open-book-pages {
+  position: absolute; inset: 0;
+  background: var(--surface); border-radius: var(--radius);
+  box-shadow: var(--shadow-book); overflow: hidden;
+  color: var(--ink); border: 1px solid var(--border);
+}
+.open-book-pages::before {
+  content: ''; position: absolute; top: 0; left: 50%;
+  width: 1px; height: 100%;
+  background: linear-gradient(180deg, transparent 0%, var(--border) 20%, var(--border) 80%, transparent 100%);
+  transform: translateX(-50%); z-index: 10;
+}
+
+.page-left, .page-right {
+  position: absolute; top: 0; width: 50%; height: 100%;
+  padding: 36px 32px; overflow-y: auto;
+}
+.page-left { left: 0; }
+.page-right { left: 50%; border-left: 1px solid var(--border); }
+
+.page-number { position: absolute; bottom: 14px; font-size: 10px; color: var(--ink-lighter); font-weight: 500; }
+.page-left .page-number { left: 32px; }
+.page-right .page-number { right: 32px; }
+
+.page-heading {
+  font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+  font-weight: 600; margin-bottom: 20px; padding-bottom: 10px;
+  display: flex; align-items: center; gap: 8px;
+}
+
+.page-title {
+  font-family: 'Playfair Display', serif; font-weight: 700;
+  font-size: 26px; line-height: 1.15; margin-bottom: 16px; color: var(--ink);
+}
+
+.page-body { font-size: 13.5px; line-height: 1.7; color: var(--ink-light); }
+.page-body p { margin-bottom: 12px; }
+
+/* ═══════ BOOKMARK ═══════ */
+.bookmark {
+  position: absolute; top: -4px; right: 100px;
+  width: 20px; height: 60px;
+  background: linear-gradient(180deg, #ef4444 0%, #dc2626 100%);
+  border-radius: 0 0 4px 4px; z-index: 20;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 88%, 0 100%);
+  transition: right 0.5s var(--ease-smooth);
+  box-shadow: 0 2px 6px rgba(239,68,68,0.3);
+}
+
+.turning-page {
+  position: absolute; top: 0; left: 50%; width: 50%; height: 100%;
+  background: var(--surface); transform-origin: left center;
+  transform-style: preserve-3d; z-index: 15;
+  animation: pageTurn 0.9s var(--ease-dramatic) forwards;
+  box-shadow: -6px 0 16px rgba(0,0,0,0.08);
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+@keyframes pageTurn { 0% { transform: rotateY(0deg); } 100% { transform: rotateY(-180deg); } }
+
+.opening-cover {
+  position: absolute; inset: 0;
+  background: linear-gradient(145deg, #3b82f6 0%, #1d4ed8 100%);
+  transform-origin: left center; transform-style: preserve-3d; z-index: 30;
+  animation: coverOpen 1.2s var(--ease-dramatic) forwards;
+  display: flex; align-items: center; justify-content: center;
+  color: white; border-radius: var(--radius);
+  box-shadow: 6px 0 16px rgba(0,0,0,0.1);
+}
+@keyframes coverOpen { 0% { transform: rotateY(0deg); } 100% { transform: rotateY(-165deg); } }
+.opening-cover .cover-inner { text-align: center; animation: fadeOutHalf 1.2s var(--ease-dramatic) forwards; }
+@keyframes fadeOutHalf { 0%, 50% { opacity: 1; } 100% { opacity: 0; } }
+
+/* ═══════ RIGHT NAVBAR ═══════ */
+.chapter-nav {
+  position: fixed; right: 0; top: 50%; transform: translateY(-50%);
+  z-index: 300; display: flex; flex-direction: column; gap: 4px;
+  padding: 8px; background: var(--surface);
+  border-radius: var(--radius) 0 0 var(--radius);
+  border: 1px solid var(--border); border-right: none;
+  box-shadow: var(--shadow-lg);
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.5s var(--ease-smooth), transform 0.5s var(--ease-smooth);
+}
+.chapter-nav.active { opacity: 1; pointer-events: auto; }
+
+.chapter-nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 16px; border-radius: 8px; cursor: pointer;
+  transition: all 0.25s var(--ease-smooth);
+  position: relative; min-width: 160px;
+}
+.chapter-nav-item:hover { background: var(--accent-soft); }
+.chapter-nav-item.active { background: var(--accent); color: white; }
+.chapter-nav-item.active .chapter-name { color: white; }
+.chapter-nav-item.active .chapter-icon { background: rgba(255,255,255,0.2); color: white; }
+
+.chapter-icon {
+  width: 32px; height: 32px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--accent-soft); color: var(--accent);
+  transition: all 0.25s;
+}
+
+.chapter-name { font-size: 12px; font-weight: 600; letter-spacing: 0.02em; color: var(--ink); }
+
+/* ═══════ CLOSE BTN ═══════ */
+.close-btn {
+  position: fixed; top: 18px; right: 24px;
+  width: 40px; height: 40px;
+  border: 1px solid var(--border); background: var(--surface);
+  border-radius: 10px; cursor: pointer; color: var(--ink-light);
+  z-index: 400; opacity: 0; pointer-events: none;
+  transition: all 0.3s var(--ease-smooth);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: var(--shadow);
+}
+.close-btn.active { opacity: 1; pointer-events: auto; }
+.close-btn:hover { background: #fee2e2; color: #ef4444; border-color: #fecaca; transform: rotate(90deg); }
+
+/* ═══════ CONTENT STYLES ═══════ */
+.meta-line {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13px;
+}
+.meta-label {
+  font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--ink-lighter); font-weight: 600;
+  display: flex; align-items: center; gap: 6px;
+}
+
+.skill-tag {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 5px 12px; margin: 3px;
+  border: 1px solid var(--border); border-radius: 6px;
+  font-size: 11px; font-weight: 500; color: var(--ink-light);
+  background: var(--bg); transition: all 0.2s;
+}
+.skill-tag:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+
+.project-img {
+  width: 100%; height: 120px; object-fit: cover;
+  border-radius: 8px; border: 1px solid var(--border); margin-bottom: 12px;
+}
+
+.timeline-entry { padding: 14px 0; border-bottom: 1px solid var(--border); }
+.timeline-entry:last-child { border-bottom: none; }
+
+.timeline-period {
+  font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+  font-weight: 600; margin-bottom: 4px;
+  display: flex; align-items: center; gap: 6px;
+}
+.timeline-role { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 15px; color: var(--ink); }
+.timeline-company {
+  font-size: 12px; color: var(--ink-light); margin: 3px 0 6px;
+  display: flex; align-items: center; gap: 5px;
+}
+
+.book-social { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.book-social a {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 8px 14px; border: 1px solid var(--border); border-radius: 8px;
+  color: var(--ink-light); text-decoration: none;
+  font-size: 12px; font-weight: 500; transition: all 0.25s;
+  background: var(--surface);
+}
+.book-social a:hover {
+  border-color: var(--accent); color: var(--accent);
+  background: var(--accent-soft); transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 20px; background: var(--accent); color: white;
+  border: none; border-radius: 8px; font-size: 12px; font-weight: 600;
+  letter-spacing: 0.03em; cursor: pointer; text-decoration: none;
+  transition: all 0.25s; box-shadow: 0 2px 8px rgba(59,130,246,0.3);
+}
+.btn-primary:hover { background: #2563eb; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(59,130,246,0.4); }
+
+.btn-outline {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 9px 18px; background: transparent; color: var(--ink-light);
+  border: 1px solid var(--border); border-radius: 8px;
+  font-size: 12px; font-weight: 500; cursor: pointer; text-decoration: none;
+  transition: all 0.25s;
+}
+.btn-outline:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+
+/* Contact form */
+.book-form .form-group { margin-bottom: 14px; }
+.book-form label {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.05em;
+  text-transform: uppercase; color: var(--ink-light); margin-bottom: 6px;
+}
+.book-form input, .book-form textarea {
+  width: 100%; padding: 10px 14px;
+  border: 1.5px solid var(--border); border-radius: 8px;
+  background: var(--bg); font-family: 'Inter', sans-serif;
+  font-size: 13px; color: var(--ink); transition: all 0.25s;
+}
+.book-form input:focus, .book-form textarea:focus {
+  outline: none; border-color: var(--accent);
+  background: white; box-shadow: 0 0 0 3px var(--accent-soft);
+}
+.book-form textarea { resize: vertical; min-height: 80px; }
+
+.form-alert { padding: 12px 16px; margin-bottom: 14px; font-size: 13px; display: none; border-radius: 8px; border: 1px solid; }
+.form-alert.success { background: #f0fdf4; border-color: #bbf7d0; color: #166534; }
+.form-alert.error { background: #fef2f2; border-color: #fecaca; color: #991b1b; }
+
+/* ═══════ STATUS BAR ═══════ */
+.status-bar {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+  font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--ink-lighter); z-index: 100;
+  display: flex; align-items: center; gap: 10px;
+  pointer-events: none; font-weight: 500;
+}
+.status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--ink-lighter); }
+.status-dot.open { background: #22c55e; box-shadow: 0 0 0 3px rgba(34,197,94,0.2); }
+
+/* ═══════ RESPONSIVE ═══════ */
+@media (max-width: 900px) {
+  .header { padding: 14px 16px; }
+  .book-3d { width: 220px; height: 310px; }
+  .book-3d .front { padding: 22px 18px; }
+  .cover-title { font-size: 20px; }
+  .cover-art svg { width: 60px; height: 60px; }
+  .book-3d .spine { width: 32px; transform: rotateY(-90deg) translateX(-16px); }
+  .book-3d .pages-side { width: 30px; transform: translateZ(-15px); }
+  .book-3d .edge-top, .book-3d .edge-bottom { height: 32px; }
+  .book-3d .edge-top { transform: rotateX(90deg) translateZ(16px); }
+  .book-3d .edge-bottom { transform: rotateX(-90deg) translateZ(16px); }
+  .book-3d .front { transform: translateZ(16px); }
+  .book-3d .back { transform: rotateY(180deg) translateZ(16px); }
+
+  .open-book-view { padding: 70px 12px 90px; }
+  .open-book { height: 65vh; max-width: 100%; }
+  .page-left, .page-right { padding: 22px 18px; }
+  .page-title { font-size: 20px; }
+  .page-body { font-size: 12px; }
+
+  .chapter-nav {
+    top: auto; bottom: 0; right: 0; left: 0; transform: none;
+    flex-direction: row; overflow-x: auto;
+    border-radius: var(--radius) var(--radius) 0 0;
+    border: 1px solid var(--border); border-bottom: none;
+    padding: 6px; gap: 2px;
+  }
+  .chapter-nav-item { min-width: auto; padding: 10px 12px; flex-direction: column; gap: 4px; text-align: center; }
+  .chapter-icon { width: 36px; height: 36px; }
+  .chapter-name { font-size: 9px; }
+  .shelf { width: 350px; bottom: calc(50% - 150px); }
+  .header-hint { display: none; }
+}
+
+*::-webkit-scrollbar { width: 4px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+* { scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+</style>
 </head>
-<body class="bg-surface text-earth-dark font-body-md min-h-screen flex flex-col antialiased relative overflow-x-hidden">
+<body>
 
-    <!-- Bola Dekorasi -->
-    <div class="magic-float"></div><div class="magic-float"></div>
-    <div class="magic-float"></div><div class="magic-float"></div>
+<!-- HEADER -->
+<header class="header">
+  <div class="brand">
+    <div class="brand-avatar">{{ profile.full_name[0] if profile.full_name else 'P' }}</div>
+    <div>
+      <div class="brand-name">{{ profile.full_name }}</div>
+      <div class="brand-title">{{ profile.title }}</div>
+    </div>
+  </div>
+  <div class="header-hint" id="headerHint">
+    <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5"/></svg>
+    Click the book to open
+  </div>
+</header>
 
-    <!-- Header -->
-    <header class="topbar sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto w-full flex items-center justify-between px-4">
-            <a href="#" class="font-bold text-lg text-earth-dark flex items-center gap-2 animate__animated animate__fadeInDown">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-accent craft-sticker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
-                <span>{{ profile.full_name }}</span>
-            </a>
-            <nav class="hidden md:flex items-center gap-5 text-xs font-bold animate__animated animate__fadeInDown">
-                <a href="#profil" class="text-earth-dark hover:text-accent transition-colors">Profil</a>
-                <a href="#pendidikan" class="text-earth-dark hover:text-accent transition-colors">Pendidikan</a>
-                <a href="#keahlian" class="text-earth-dark hover:text-accent transition-colors">Keahlian</a>
-                <a href="#pengalaman" class="text-earth-dark hover:text-accent transition-colors">Pengalaman</a>
-                <a href="#proyek" class="text-earth-dark hover:text-accent transition-colors">Proyek</a>
-                <a href="#kontak" class="text-earth-dark hover:text-accent transition-colors">Kontak</a>
-            </nav>
-            <div class="flex md:hidden items-center">
-                <a href="#kontak" class="btn-primary px-3 py-1.5 rounded-lg text-xs font-bold">Hubungi</a>
-            </div>
+<!-- SHELF -->
+<div class="shelf" id="shelf"></div>
+
+<!-- SINGLE BOOK -->
+<div class="stage" id="stage">
+  <div class="book-scene" id="bookScene">
+    <div class="book-3d" id="book3d">
+      <div class="bf front">
+        <div class="cover-badge">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+          PORTFOLIO
         </div>
-    </header>
+        <div class="cover-art">
+          <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="50" cy="50" r="35" opacity="0.6"/>
+            <circle cx="50" cy="50" r="22" opacity="0.8"/>
+            <circle cx="50" cy="50" r="10"/>
+            <path d="M50 15v70M15 50h70" opacity="0.4"/>
+          </svg>
+        </div>
+        <div>
+          <div class="cover-title">{{ profile.full_name }}</div>
+          <div class="cover-subtitle">{{ profile.title }}</div>
+          <div class="cover-line"></div>
+        </div>
+      </div>
+      <div class="bf spine"><div class="spine-text">{{ profile.full_name }}</div></div>
+      <div class="bf pages-side"></div>
+      <div class="bf back"><div class="back-logo">{{ profile.full_name[0] if profile.full_name else 'P' }}</div></div>
+      <div class="bf edge-top"></div>
+      <div class="bf edge-bottom"></div>
+    </div>
+    <div class="book-shadow"></div>
+  </div>
+</div>
 
-    <main class="max-w-5xl mx-auto w-full px-4 py-8 space-y-12 flex-1 relative">
+<!-- OPEN BOOK VIEW -->
+<div class="open-book-view" id="openBookView">
+  <div class="open-book" id="openBook">
+    <div class="bookmark" id="bookmark"></div>
+    <div class="open-book-pages" id="openBookPages">
+      <div class="page-left" id="pageLeft"></div>
+      <div class="page-right" id="pageRight"></div>
+    </div>
+  </div>
+</div>
 
-        <!-- PROFIL -->
-        <section id="profil" class="cardboard-card cardboard-texture rounded-3xl p-6 sm:p-10 shadow-cardboard relative reveal">
-            <div class="tape-accent"></div>
-            <!-- SpinKit pojok -->
-            <div class="absolute top-4 right-4 opacity-30">
-                <div class="sk-chase">
-                    <div class="sk-chase-dot"></div><div class="sk-chase-dot"></div><div class="sk-chase-dot"></div>
-                    <div class="sk-chase-dot"></div><div class="sk-chase-dot"></div><div class="sk-chase-dot"></div>
-                </div>
-            </div>
-            <div class="flex flex-col sm:flex-row items-center gap-6 sm:gap-8">
-                <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl bg-kraft border-4 border-earth-dark flex-shrink-0 overflow-hidden shadow-md flex items-center justify-center relative animate__animated animate__zoomIn">
-                    {% if profile.avatar_url %}
-                    <img src="{{ profile.avatar_url }}" alt="{{ profile.full_name }}" class="w-full h-full object-cover">
-                    {% else %}
-                    <svg xmlns="http://www.w3.org/2000/svg" class="text-earth-dark w-16 h-16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                    {% endif %}
-                </div>
-                <div class="space-y-3 text-center sm:text-left flex-1">
-                    <h1 class="text-2xl sm:text-4xl font-extrabold text-earth-dark leading-tight animate__animated animate__fadeInUp">{{ profile.full_name }}</h1>
-                    <p class="text-accent font-bold text-base sm:text-lg animate__animated animate__fadeInUp">{{ profile.title }}</p>
-                    <p class="text-text-muted text-sm sm:text-base leading-relaxed font-medium max-w-2xl">{{ profile.bio }}</p>
-                    <!-- Wave dekorasi -->
-                    <div class="pt-2 flex flex-wrap justify-center sm:justify-start gap-2 mt-4">
-                        <div class="sk-wave">
-                            <div class="sk-rect"></div><div class="sk-rect"></div><div class="sk-rect"></div>
-                            <div class="sk-rect"></div><div class="sk-rect"></div>
-                        </div>
-                    </div>
-                    
-                <div class="flex flex-wrap justify-center sm:justify-start gap-2 mt-4">
-    {% if profile.resume_url and profile.show_resume %}
-    <a href="{{ profile.resume_url }}" target="_blank" class="px-4 py-1.5 bg-accent text-white border-2 border-earth-dark rounded-lg text-xs font-bold hover:bg-accent-hover transition-colors flex items-center gap-1.5 shadow-[2px_2px_0px_#2C1A0E] hvr-grow">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Download CV
-    </a>
-    {% endif %}
-    {% if profile.show_email and profile.email %}
-    <a href="mailto:{{ profile.email }}" class="px-3 py-1.5 bg-kraft border-2 border-earth-dark rounded-lg text-xs font-bold text-earth-dark hover:bg-cardboard transition-colors flex items-center gap-1.5 shadow-[2px_2px_0px_#2C1A0E] hvr-grow">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/></svg>
-        {{ profile.email }}
-    </a>
-    {% endif %}
-    {% if profile.show_phone and profile.phone %}
-    <a href="tel:{{ profile.phone }}" class="px-3 py-1.5 bg-kraft border-2 border-earth-dark rounded-lg text-xs font-bold text-earth-dark hover:bg-cardboard transition-colors flex items-center gap-1.5 shadow-[2px_2px_0px_#2C1A0E] hvr-grow">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92V20a2 2 0 0 1-2 2h-4c-9.94 0-18-8.06-18-18V2a2 2 0 0 1 2-2h3.09a2 2 0 0 1 1.92 1.34l2.6 6.55a2 2 0 0 1-.48 2.22l-2.2 2.2a16 16 0 0 0 7.34 7.34l2.2-2.2a2 2 0 0 1 2.22-.48l6.55 2.6a2 2 0 0 1 1.34 1.92z"/></svg>
-        {{ profile.phone }}
-    </a>
-    {% endif %}
-    {% if profile.show_website and profile.website %}
-    <a href="{{ profile.website }}" target="_blank" class="px-3 py-1.5 bg-kraft border-2 border-earth-dark rounded-lg text-xs font-bold text-earth-dark hover:bg-cardboard transition-colors flex items-center gap-1.5 shadow-[2px_2px_0px_#2C1A0E] hvr-grow">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
-        {{ profile.website }}
-    </a>
-    {% endif %}
-    {% if profile.show_location and profile.location %}
-    <span class="px-3 py-1.5 bg-kraft border-2 border-earth-dark rounded-lg text-xs font-bold text-earth-dark">
-        {{ profile.location }}
-    </span>
-    {% endif %}
-                        {% if profile.github and profile.show_github %}
-                        <a href="{{ profile.github }}" target="_blank" class="px-3 py-1.5 bg-kraft border-2 border-earth-dark rounded-lg text-xs font-bold text-earth-dark hover:bg-cardboard transition-colors flex items-center gap-1.5 shadow-[2px_2px_0px_#2C1A0E] hvr-grow">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
-                            GitHub
-                        </a>
-                        {% endif %}
-                        {% if profile.linkedin and profile.show_linkedin %}
-                        <a href="{{ profile.linkedin }}" target="_blank" class="px-3 py-1.5 bg-kraft border-2 border-earth-dark rounded-lg text-xs font-bold text-earth-dark hover:bg-cardboard transition-colors flex items-center gap-1.5 shadow-[2px_2px_0px_#2C1A0E] hvr-grow">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
-                            LinkedIn
-                        </a>
-                        {% endif %}
-                        {% if profile.instagram and profile.show_instagram %}
-                        <a href="{{ profile.instagram }}" target="_blank" class="px-3 py-1.5 bg-kraft border-2 border-earth-dark rounded-lg text-xs font-bold text-earth-dark hover:bg-cardboard transition-colors flex items-center gap-1.5 shadow-[2px_2px_0px_#2C1A0E] hvr-grow">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-                            Instagram
-                        </a>
-                        {% endif %}
-                        {% if profile.twitter and profile.show_twitter %}
-                        <a href="{{ profile.twitter }}" target="_blank" class="px-3 py-1.5 bg-kraft border-2 border-earth-dark rounded-lg text-xs font-bold text-earth-dark hover:bg-cardboard transition-colors flex items-center gap-1.5 shadow-[2px_2px_0px_#2C1A0E] hvr-grow">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l11.733 16H20L8.267 4z"/><path d="M4 20l6.768-6.768M20 4l-6.768 6.768"/></svg>
-                            Twitter / X
-                        </a>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-        </section>
+<!-- RIGHT NAVBAR -->
+<nav class="chapter-nav" id="chapterNav">
+  <div class="chapter-nav-item active" data-section="profil">
+    <div class="chapter-icon">
+      <svg class="icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </div>
+    <div class="chapter-name">Profil</div>
+  </div>
+  <div class="chapter-nav-item" data-section="pendidikan">
+    <div class="chapter-icon">
+      <svg class="icon" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+    </div>
+    <div class="chapter-name">Pendidikan</div>
+  </div>
+  <div class="chapter-nav-item" data-section="keahlian">
+    <div class="chapter-icon">
+      <svg class="icon" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+    </div>
+    <div class="chapter-name">Keahlian</div>
+  </div>
+  <div class="chapter-nav-item" data-section="pengalaman">
+    <div class="chapter-icon">
+      <svg class="icon" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+    </div>
+    <div class="chapter-name">Pengalaman</div>
+  </div>
+  <div class="chapter-nav-item" data-section="proyek">
+    <div class="chapter-icon">
+      <svg class="icon" viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+    </div>
+    <div class="chapter-name">Proyek</div>
+  </div>
+  <div class="chapter-nav-item" data-section="kontak">
+    <div class="chapter-icon">
+      <svg class="icon" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+    </div>
+    <div class="chapter-name">Kontak</div>
+  </div>
+</nav>
 
-        {% if educations or certificates %}
-        <!-- PENDIDIKAN & SERTIFIKAT -->
-        <section id="pendidikan" class="space-y-4 reveal">
-            <div class="flex items-center gap-3">
-                <svg xmlns="http://www.w3.org/2000/svg" class="text-accent w-7 h-7 craft-sticker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-                <h2 class="text-xl sm:text-2xl font-bold text-earth-dark section-heading">Pendidikan &amp; Sertifikasi</h2>
-                <span class="pulse-dot"></span>
-            </div>
-            <div class="grid grid-cols-1 gap-6">
-                {% if educations %}
-                <div class="space-y-3">
-                    <h3 class="font-bold text-earth-dark text-base flex items-center gap-1.5">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-                        Pendidikan Formal
-                    </h3>
-                    <div class="swiper eduSwiper w-full pb-8">
-                        <div class="swiper-wrapper">
-                            {% for edu in educations %}
-                            <div class="swiper-slide w-[85%] sm:w-full">
-                                <div class="cardboard-card cardboard-texture rounded-2xl p-4 shadow-sm mr-4 h-full section-card">
-                                    <span class="text-[11px] font-bold text-earth-brown bg-kraft/40 px-2 py-0.5 rounded border border-border-card">{{ edu.period }}</span>
-                                    <h4 class="font-bold text-earth-dark text-base mt-1.5">{{ edu.degree }}{% if edu.major %} - {{ edu.major }}{% endif %}</h4>
-                                    <p class="text-xs font-bold text-earth-brown flex items-center gap-1 mt-1">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"/><path d="M9 22v-4h6v4M8 6h.01M16 6h.01M12 6h.01M12 10h.01M12 14h.01M16 10h.01M16 14h.01M8 10h.01M8 14h.01"/></svg>
-                                        {{ edu.institution }}
-                                    </p>
-                                    <p class="text-xs text-text-muted mt-2 leading-relaxed">{{ edu.description }}</p>
-                                </div>
-                            </div>
-                            {% endfor %}
-                        </div>
-                        <div class="swiper-pagination"></div>
-                    </div>
-                </div>
-                {% endif %}
-                {% if certificates %}
-                <div class="space-y-3">
-                    <h3 class="font-bold text-earth-dark text-base flex items-center gap-1.5">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"/><circle cx="12" cy="8" r="6"/></svg>
-                        Sertifikat &amp; Lisensi
-                    </h3>
-                    <div class="swiper certSwiper w-full pb-8">
-                        <div class="swiper-wrapper">
-                            {% for cert in certificates %}
-                            <div class="swiper-slide w-[85%] sm:w-full">
-                                <div class="cardboard-card cardboard-texture rounded-2xl p-4 shadow-sm mr-4 h-full section-card">
-                                    <span class="text-[11px] font-bold text-accent bg-accent/10 px-2 py-0.5 rounded border border-accent/30">{{ cert.period }}</span>
-                                    <h4 class="font-bold text-earth-dark text-base mt-1.5">{{ cert.degree }}</h4>
-                                    <p class="text-xs font-bold text-earth-brown flex items-center gap-1 mt-1">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"/><path d="M9 22v-4h6v4M8 6h.01M16 6h.01M12 6h.01M12 10h.01M12 14h.01M16 10h.01M16 14h.01M8 10h.01M8 14h.01"/></svg>
-                                        {{ cert.institution }}
-                                    </p>
-                                    <p class="text-xs text-text-muted mt-2 leading-relaxed">{{ cert.description }}</p>
-                                    {% if cert.credential_url %}
-                                    <a href="{{ cert.credential_url }}" target="_blank" class="text-xs font-bold text-accent hover:underline mt-2 inline-flex items-center gap-0.5">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
-                                        Verifikasi Credential
-                                    </a>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            {% endfor %}
-                        </div>
-                        <div class="swiper-pagination"></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        {% endif %}
-        {% endif %}
+<!-- CLOSE -->
+<button class="close-btn" id="closeBtn" aria-label="Close">
+  <svg class="icon" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+</button>
 
-        <!-- KEAHLIAN -->
-        <section id="keahlian" class="space-y-4 reveal">
-            <div class="flex items-center gap-3">
-                <svg xmlns="http://www.w3.org/2000/svg" class="text-accent w-7 h-7 craft-sticker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/><path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/><path d="M17.599 6.5a3 3 0 0 0 .399-1.375M6.003 5.125A3 3 0 0 0 6.401 6.5M3.477 10.896a4 4 0 0 1 .585-.396M19.938 10.5a4 4 0 0 1 .585.396M6 18a4 4 0 0 1-1.967-.516M19.967 17.484A4 4 0 0 1 18 18"/></svg>
-                <h2 class="text-xl sm:text-2xl font-bold text-earth-dark section-heading">Keahlian &amp; Tech Stack</h2>
-                <span class="pulse-dot"></span>
-            </div>
-            <div class="swiper skillSwiper w-full pb-10">
-                <div class="swiper-wrapper">
-                    {% for skill in skills %}
-                    <div class="swiper-slide w-[200px] sm:w-[250px] mr-3 h-auto">
-                        <div class="bento-card p-3.5 flex items-center gap-3 h-full section-card">
-                            <div class="w-10 h-10 bg-accent/15 border-2 border-accent text-accent rounded-lg flex items-center justify-center flex-shrink-0">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <h3 class="font-bold text-earth-dark text-xs truncate">{{ skill.name }}</h3>
-                                <p class="text-[10px] text-text-muted font-bold">{{ skill.category }}</p>
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-                <div class="swiper-pagination"></div>
-            </div>
-        </section>
+<!-- STATUS -->
+<div class="status-bar">
+  <span class="status-dot" id="statusDot"></span>
+  <span id="statusText">Closed — Click book to open</span>
+</div>
 
-        <!-- PENGALAMAN (2 baris jika <= 4, lebih → carousel) -->
-        <section id="pengalaman" class="space-y-4 reveal">
-            <div class="flex items-center gap-3">
-                <svg xmlns="http://www.w3.org/2000/svg" class="text-accent w-7 h-7 craft-sticker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-                <h2 class="text-xl sm:text-2xl font-bold text-earth-dark section-heading">Pengalaman</h2>
-                <span class="pulse-dot"></span>
-            </div>
-            {% if experiences|length <= 4 %}
-            <div class="exp-grid-2row">
-                {% for exp in experiences %}
-                <div class="cardboard-card cardboard-texture rounded-2xl p-5 shadow-sm space-y-2 section-card">
-                    <div class="flex items-center justify-between gap-2 flex-wrap">
-                        <span class="px-2.5 py-0.5 bg-accent/15 border border-accent rounded-md text-xs font-bold text-accent">{{ exp.category }}</span>
-                        <span class="text-xs font-bold text-earth-brown bg-kraft/40 px-2 py-0.5 rounded border border-border-card">{{ exp.period }}</span>
-                    </div>
-                    <h3 class="font-bold text-earth-dark text-base">{{ exp.position }}</h3>
-                    <p class="text-xs font-bold text-earth-brown flex items-center gap-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"/><path d="M9 22v-4h6v4M8 6h.01M16 6h.01M12 6h.01M12 10h.01M12 14h.01M16 10h.01M16 14h.01M8 10h.01M8 14h.01"/></svg>
-                        {{ exp.company }}
-                    </p>
-                    <p class="text-xs text-text-muted leading-relaxed font-medium">{{ exp.description }}</p>
-                </div>
-                {% endfor %}
-            </div>
-            {% else %}
-            <div class="swiper expSwiper w-full pb-10">
-                <div class="swiper-wrapper">
-                    {% for exp in experiences %}
-                    <div class="swiper-slide w-[85%] md:w-[45%] lg:w-[40%] mr-4 h-auto">
-                        <div class="cardboard-card cardboard-texture rounded-2xl p-5 shadow-sm space-y-2 h-full section-card">
-                            <div class="flex items-center justify-between gap-2 flex-wrap">
-                                <span class="px-2.5 py-0.5 bg-accent/15 border border-accent rounded-md text-xs font-bold text-accent">{{ exp.category }}</span>
-                                <span class="text-xs font-bold text-earth-brown bg-kraft/40 px-2 py-0.5 rounded border border-border-card">{{ exp.period }}</span>
-                            </div>
-                            <h3 class="font-bold text-earth-dark text-base">{{ exp.position }}</h3>
-                            <p class="text-xs font-bold text-earth-brown flex items-center gap-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"/><path d="M9 22v-4h6v4M8 6h.01M16 6h.01M12 6h.01M12 10h.01M12 14h.01M16 10h.01M16 14h.01M8 10h.01M8 14h.01"/></svg>
-                                {{ exp.company }}
-                            </p>
-                            <p class="text-xs text-text-muted leading-relaxed font-medium">{{ exp.description }}</p>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-                <div class="swiper-pagination"></div>
-            </div>
-            {% endif %}
-        </section>
+<script>
+// ═══════ STATE ═══════
+const state = { isOpen: false, currentSection: 'profil', isAnimating: false };
 
-        <!-- PROYEK -->
-        <section id="proyek" class="space-y-4 reveal">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="text-accent w-7 h-7 craft-sticker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/><path d="m16 13-3.5 3.5-2-2L8 17"/></svg>
-                    <h2 class="text-xl sm:text-2xl font-bold text-earth-dark section-heading">Portofolio Proyek</h2>
-                    <span class="pulse-dot"></span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <button class="swiper-proj-prev p-2 bg-kraft border-2 border-earth-dark rounded-xl hover:bg-cardboard cursor-pointer shadow-[2px_2px_0px_#2C1A0E] active:shadow-none active:translate-y-0.5 transition-all">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-                    </button>
-                    <button class="swiper-proj-next p-2 bg-kraft border-2 border-earth-dark rounded-xl hover:bg-cardboard cursor-pointer shadow-[2px_2px_0px_#2C1A0E] active:shadow-none active:translate-y-0.5 transition-all">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-                    </button>
-                </div>
-            </div>
-            <div class="swiper projSwiper w-full pb-10">
-                <div class="swiper-wrapper">
-                    {% for proj in projects %}
-                    <div class="swiper-slide w-[90%] md:w-[45%] lg:w-[40%] mr-6 h-auto">
-                        <div class="cardboard-card cardboard-texture rounded-2xl p-5 shadow-cardboard flex flex-col justify-between relative h-full section-card">
-                            <div class="tape-accent"></div>
-                            <div>
-                                {% if proj.image_url %}
-                                <img src="{{ proj.image_url }}" alt="{{ proj.title }}" class="w-full h-48 object-cover rounded-xl border-2 border-border-card mb-4 shadow-sm">
-                                {% else %}
-                                <div class="w-full h-48 bg-kraft/40 rounded-xl border-2 border-dashed border-border-card flex items-center justify-center mb-4">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-border-card" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
-                                </div>
-                                {% endif %}
-                                <div class="flex items-center justify-between mb-2">
-                                    <span class="px-2.5 py-0.5 bg-accent/15 border border-accent rounded-md text-xs font-bold text-accent">{{ proj.category }}</span>
-                                </div>
-                                <h3 class="font-bold text-earth-dark text-lg mb-2">{{ proj.title }}</h3>
-                                <p class="text-xs sm:text-sm text-text-muted leading-relaxed mb-3 font-medium line-clamp-3">{{ proj.description }}</p>
-                                <p class="text-xs font-bold text-earth-brown bg-kraft/30 p-2 rounded-lg border border-border-light inline-block">Tech: {{ proj.tags }}</p>
-                            </div>
-                            <div class="mt-5 pt-3 border-t-2 border-dashed border-border-light flex flex-wrap gap-2 text-xs">
-                                <a href="{{ url_for('public.project_detail', project_id=proj.id) }}" class="btn-primary px-3.5 py-2 rounded-lg text-white font-bold flex items-center gap-1.5 hover:-translate-y-1 transition-transform hvr-grow">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
-                                    Detail
-                                </a>
-                                {% if proj.demo_url %}
-                                <a href="{{ proj.demo_url }}" target="_blank" class="btn-secondary px-3.5 py-2 rounded-lg font-bold flex items-center gap-1.5 hover:-translate-y-1 transition-transform">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
-                                    Live Demo
-                                </a>
-                                {% endif %}
-                                {% if proj.github_url %}
-                                <a href="{{ proj.github_url }}" target="_blank" class="btn-secondary px-3.5 py-2 rounded-lg font-bold flex items-center gap-1.5 hover:-translate-y-1 transition-transform">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
-                                    Repo
-                                </a>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-                <div class="swiper-pagination"></div>
-            </div>
-        </section>
+// ═══════ DOM ═══════
+const $ = id => document.getElementById(id);
+const book3d = $('book3d');
+const bookScene = $('bookScene');
+const shelf = $('shelf');
+const openBookView = $('openBookView');
+const openBookPages = $('openBookPages');
+const pageLeft = $('pageLeft');
+const pageRight = $('pageRight');
+const chapterNav = $('chapterNav');
+const closeBtn = $('closeBtn');
+const statusText = $('statusText');
+const statusDot = $('statusDot');
+const headerHint = $('headerHint');
+const bookmark = $('bookmark');
 
-        <!-- KONTAK -->
-        <section id="kontak" class="cardboard-card cardboard-texture rounded-3xl p-6 sm:p-8 shadow-cardboard relative max-w-2xl mx-auto reveal">
-            <div class="tape-accent"></div>
-            <div class="text-center mb-6 flex flex-col items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="text-accent w-10 h-10 mb-2 craft-sticker animate__animated animate__heartBeat animate__infinite animate__slow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-                <h2 class="text-2xl font-bold text-earth-dark">Kirim Pesan Langsung</h2>
-                <p class="text-text-muted text-xs sm:text-sm font-medium">Ada pertanyaan atau penawaran kerja sama? Silakan kirimkan pesan di bawah ini.</p>
-            </div>
-            <div id="contactAlert" class="hidden mb-4 p-3 rounded-lg text-sm font-semibold border-2"></div>
-            <form id="publicContactForm" class="space-y-4">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block font-bold text-earth-dark text-xs mb-1">Nama Anda</label>
-                        <input type="text" id="sender_name" required class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" placeholder="Nama Lengkap">
-                    </div>
-                    <div>
-                        <label class="block font-bold text-earth-dark text-xs mb-1">Email Anda</label>
-                        <input type="email" id="sender_email" required class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" placeholder="email@domain.com">
-                    </div>
-                </div>
-                <div>
-                    <label class="block font-bold text-earth-dark text-xs mb-1">Subjek</label>
-                    <input type="text" id="subject" class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" placeholder="Tawaran Proyek / Pertanyaan">
-                </div>
-                <div>
-                    <label class="block font-bold text-earth-dark text-xs mb-1">Pesan Anda</label>
-                    <textarea id="message_content" rows="4" required class="w-full p-3 input-cardboard rounded-lg text-sm" placeholder="Tuliskan pesan Anda..."></textarea>
-                </div>
-                <button type="submit" id="submitContactBtn" class="btn-primary w-full py-3 rounded-xl font-bold text-sm cursor-pointer flex items-center justify-center gap-2 hvr-grow">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
-                    Kirim Pesan Sekarang
-                </button>
-            </form>
-        </section>
+// ═══════ SVG ICONS ═══════
+const icons = {
+  github: '<svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>',
+  linkedin: '<svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>',
+  instagram: '<svg class="icon icon-sm" viewBox="0 0 24 24"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>',
+  twitter: '<svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M4 4l11.733 16H20L8.267 4z"/><path d="M4 20l6.768-6.768M20 4l-6.768 6.768"/></svg>',
+  globe: '<svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>',
+  mail: '<svg class="icon icon-sm" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>',
+  phone: '<svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M22 16.92V20a2 2 0 0 1-2 2h-4c-9.94 0-18-8.06-18-18V2a2 2 0 0 1 2-2h3.09a2 2 0 0 1 1.92 1.34l2.6 6.55a2 2 0 0 1-.48 2.22l-2.2 2.2a16 16 0 0 0 7.34 7.34l2.2-2.2a2 2 0 0 1 2.22-.48l6.55 2.6a2 2 0 0 1 1.34 1.92z"/></svg>',
+  location: '<svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>',
+  download: '<svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>',
+  building: '<svg class="icon icon-sm" viewBox="0 0 24 24"><rect width="16" height="20" x="4" y="2" rx="2"/><path d="M9 22v-4h6v4M8 6h.01M16 6h.01M12 6h.01M12 10h.01M12 14h.01M16 10h.01M16 14h.01M8 10h.01M8 14h.01"/></svg>',
+  award: '<svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>',
+  gradcap: '<svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>',
+  external: '<svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>',
+  code: '<svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>',
+  send: '<svg class="icon icon-sm" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>',
+  folder: '<svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>',
+  user: '<svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
+  briefcase: '<svg class="icon icon-sm" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>'
+};
 
-    </main>
+// ═══════ SECTION CONTENT ═══════
+const sections = {
+  profil: {
+    color: '#3b82f6',
+    left: function() {
+      return '<div class="page-heading" style="color:#3b82f6;border-color:#eff6ff;">' + icons.user + ' Volume I — Profil</div>' +
+        '<h2 class="page-title">{{ profile.full_name }}</h2>' +
+        '<div class="page-body">' +
+        '<p>{{ profile.bio }}</p>' +
+        '<p style="margin-top:16px;padding:14px;background:#eff6ff;border-radius:8px;font-style:italic;color:#3b82f6;font-size:13px;">"{{ profile.title }}"</p>' +
+        '</div>';
+    },
+    right: function() {
+      var html = '<div class="page-heading" style="color:#3b82f6;border-color:#eff6ff;">' + icons.globe + ' Connect</div>' +
+        '<h2 class="page-title" style="font-size:20px;">Let\'s Connect</h2>' +
+        '<div class="page-body"><div style="margin-bottom:16px;">';
+      
+      html += '{% if profile.show_email and profile.email %}<div class="meta-line"><span class="meta-label">' + icons.mail + ' Email</span><span>{{ profile.email }}</span></div>{% endif %}';
+      html += '{% if profile.show_phone and profile.phone %}<div class="meta-line"><span class="meta-label">' + icons.phone + ' Phone</span><span>{{ profile.phone }}</span></div>{% endif %}';
+      html += '{% if profile.show_location and profile.location %}<div class="meta-line"><span class="meta-label">' + icons.location + ' Location</span><span>{{ profile.location }}</span></div>{% endif %}';
+      
+      html += '</div><div class="book-social">';
+      html += '{% if profile.github and profile.show_github %}<a href="{{ profile.github }}" target="_blank">' + icons.github + ' GitHub</a>{% endif %}';
+      html += '{% if profile.linkedin and profile.show_linkedin %}<a href="{{ profile.linkedin }}" target="_blank">' + icons.linkedin + ' LinkedIn</a>{% endif %}';
+      html += '{% if profile.instagram and profile.show_instagram %}<a href="{{ profile.instagram }}" target="_blank">' + icons.instagram + ' Instagram</a>{% endif %}';
+      html += '{% if profile.twitter and profile.show_twitter %}<a href="{{ profile.twitter }}" target="_blank">' + icons.twitter + ' Twitter/X</a>{% endif %}';
+      html += '{% if profile.show_website and profile.website %}<a href="{{ profile.website }}" target="_blank">' + icons.globe + ' Website</a>{% endif %}';
+      html += '</div>';
+      html += '{% if profile.resume_url and profile.show_resume %}<div style="margin-top:20px;"><a href="{{ profile.resume_url }}" target="_blank" class="btn-primary">' + icons.download + ' Download CV</a></div>{% endif %}';
+      html += '</div><div class="page-number">2</div>';
+      return html;
+    }
+  },
 
-    <footer class="p-6 text-center text-xs text-text-muted border-t-2 border-dashed border-border-light bg-card-bg mt-12">
-        &copy; 2026 {{ profile.full_name }}. Crafted with Cardboard Theme &amp; Mobile-First UI/UX.
-    </footer>
+  pendidikan: {
+    color: '#10b981',
+    left: function() {
+      var html = '<div class="page-heading" style="color:#10b981;border-color:#ecfdf5;">' + icons.gradcap + ' Volume II — Pendidikan</div>' +
+        '<h2 class="page-title">Education</h2><div class="page-body">';
+      html += '{% for edu in educations %}';
+      html += '<div class="timeline-entry"><div class="timeline-period" style="color:#10b981;">' + icons.gradcap + ' {{ edu.period }}</div>';
+      html += '<div class="timeline-role">{{ edu.degree }}{% if edu.major %} — {{ edu.major }}{% endif %}</div>';
+      html += '<div class="timeline-company">' + icons.building + ' {{ edu.institution }}</div>';
+      html += '<p style="font-size:12px;line-height:1.5;">{{ edu.description }}</p></div>';
+      html += '{% endfor %}</div>';
+      return html;
+    },
+    right: function() {
+      var html = '<div class="page-heading" style="color:#10b981;border-color:#ecfdf5;">' + icons.award + ' Certifications</div>' +
+        '<h2 class="page-title" style="font-size:20px;">Sertifikat</h2><div class="page-body">';
+      html += '{% for cert in certificates %}';
+      html += '<div class="timeline-entry"><div class="timeline-period" style="color:#10b981;">' + icons.award + ' {{ cert.period }}</div>';
+      html += '<div class="timeline-role" style="font-size:14px;">{{ cert.degree }}</div>';
+      html += '<div class="timeline-company">' + icons.building + ' {{ cert.institution }}</div>';
+      html += '{% if cert.credential_url %}<a href="{{ cert.credential_url }}" target="_blank" class="btn-outline" style="margin-top:6px;padding:6px 12px;font-size:11px;">' + icons.external + ' Verify</a>{% endif %}';
+      html += '</div>{% endfor %}';
+      html += '{% if not certificates %}<p style="font-style:italic;color:var(--ink-lighter);">No certificates listed yet.</p>{% endif %}';
+      html += '</div><div class="page-number">4</div>';
+      return html;
+    }
+  },
 
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script>
-        lucide.createIcons();
-        gsap.registerPlugin(ScrollTrigger);
+  keahlian: {
+    color: '#8b5cf6',
+    left: function() {
+      var html = '<div class="page-heading" style="color:#8b5cf6;border-color:#f5f3ff;">' + icons.code + ' Volume III — Keahlian</div>' +
+        '<h2 class="page-title">Skills</h2><div class="page-body">';
+      html += '{% set categories = [] %}{% for skill in skills %}{% if skill.category not in categories %}{% set _ = categories.append(skill.category) %}{% endif %}{% endfor %}';
+      html += '{% for cat in categories[:3] %}<div style="margin-bottom:16px;">';
+      html += '<div class="meta-label" style="margin-bottom:8px;color:#8b5cf6;">' + icons.code + ' {{ cat }}</div><div>';
+      html += '{% for skill in skills %}{% if skill.category == cat %}<span class="skill-tag">{{ skill.name }}</span>{% endif %}{% endfor %}';
+      html += '</div></div>{% endfor %}</div>';
+      return html;
+    },
+    right: function() {
+      var html = '<div class="page-heading" style="color:#8b5cf6;border-color:#f5f3ff;">' + icons.code + ' Tech Stack</div>' +
+        '<h2 class="page-title" style="font-size:20px;">More Skills</h2><div class="page-body">';
+      html += '{% set categories = [] %}{% for skill in skills %}{% if skill.category not in categories %}{% set _ = categories.append(skill.category) %}{% endif %}{% endfor %}';
+      html += '{% for cat in categories[3:] %}<div style="margin-bottom:16px;">';
+      html += '<div class="meta-label" style="margin-bottom:8px;color:#8b5cf6;">' + icons.code + ' {{ cat }}</div><div>';
+      html += '{% for skill in skills %}{% if skill.category == cat %}<span class="skill-tag">{{ skill.name }}</span>{% endif %}{% endfor %}';
+      html += '</div></div>{% endfor %}';
+      html += '<div style="margin-top:20px;padding:14px;background:#f5f3ff;border-radius:8px;text-align:center;">';
+      html += '<p style="font-size:12px;color:#8b5cf6;font-weight:600;">{{ skills|length }} technologies mastered</p></div>';
+      html += '</div><div class="page-number">6</div>';
+      return html;
+    }
+  },
 
-        // GSAP ScrollTrigger reveal
-        gsap.utils.toArray(".reveal").forEach(el => {
-            gsap.fromTo(el,
-                { opacity: 0, y: 50 },
-                { opacity: 1, y: 0, duration: 0.9, ease: "power3.out",
-                  scrollTrigger: { trigger: el, start: "top 88%", toggleActions: "play none none none" }
-                }
-            );
-        });
+  pengalaman: {
+    color: '#f59e0b',
+    left: function() {
+      var html = '<div class="page-heading" style="color:#f59e0b;border-color:#fffbeb;">' + icons.briefcase + ' Volume IV — Pengalaman</div>' +
+        '<h2 class="page-title">Experience</h2><div class="page-body">';
+      html += '{% for exp in experiences[:3] %}';
+      html += '<div class="timeline-entry"><div class="timeline-period" style="color:#f59e0b;">' + icons.briefcase + ' {{ exp.period }} · {{ exp.category }}</div>';
+      html += '<div class="timeline-role">{{ exp.position }}</div>';
+      html += '<div class="timeline-company">' + icons.building + ' {{ exp.company }}</div>';
+      html += '<p style="font-size:12px;line-height:1.5;">{{ exp.description }}</p></div>';
+      html += '{% endfor %}</div>';
+      return html;
+    },
+    right: function() {
+      var html = '<div class="page-heading" style="color:#f59e0b;border-color:#fffbeb;">' + icons.briefcase + ' Career Path</div>' +
+        '<h2 class="page-title" style="font-size:20px;">More Experience</h2><div class="page-body">';
+      html += '{% for exp in experiences[3:] %}';
+      html += '<div class="timeline-entry"><div class="timeline-period" style="color:#f59e0b;">' + icons.briefcase + ' {{ exp.period }} · {{ exp.category }}</div>';
+      html += '<div class="timeline-role">{{ exp.position }}</div>';
+      html += '<div class="timeline-company">' + icons.building + ' {{ exp.company }}</div>';
+      html += '<p style="font-size:12px;line-height:1.5;">{{ exp.description }}</p></div>';
+      html += '{% endfor %}';
+      html += '{% if experiences|length <= 3 %}<p style="font-style:italic;color:var(--ink-lighter);">The journey continues...</p>{% endif %}';
+      html += '</div><div class="page-number">8</div>';
+      return html;
+    }
+  },
 
-        // Animasi section heading shimmer underline saat scroll
-        gsap.utils.toArray(".section-heading").forEach(h => {
-            ScrollTrigger.create({
-                trigger: h,
-                start: "top 85%",
-                onEnter: () => h.classList.add("active")
-            });
-        });
+  proyek: {
+    color: '#ec4899',
+    left: function() {
+      var html = '<div class="page-heading" style="color:#ec4899;border-color:#fdf2f8;">' + icons.folder + ' Volume V — Proyek</div>' +
+        '<h2 class="page-title">Projects</h2><div class="page-body">';
+      html += '{% for proj in projects[:2] %}';
+      html += '<div style="margin-bottom:20px;">';
+      html += '{% if proj.image_url %}<img src="{{ proj.image_url }}" alt="{{ proj.title }}" class="project-img">{% endif %}';
+      html += '<div class="timeline-period" style="color:#ec4899;">' + icons.folder + ' {{ proj.category }}</div>';
+      html += '<div class="timeline-role" style="font-size:15px;">{{ proj.title }}</div>';
+      html += '<p style="font-size:12px;line-height:1.5;margin:6px 0;">{{ proj.description }}</p>';
+      html += '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">';
+      html += '<a href="{{ url_for("public.project_detail", project_id=proj.id) }}" class="btn-primary" style="padding:7px 14px;font-size:11px;">Detail</a>';
+      html += '{% if proj.demo_url %}<a href="{{ proj.demo_url }}" target="_blank" class="btn-outline" style="padding:6px 12px;font-size:11px;">' + icons.external + ' Demo</a>{% endif %}';
+      html += '</div></div>{% endfor %}</div>';
+      return html;
+    },
+    right: function() {
+      var html = '<div class="page-heading" style="color:#ec4899;border-color:#fdf2f8;">' + icons.folder + ' More Works</div>' +
+        '<h2 class="page-title" style="font-size:20px;">Other Projects</h2><div class="page-body">';
+      html += '{% for proj in projects[2:] %}';
+      html += '<div style="margin-bottom:16px;">';
+      html += '{% if proj.image_url %}<img src="{{ proj.image_url }}" alt="{{ proj.title }}" class="project-img" style="height:80px;">{% endif %}';
+      html += '<div class="timeline-period" style="color:#ec4899;">' + icons.folder + ' {{ proj.category }}</div>';
+      html += '<div class="timeline-role" style="font-size:14px;">{{ proj.title }}</div>';
+      html += '<p style="font-size:11px;line-height:1.5;margin:4px 0;">{{ proj.description[:100] }}...</p>';
+      html += '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;">';
+      html += '<a href="{{ url_for("public.project_detail", project_id=proj.id) }}" class="btn-primary" style="padding:5px 10px;font-size:10px;">Detail</a>';
+      html += '{% if proj.github_url %}<a href="{{ proj.github_url }}" target="_blank" class="btn-outline" style="padding:4px 10px;font-size:10px;">' + icons.github + ' Repo</a>{% endif %}';
+      html += '</div></div>{% endfor %}</div><div class="page-number">10</div>';
+      return html;
+    }
+  },
 
-        // GSAP stagger animasi card per section
-        gsap.utils.toArray("section").forEach(sec => {
-            const cards = sec.querySelectorAll(".section-card");
-            if (cards.length > 0) {
-                gsap.fromTo(cards,
-                    { opacity: 0, y: 30, scale: 0.97 },
-                    {
-                        opacity: 1, y: 0, scale: 1,
-                        duration: 0.6, ease: "back.out(1.5)", stagger: 0.12,
-                        scrollTrigger: { trigger: sec, start: "top 85%", toggleActions: "play none none none" }
-                    }
-                );
-            }
-        });
+  kontak: {
+    color: '#14b8a6',
+    left: function() {
+      var html = '<div class="page-heading" style="color:#14b8a6;border-color:#f0fdfa;">' + icons.mail + ' Volume VI — Kontak</div>' +
+        '<h2 class="page-title">Get In Touch</h2><div class="page-body">' +
+        '<p style="font-style:italic;margin-bottom:16px;color:var(--ink-light);">Ada pertanyaan atau tawaran kerja sama? Kirim pesan.</p>' +
+        '<div id="contactAlert" class="form-alert"></div>' +
+        '<form id="publicContactForm" class="book-form">' +
+        '<div class="form-group"><label>' + icons.user + ' Nama</label><input type="text" id="sender_name" required placeholder="Nama lengkap"></div>' +
+        '<div class="form-group"><label>' + icons.mail + ' Email</label><input type="email" id="sender_email" required placeholder="email@domain.com"></div>' +
+        '<div class="form-group"><label>' + icons.folder + ' Subjek</label><input type="text" id="subject" placeholder="Tawaran proyek / Pertanyaan"></div>' +
+        '<div class="form-group"><label>' + icons.send + ' Pesan</label><textarea id="message_content" rows="3" required placeholder="Tuliskan pesan..."></textarea></div>' +
+        '<button type="submit" class="btn-primary" id="submitContactBtn" style="width:100%;justify-content:center;">' + icons.send + ' Kirim Pesan</button>' +
+        '</form></div>';
+      return html;
+    },
+    right: function() {
+      var html = '<div class="page-heading" style="color:#14b8a6;border-color:#f0fdfa;">' + icons.globe + ' Other Channels</div>' +
+        '<h2 class="page-title" style="font-size:20px;">Hubungi Saya</h2><div class="page-body"><div style="margin-bottom:16px;">';
+      html += '{% if profile.show_email and profile.email %}<div class="meta-line"><span class="meta-label">' + icons.mail + ' Email</span><span>{{ profile.email }}</span></div>{% endif %}';
+      html += '{% if profile.show_phone and profile.phone %}<div class="meta-line"><span class="meta-label">' + icons.phone + ' Phone</span><span>{{ profile.phone }}</span></div>{% endif %}';
+      html += '{% if profile.show_location and profile.location %}<div class="meta-line"><span class="meta-label">' + icons.location + ' Location</span><span>{{ profile.location }}</span></div>{% endif %}';
+      html += '</div><div class="book-social">';
+      html += '{% if profile.github and profile.show_github %}<a href="{{ profile.github }}" target="_blank">' + icons.github + ' GitHub</a>{% endif %}';
+      html += '{% if profile.linkedin and profile.show_linkedin %}<a href="{{ profile.linkedin }}" target="_blank">' + icons.linkedin + ' LinkedIn</a>{% endif %}';
+      html += '{% if profile.instagram and profile.show_instagram %}<a href="{{ profile.instagram }}" target="_blank">' + icons.instagram + ' Instagram</a>{% endif %}';
+      html += '</div>';
+      html += '<div style="margin-top:28px;padding:20px;background:#f0fdfa;border-radius:10px;text-align:center;">';
+      html += '<p style="font-family:\'Playfair Display\',serif;font-style:italic;font-size:13px;color:#14b8a6;line-height:1.6;">"Every great collaboration<br>begins with a single message."</p>';
+      html += '</div></div><div class="page-number">12</div>';
+      return html;
+    }
+  }
+};
 
-        document.addEventListener("DOMContentLoaded", function () {
-            // === Swiper dengan autoplay & efek slide ===
-            const autoOpts = {
-                slidesPerView: "auto",
-                spaceBetween: 12,
-                autoplay: { delay: 3000, disableOnInteraction: false, pauseOnMouseEnter: true },
-                speed: 600,
-                loop: true,
-                pagination: { el: ".swiper-pagination", clickable: true },
-                effect: "slide",
-            };
+// ═══════ SECTION ORDER ═══════
+const sectionOrder = ['profil', 'pendidikan', 'keahlian', 'pengalaman', 'proyek', 'kontak'];
+const sectionIndex = { profil: 0, pendidikan: 1, keahlian: 2, pengalaman: 3, proyek: 4, kontak: 5 };
 
-            // Pendidikan & Sertifikat: 1 per tampilan
-            new Swiper(".eduSwiper", {
-                ...autoOpts,
-                slidesPerView: 1,
-                loop: true,
-            });
-            new Swiper(".certSwiper", {
-                ...autoOpts,
-                slidesPerView: 1,
-                loop: true,
-            });
+// ═══════ RENDER ═══════
+function renderSection(sectionId) {
+  const section = sections[sectionId];
+  if (!section) return;
+  pageLeft.innerHTML = section.left() + '<div class="page-number">' + (sectionIndex[sectionId] * 2 + 1) + '</div>';
+  pageRight.innerHTML = section.right();
+  if (sectionId === 'kontak') setTimeout(attachContactForm, 50);
+  const positions = { profil: '100px', pendidikan: '85px', keahlian: '70px', pengalaman: '55px', proyek: '40px', kontak: '25px' };
+  bookmark.style.right = positions[sectionId] || '100px';
+}
 
-            // Keahlian: 2 kolom × 2 baris (grid)
-            new Swiper(".skillSwiper", {
-                slidesPerView: 2,
-                slidesPerGroup: 2,
-                grid: { rows: 2, fill: "row" },
-                spaceBetween: 10,
-                autoplay: { delay: 2500, disableOnInteraction: false, pauseOnMouseEnter: true },
-                speed: 500,
-                loop: false,
-                pagination: { el: ".swiper-pagination", clickable: true },
-                breakpoints: {
-                    640: { slidesPerView: 3, slidesPerGroup: 3 },
-                    1024: { slidesPerView: 4, slidesPerGroup: 4 },
-                }
-            });
+// ═══════ OPEN / CLOSE ═══════
+function openBookFn() {
+  if (state.isOpen || state.isAnimating) return;
+  state.isAnimating = true;
+  state.isOpen = true;
+  state.currentSection = 'profil';
 
-            // Pengalaman carousel (jika ada)
-            if (document.querySelector(".expSwiper")) {
-                new Swiper(".expSwiper", {
-                    ...autoOpts,
-                    slidesPerView: 1,
-                    breakpoints: { 768: { slidesPerView: 2 } },
-                    loop: true,
-                });
-            }
+  bookScene.classList.add('opened');
+  book3d.classList.add('opened');
+  shelf.classList.add('hidden');
 
-            // Proyek: 2 baris dengan grid
-            new Swiper(".projSwiper", {
-                slidesPerView: 1,
-                slidesPerGroup: 1,
-                grid: { rows: 2, fill: "row" },
-                spaceBetween: 16,
-                autoplay: { delay: 3500, disableOnInteraction: false, pauseOnMouseEnter: true },
-                speed: 600,
-                loop: false,
-                pagination: { el: ".swiper-pagination", clickable: true },
-                navigation: { nextEl: ".swiper-proj-next", prevEl: ".swiper-proj-prev" },
-                breakpoints: {
-                    640: { slidesPerView: 2, slidesPerGroup: 2 },
-                    1024: { slidesPerView: 2, slidesPerGroup: 2 },
-                }
-            });
+  setTimeout(function() {
+    bookScene.style.opacity = '0';
+    bookScene.style.pointerEvents = 'none';
+    openBookView.classList.add('active');
+    chapterNav.classList.add('active');
+    closeBtn.classList.add('active');
+    renderSection('profil');
+    updateNav();
+    statusText.textContent = 'Open — Browse with navigation';
+    statusDot.classList.add('open');
+    headerHint.innerHTML = '<svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg> ESC to close';
+    state.isAnimating = false;
+  }, 600);
+}
 
-            // GSAP hover micro-animation pada card
-            document.querySelectorAll(".section-card").forEach(card => {
-                card.addEventListener("mouseenter", () => gsap.to(card, { scale: 1.02, duration: 0.2, ease: "back.out(2)" }));
-                card.addEventListener("mouseleave", () => gsap.to(card, { scale: 1, duration: 0.2, ease: "power2.out" }));
-            });
+function closeBookFn() {
+  if (!state.isOpen || state.isAnimating) return;
+  state.isAnimating = true;
+  state.isOpen = false;
 
-            // Partikel bintang random
-            function spawnStar() {
-                const s = document.createElement("div");
-                s.className = "star-particle";
-                s.style.left = Math.random() * 97 + "vw";
-                s.style.top = Math.random() * 85 + "vh";
-                s.style.animationDelay = Math.random() * 1.5 + "s";
-                s.style.animationDuration = (2 + Math.random() * 2.5) + "s";
-                const sz = (4 + Math.random() * 7) + "px";
-                s.style.width = sz; s.style.height = sz;
-                s.style.background = Math.random() > 0.5 ? "#D2691E" : "#8B5A3C";
-                document.body.appendChild(s);
-                setTimeout(() => s.remove(), 5500);
-            }
-            setInterval(spawnStar, 900);
-        });
+  openBookView.classList.remove('active');
+  chapterNav.classList.remove('active');
+  closeBtn.classList.remove('active');
 
-        // Form kontak
-        document.getElementById("publicContactForm").addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const alertBox = document.getElementById("contactAlert");
-            const btn = document.getElementById("submitContactBtn");
-            btn.disabled = true;
-            btn.innerHTML = `<svg class="animate-spin w-4 h-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path></svg> Mengirim...`;
-            const data = {
-                name: document.getElementById("sender_name").value,
-                email: document.getElementById("sender_email").value,
-                subject: document.getElementById("subject").value,
-                message: document.getElementById("message_content").value
-            };
-            try {
-                const res = await fetch("/dashboard/messages/send-public", {
-                    method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data)
-                });
-                const result = await res.json();
-                alertBox.classList.remove("hidden","bg-red-100","border-red-600","text-red-900","bg-green-100","border-green-600","text-green-900");
-                if (res.ok && result.success) {
-                    alertBox.classList.add("bg-green-100","border-green-600","text-green-900");
-                    alertBox.innerText = result.message;
-                    document.getElementById("publicContactForm").reset();
-                    gsap.from(alertBox, { y: -10, opacity: 0, duration: 0.5, ease: "back.out(2)" });
-                } else {
-                    alertBox.classList.add("bg-red-100","border-red-600","text-red-900");
-                    alertBox.innerText = result.message || "Gagal mengirim pesan.";
-                    gsap.from(alertBox, { x: -8, duration: 0.08, yoyo: true, repeat: 4 });
-                }
-            } catch {
-                alertBox.classList.remove("hidden");
-                alertBox.classList.add("bg-red-100","border-red-600","text-red-900");
-                alertBox.innerText = "Terjadi kesalahan koneksi.";
-                gsap.from(alertBox, { x: -8, duration: 0.08, yoyo: true, repeat: 4 });
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg> Kirim Pesan Sekarang`;
-            }
-        });
-    </script>
+  setTimeout(function() {
+    bookScene.style.opacity = '1';
+    bookScene.style.pointerEvents = '';
+    bookScene.classList.remove('opened');
+    book3d.classList.remove('opened');
+    shelf.classList.remove('hidden');
+    statusText.textContent = 'Closed — Click book to open';
+    statusDot.classList.remove('open');
+    headerHint.innerHTML = '<svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5"/></svg> Click the book to open';
+    state.isAnimating = false;
+  }, 500);
+}
+
+// ═══════ NAVIGATE ═══════
+function navigateTo(sectionId) {
+  if (state.isAnimating || sectionId === state.currentSection) return;
+  state.isAnimating = true;
+
+  const turningPage = document.createElement('div');
+  turningPage.className = 'turning-page';
+  turningPage.innerHTML = '<div style="padding:36px 32px;height:100%;"></div>';
+  openBookPages.appendChild(turningPage);
+
+  setTimeout(function() {
+    state.currentSection = sectionId;
+    renderSection(sectionId);
+    updateNav();
+    turningPage.remove();
+    state.isAnimating = false;
+  }, 900);
+}
+
+function updateNav() {
+  document.querySelectorAll('.chapter-nav-item').forEach(function(item) {
+    item.classList.toggle('active', item.dataset.section === state.currentSection);
+  });
+}
+
+// ═══════ CONTACT FORM ═══════
+function attachContactForm() {
+  const form = $('publicContactForm');
+  if (!form) return;
+
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const alertBox = $('contactAlert');
+    const btn = $('submitContactBtn');
+    const originalText = btn.innerHTML;
+
+    btn.disabled = true;
+    btn.textContent = 'Mengirim...';
+
+    const data = {
+      name: $('sender_name').value,
+      email: $('sender_email').value,
+      subject: $('subject').value,
+      message: $('message_content').value
+    };
+
+    try {
+      const res = await fetch('/dashboard/messages/send-public', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      const result = await res.json();
+      alertBox.style.display = 'block';
+      alertBox.className = 'form-alert ' + (res.ok && result.success ? 'success' : 'error');
+      alertBox.textContent = (res.ok && result.success ? 'Success: ' : 'Error: ') + (result.message || 'Terjadi kesalahan.');
+      if (res.ok && result.success) form.reset();
+    } catch(err) {
+      alertBox.style.display = 'block';
+      alertBox.className = 'form-alert error';
+      alertBox.textContent = 'Connection error.';
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = originalText;
+    }
+  });
+}
+
+// ═══════ EVENTS ═══════
+book3d.addEventListener('click', function() { if (!state.isOpen) openBookFn(); });
+closeBtn.addEventListener('click', closeBookFn);
+
+document.querySelectorAll('.chapter-nav-item').forEach(function(item) {
+  item.addEventListener('click', function() { navigateTo(item.dataset.section); });
+});
+
+window.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' && state.isOpen) closeBookFn();
+  if (state.isOpen) {
+    const idx = sectionIndex[state.currentSection];
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      navigateTo(sectionOrder[Math.min(idx + 1, sectionOrder.length - 1)]);
+    }
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      navigateTo(sectionOrder[Math.max(idx - 1, 0)]);
+    }
+  }
+});
+
+// ═══════ IDLE SWAY ═══════
+function idleSway() {
+  if (!state.isOpen && !state.isAnimating && !book3d.matches(':hover')) {
+    const t = Date.now() / 1000;
+    const sway = Math.sin(t * 0.4) * 1.5;
+    const lift = Math.sin(t * 0.6) * 2;
+    book3d.style.transform = 'rotateY(' + (-10 + sway) + 'deg) rotateX(2deg) translateY(' + lift + 'px)';
+  }
+  requestAnimationFrame(idleSway);
+}
+
+idleSway();
+
+// Entrance animation
+setTimeout(function() {
+  book3d.style.transition = 'none';
+  book3d.style.opacity = '0';
+  book3d.style.transform = 'rotateY(-10deg) rotateX(2deg) translateY(40px)';
+  setTimeout(function() {
+    book3d.style.transition = 'all 1.2s cubic-bezier(0.22,1,0.36,1)';
+    book3d.style.opacity = '1';
+    book3d.style.transform = 'rotateY(-10deg) rotateX(2deg) translateY(0)';
+  }, 200);
+}, 100);
+</script>
 </body>
 </html>
