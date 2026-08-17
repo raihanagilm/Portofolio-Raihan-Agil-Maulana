@@ -493,7 +493,13 @@ html, body {
 <!-- HEADER -->
 <header class="header">
   <div class="brand">
-    <div class="brand-avatar">{{ profile.full_name[0] if profile.full_name else 'P' }}</div>
+    <div class="brand-avatar">
+      {% if profile.avatar_url %}
+        <img src="{{ profile.avatar_url }}" alt="{{ profile.full_name }}" style="width: 100%; height: 100%; object-fit: cover;">
+      {% else %}
+        {{ profile.full_name[0] if profile.full_name else 'P' }}
+      {% endif %}
+    </div>
     <div>
       <div class="brand-name">{{ profile.full_name }}</div>
       <div class="brand-title">{{ profile.title }}</div>
@@ -650,12 +656,16 @@ const sections = {
   profil: {
     color: '#3b82f6',
     left: function() {
-      return '<div class="page-heading" style="color:#3b82f6;border-color:#eff6ff;">' + icons.user + ' Volume I — Profil</div>' +
-        '<h2 class="page-title">{{ profile.full_name }}</h2>' +
+      var html = '<div class="page-heading" style="color:#3b82f6;border-color:#eff6ff;">' + icons.user + ' Volume I — Profil</div>';
+      {% if profile.avatar_url %}
+      html += '<div style="text-align:center;margin-bottom:20px;"><img src="{{ profile.avatar_url }}" alt="{{ profile.full_name }}" style="width:120px;height:120px;border-radius:12px;object-fit:cover;border:3px solid #3b82f6;box-shadow:0 4px 6px rgba(59,130,246,0.2);"/></div>';
+      {% endif %}
+      html += '<h2 class="page-title">{{ profile.full_name }}</h2>' +
         '<div class="page-body">' +
         '<p>{{ profile.bio }}</p>' +
         '<p style="margin-top:16px;padding:14px;background:#eff6ff;border-radius:8px;font-style:italic;color:#3b82f6;font-size:13px;">"{{ profile.title }}"</p>' +
         '</div>';
+      return html;
     },
     right: function() {
       var html = '<div class="page-heading" style="color:#3b82f6;border-color:#eff6ff;">' + icons.globe + ' Connect</div>' +
