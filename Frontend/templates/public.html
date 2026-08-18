@@ -593,19 +593,19 @@
                 loop: true,
             });
 
-            // Keahlian: 2 kolom × 2 baris (grid)
+            // Keahlian: 1 item per view on mobile
             new Swiper(".skillSwiper", {
-                slidesPerView: 2,
-                slidesPerGroup: 2,
-                grid: { rows: 2, fill: "row" },
+                slidesPerView: 1,
+                slidesPerGroup: 1,
+                grid: { rows: 1, fill: "row" },
                 spaceBetween: 10,
                 autoplay: { delay: 2500, disableOnInteraction: false, pauseOnMouseEnter: true },
                 speed: 500,
                 loop: false,
                 pagination: { el: ".swiper-pagination", clickable: true },
                 breakpoints: {
-                    640: { slidesPerView: 3, slidesPerGroup: 3 },
-                    1024: { slidesPerView: 4, slidesPerGroup: 4 },
+                    640: { slidesPerView: 3, slidesPerGroup: 3, grid: { rows: 2, fill: "row" } },
+                    1024: { slidesPerView: 4, slidesPerGroup: 4, grid: { rows: 2, fill: "row" } },
                 }
             });
 
@@ -619,11 +619,11 @@
                 });
             }
 
-            // Proyek: 2 baris dengan grid
+            // Proyek: 1 item per view on mobile
             new Swiper(".projSwiper", {
                 slidesPerView: 1,
                 slidesPerGroup: 1,
-                grid: { rows: 2, fill: "row" },
+                grid: { rows: 1, fill: "row" },
                 spaceBetween: 16,
                 autoplay: { delay: 3500, disableOnInteraction: false, pauseOnMouseEnter: true },
                 speed: 600,
@@ -631,8 +631,8 @@
                 pagination: { el: ".swiper-pagination", clickable: true },
                 navigation: { nextEl: ".swiper-proj-next", prevEl: ".swiper-proj-prev" },
                 breakpoints: {
-                    640: { slidesPerView: 2, slidesPerGroup: 2 },
-                    1024: { slidesPerView: 2, slidesPerGroup: 2 },
+                    640: { slidesPerView: 2, slidesPerGroup: 2, grid: { rows: 2, fill: "row" } },
+                    1024: { slidesPerView: 2, slidesPerGroup: 2, grid: { rows: 2, fill: "row" } },
                 }
             });
 
