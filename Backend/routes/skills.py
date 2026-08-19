@@ -2,6 +2,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from Backend.utils.auth_helper import login_required
 from Backend.database import db, Skill
+from Backend.utils.cloudinary_helper import upload_media, delete_media
 
 skills_bp = Blueprint('skills', __name__, url_prefix='/dashboard/skills')
 
@@ -16,10 +17,13 @@ def index():
 def add():
     name = request.form.get('name')
     category = request.form.get('category', 'Technical')
-    icon = request.form.get('icon', 'code')
+    
+    icon_url = ''
+    if 'icon_svg' in request.files and request.files['icon_svg'].filename:
+        icon_url = upload_media(request.files['icon_svg'], folder='skills')
 
     if name:
-        skill = Skill(name=name, category=category, icon=icon, is_visible=True)
+        skill = Skill(name=name, category=category, icon=icon_url, is_visible=True)
         db.session.add(skill)
         db.session.commit()
         flash('Skill/Keahlian berhasil ditambahkan!', 'success')
@@ -32,8 +36,13 @@ def edit(skill_id):
     skill = Skill.query.get_or_404(skill_id)
     skill.name = request.form.get('name', skill.name)
     skill.category = request.form.get('category', skill.category)
-# proficiency removed
-    skill.icon = request.form.get('icon', skill.icon)
+
+    if 'icon_svg' in request.files and request.files['icon_svg'].filename:
+        new_icon_url = upload_media(request.files['icon_svg'], folder='skills')
+        if new_icon_url:
+            if skill.icon and skill.icon.startswith('http'):
+                delete_media(skill.icon)
+            skill.icon = new_icon_url
 
     db.session.commit()
     flash('Skill berhasil diperbarui!', 'success')
@@ -53,6 +62,8 @@ def toggle_visibility(skill_id):
 @login_required
 def delete(skill_id):
     skill = Skill.query.get_or_404(skill_id)
+    if skill.icon and skill.icon.startswith('http'):
+        delete_media(skill.icon)
     db.session.delete(skill)
     db.session.commit()
     flash('Skill berhasil dihapus.', 'info')

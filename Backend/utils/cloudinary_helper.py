@@ -56,3 +56,51 @@ def upload_media(file_storage, folder="portfolio"):
     except Exception as e:
         print(f"[CLOUDINARY] Error {type(e).__name__}: {e}")
         return None
+
+def delete_media(secure_url):
+    """Delete file from Cloudinary based on secure_url."""
+    if not secure_url:
+        return False
+        
+    cloud_name = Config.CLOUDINARY_CLOUD_NAME
+    api_key = Config.CLOUDINARY_API_KEY
+    api_secret = Config.CLOUDINARY_API_SECRET
+
+    if not (cloud_name and api_key and api_secret):
+        return False
+
+    try:
+        import cloudinary
+        import cloudinary.uploader
+
+        cloudinary.config(
+            cloud_name=cloud_name,
+            api_key=api_key,
+            api_secret=api_secret,
+            secure=True
+        )
+
+        # Extract public_id from url
+        # Example url: https://res.cloudinary.com/dxyz/image/upload/v1234/portofolio/avatar/abc1234.jpg
+        # public_id: portofolio/avatar/abc1234
+        parts = secure_url.split('/upload/')
+        if len(parts) > 1:
+            path = parts[1]
+            # Remove version like 'v1234/' if present
+            if path.startswith('v') and '/' in path:
+                v_part, rest = path.split('/', 1)
+                if v_part[1:].isdigit():
+                    path = rest
+            
+            # Remove file extension
+            public_id = path.rsplit('.', 1)[0]
+            
+            print(f"[CLOUDINARY] Menghapus: {public_id}")
+            result = cloudinary.uploader.destroy(public_id)
+            return result.get('result') == 'ok'
+            
+    except Exception as e:
+        print(f"[CLOUDINARY] Error delete {type(e).__name__}: {e}")
+    
+    return False
+

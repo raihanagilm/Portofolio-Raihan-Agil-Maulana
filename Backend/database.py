@@ -87,7 +87,7 @@ class Skill(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False)
     category = db.Column(db.String(50), default="Technical") # Technical, Soft Skill / Kepemimpinan, Bahasa, Tools
-    icon = db.Column(db.String(50), default="code")
+    icon = db.Column(db.String(255), default="code")
     is_visible = db.Column(db.Boolean, default=True)
 
 class Project(db.Model):

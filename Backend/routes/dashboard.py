@@ -15,13 +15,18 @@ def index():
     total_experiences = Experience.query.count()
     profile = Profile.query.first()
 
-    # Real-Time Visitor Analytics
-    total_views = VisitorLog.query.count()
+    # Database Cleanup: Delete logs older than 7 days
+    seven_days_ago = datetime.utcnow() - timedelta(days=7)
+    VisitorLog.query.filter(VisitorLog.visited_at < seven_days_ago).delete()
+    db.session.commit()
+
+    # Real-Time Visitor Analytics (Last 7 Days)
+    total_views = VisitorLog.query.filter(VisitorLog.visited_at >= seven_days_ago).count()
     today_start = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
     today_views = VisitorLog.query.filter(VisitorLog.visited_at >= today_start).count()
     
-    # Unique visitors count
-    unique_visitors = db.session.query(VisitorLog.ip_address).distinct().count()
+    # Unique visitors count (Last 7 Days)
+    unique_visitors = db.session.query(VisitorLog.ip_address).filter(VisitorLog.visited_at >= seven_days_ago).distinct().count()
     
     # Recent visitors list
     recent_visitors = VisitorLog.query.order_by(VisitorLog.visited_at.desc()).limit(8).all()

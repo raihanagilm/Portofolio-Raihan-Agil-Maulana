@@ -2,7 +2,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from Backend.utils.auth_helper import login_required
 from Backend.database import db, Project, ProjectImage
-from Backend.utils.cloudinary_helper import upload_media
+from Backend.utils.cloudinary_helper import upload_media, delete_media
 
 projects_bp = Blueprint('projects', __name__, url_prefix='/dashboard/projects')
 
@@ -68,6 +68,8 @@ def edit(proj_id):
     if 'image' in request.files and request.files['image'].filename:
         img = upload_media(request.files['image'], folder='projects')
         if img:
+            if proj.image_url:
+                delete_media(proj.image_url)
             proj.image_url = img
             
     if 'gallery_images' in request.files:
@@ -86,6 +88,8 @@ def edit(proj_id):
 @login_required
 def delete_image(img_id):
     img = ProjectImage.query.get_or_404(img_id)
+    if img.image_url:
+        delete_media(img.image_url)
     db.session.delete(img)
     db.session.commit()
     flash('Gambar galeri dihapus.', 'info')
@@ -95,6 +99,11 @@ def delete_image(img_id):
 @login_required
 def delete(proj_id):
     proj = Project.query.get_or_404(proj_id)
+    if proj.image_url:
+        delete_media(proj.image_url)
+    for img in proj.images:
+        if img.image_url:
+            delete_media(img.image_url)
     db.session.delete(proj)
     db.session.commit()
     flash('Proyek dihapus.', 'info')

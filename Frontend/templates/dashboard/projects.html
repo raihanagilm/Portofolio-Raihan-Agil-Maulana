@@ -7,14 +7,20 @@
     <!-- FORM TAMBAH PROYEK -->
     <div class="cardboard-card cardboard-texture rounded-2xl p-5 shadow-cardboard relative">
         <div class="tape-accent"></div>
-        <h3 class="font-bold text-earth-dark text-lg mb-4 flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/><path d="m16 13-3.5 3.5-2-2L8 17"/></svg>
+        <h3 id="formTitle" class="font-bold text-earth-dark text-lg mb-4 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-accent" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+                <path d="m16 13-3.5 3.5-2-2L8 17" />
+            </svg>
             Tambah Proyek Portofolio Baru
         </h3>
-        <form action="{{ url_for('projects.add') }}" method="POST" enctype="multipart/form-data" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <form id="mainForm" action="{{ url_for('projects.add') }}" method="POST" enctype="multipart/form-data"
+            class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
                 <label class="block font-bold text-earth-dark text-xs mb-1">Judul Proyek</label>
-                <input type="text" name="title" class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" required placeholder="E-Commerce Cardboard Craft">
+                <input type="text" name="title" class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" required
+                    placeholder="E-Commerce Cardboard Craft">
             </div>
             <div>
                 <label class="block font-bold text-earth-dark text-xs mb-1">Kategori Proyek</label>
@@ -27,36 +33,55 @@
             </div>
             <div>
                 <label class="block font-bold text-earth-dark text-xs mb-1">Tags / Tech Stack (Pisahkan Koma)</label>
-                <input type="text" name="tags" class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" placeholder="Flask, Tailwind, MySQL, Resend">
+                <input type="text" name="tags" class="w-full h-11 px-3 input-cardboard rounded-lg text-sm"
+                    placeholder="Flask, Tailwind, MySQL, Resend">
             </div>
             <div>
                 <label class="block font-bold text-earth-dark text-xs mb-1">Upload Thumbnail Utama</label>
-                <input type="file" name="image" accept="image/*" class="w-full p-2 bg-white border-2 border-border-card rounded-lg text-xs font-bold">
+                <input type="file" name="image" accept="image/*"
+                    class="w-full p-2 bg-white border-2 border-border-card rounded-lg text-xs font-bold">
             </div>
             <div>
                 <label class="block font-bold text-earth-dark text-xs mb-1">Link Demo Live (Opsional)</label>
-                <input type="text" name="demo_url" class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" placeholder="https://demo.com">
+                <input type="text" name="demo_url" class="w-full h-11 px-3 input-cardboard rounded-lg text-sm"
+                    placeholder="https://demo.com">
             </div>
             <div>
                 <label class="block font-bold text-earth-dark text-xs mb-1">Link Repository GitHub (Opsional)</label>
-                <input type="text" name="github_url" class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" placeholder="https://github.com/...">
+                <input type="text" name="github_url" class="w-full h-11 px-3 input-cardboard rounded-lg text-sm"
+                    placeholder="https://github.com/...">
             </div>
             <div class="md:col-span-2">
-                <label class="block font-bold text-earth-dark text-xs mb-1">Upload Gambar Galeri / Screenshot (Bisa Lebih Dari 1)</label>
-                <input type="file" name="gallery_images" accept="image/*" multiple class="w-full p-2 bg-white border-2 border-border-card rounded-lg text-xs font-bold">
+                <label class="block font-bold text-earth-dark text-xs mb-1">Upload Gambar Galeri / Screenshot (Bisa
+                    Lebih Dari 1)</label>
+                <input type="file" name="gallery_images" accept="image/*" multiple
+                    class="w-full p-2 bg-white border-2 border-border-card rounded-lg text-xs font-bold">
             </div>
             <div class="md:col-span-2">
                 <label class="block font-bold text-earth-dark text-xs mb-1">Deskripsi Singkat (Tampil di Card)</label>
-                <textarea name="description" rows="2" class="w-full p-3 input-cardboard rounded-lg text-sm" required placeholder="Jelaskan tantangan dan solusi proyek..."></textarea>
+                <textarea name="description" rows="2" class="w-full p-3 input-cardboard rounded-lg text-sm" required
+                    placeholder="Jelaskan tantangan dan solusi proyek..."></textarea>
             </div>
             <div class="md:col-span-2">
-                <label class="block font-bold text-earth-dark text-xs mb-1">Konten Detail Proyek (Penjelasan Fitur, Menu, Dll)</label>
-                <textarea name="content" rows="4" class="w-full p-3 input-cardboard rounded-lg text-sm" placeholder="Jelaskan secara mendalam tentang fitur-fitur, cara kerja, menu yang ada..."></textarea>
+                <label class="block font-bold text-earth-dark text-xs mb-1">Konten Detail Proyek (Penjelasan Fitur,
+                    Menu, Dll)</label>
+                <textarea name="content" rows="4" class="w-full p-3 input-cardboard rounded-lg text-sm"
+                    placeholder="Jelaskan secara mendalam tentang fitur-fitur, cara kerja, menu yang ada..."></textarea>
             </div>
-            <div class="md:col-span-2">
-                <button type="submit" class="btn-primary w-full py-3 rounded-xl font-bold text-sm cursor-pointer flex items-center justify-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
-                    Tambah Proyek Ke Portofolio
+            <div class="md:col-span-2" id="existingGalleryContainer"></div>
+            <div class="md:col-span-2 flex items-center gap-2 mt-2">
+                <button type="submit" id="submitBtn"
+                    class="btn-primary flex-1 py-3 rounded-xl font-bold text-sm cursor-pointer flex items-center justify-center gap-2 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14" />
+                        <path d="M12 5v14" />
+                    </svg>
+                    <span>Tambah Proyek Ke Portofolio</span>
+                </button>
+                <button type="button" id="cancelEditBtn" onclick="cancelEdit()"
+                    class="btn-secondary hidden py-3 px-6 rounded-xl font-bold text-sm cursor-pointer transition-colors">
+                    Batal
                 </button>
             </div>
         </form>
@@ -65,138 +90,173 @@
     <!-- DAFTAR PROYEK -->
     <div class="space-y-4">
         <div class="flex items-center gap-2 mb-2">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-accent" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+            </svg>
             <h3 class="font-bold text-earth-dark text-lg">Daftar Proyek Tersimpan
-                <span class="inline-flex items-center justify-center bg-accent text-white rounded-full w-6 h-6 text-xs font-extrabold ml-1">{{ projects|length }}</span>
+                <span
+                    class="inline-flex items-center justify-center bg-accent text-white rounded-full w-6 h-6 text-xs font-extrabold ml-1">{{
+                    projects|length }}</span>
             </h3>
         </div>
         {% if projects %}
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                {% for proj in projects %}
-                    <div class="cardboard-card cardboard-texture rounded-2xl p-4 shadow-sm flex flex-col justify-between {% if not proj.is_visible %}opacity-60 border-dashed{% endif %}">
-                        <div>
-                            {% if proj.image_url %}
-                                <img src="{{ proj.image_url }}" alt="{{ proj.title }}" class="w-full h-36 object-cover rounded-xl border-2 border-border-card mb-3">
-                            {% else %}
-                                <div class="w-full h-36 bg-kraft/40 rounded-xl border-2 border-dashed border-border-card flex items-center justify-center mb-3">
-                                    <i class="lucide text-border-card text-4xl" data-lucide="image"></i>
-                                </div>
-                            {% endif %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {% for proj in projects %}
+            <div
+                class="cardboard-card cardboard-texture rounded-2xl p-4 shadow-sm flex flex-col justify-between {% if not proj.is_visible %}opacity-60 border-dashed{% endif %}">
+                <div>
+                    {% if proj.images and proj.images|length > 0 %}
+                    <img src="{{ proj.images[0].image_url }}" alt="{{ proj.title }}"
+                        class="w-full h-36 object-cover rounded-xl border-2 border-border-card mb-3">
+                    {% else %}
+                    <div
+                        class="w-full h-36 bg-kraft/40 rounded-xl border-2 border-dashed border-border-card flex items-center justify-center mb-3">
+                        <svg class="text-border-card w-10 h-10 flex-shrink-0 object-contain"
+                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-label="photo"
+                            viewBox="0 0 178 153">
+                            <path
+                                d="M152 29a24 24 0 0 1 18.5 8.7c5.1 6 7.5 13.9 7.5 22.8v56c0 10-2.4 18.2-8.3 24.3-5.7 5.8-13.6 8.2-24 8.2H32c-10 0-18.1-2.4-24.1-8.3C2 135 0 126.9 0 116.5v-56c0-9 2.4-16.8 7.5-22.8A24 24 0 0 1 26 29zM26 40c-2.4 0-5.4 1-7.5 3.5s-3.5 5.2-3.5 10v45l27.1-25.7c3.9-3.7 9.5-3.8 13.7-.3l45.4 37.9c3.9-3.9 8.2-7 13-9.5V60.5c0-4.8-1.4-7.5-3.5-10S154.4 40 152 40zM32 138h114.7c2 0 4.3-.8 6.5-2.9 2-2 3.1-4.7 3.8-8V94c-8-3.3-15.1-7.7-21.2-13.2L91.6 44.4a7 7 0 0 0-9.6.2l-38 36-33 31.4v8.5c0 3.7.8 7.1 2.9 9.3 2 2 4.4 3 6.1 3m13-71a17 17 0 0 1 0-34 17 17 0 0 1 0 34m0-11a6 6 0 1 0 0-12 6 6 0 0 0 0 12" />
+                        </svg>
+                    </div>
+                    {% endif %}
 
-                            <div class="flex items-center justify-between gap-2 mb-1">
-                                <span class="px-2.5 py-0.5 bg-accent/15 border border-accent/40 rounded text-[10px] font-bold text-accent">{{ proj.category }}</span>
-                                <span class="text-[10px] text-text-muted font-bold">{{ proj.created_at.strftime('%d %b %Y') }}</span>
-                            </div>
-
-                            <h4 class="font-bold text-earth-dark text-base mb-1">{{ proj.title }}</h4>
-                            <p class="text-xs text-text-muted leading-relaxed line-clamp-3 mb-2">{{ proj.description }}</p>
-                            <p class="text-[11px] font-bold text-earth-brown bg-kraft/30 p-1.5 rounded border border-border-light">Tech: {{ proj.tags }}</p>
-                        </div>
-
-                        <div class="mt-4 pt-3 border-t border-dashed border-border-light flex items-center justify-between">
-                            <span class="text-[11px] font-bold {% if proj.is_visible %}text-green-700{% else %}text-red-700{% endif %}">
-                                {% if proj.is_visible %}👁️ Tampil{% else %}🙈 Disembunyikan{% endif %}
-                            </span>
-
-                            <div class="flex gap-1.5">
-                                <form action="{{ url_for('projects.toggle_visibility', proj_id=proj.id) }}" method="POST" class="inline m-0 p-0 flex items-center">
-                                    <button type="submit" class="w-10 h-5 rounded-full relative transition-colors focus:outline-none flex items-center {% if proj.is_visible %}bg-green-500{% else %}bg-gray-400{% endif %}" title="Toggle Tampil">
-                                        <div class="w-4 h-4 bg-white rounded-full shadow-md transform transition-transform duration-300 {% if proj.is_visible %}translate-x-5{% else %}translate-x-1{% endif %}"></div>
-                                    </button>
-                                </form>
-                                <button onclick="document.getElementById('editProjModal-{{ proj.id }}').classList.remove('hidden')" class="p-1.5 bg-blue-100 border border-blue-400 text-blue-800 rounded-lg hover:bg-blue-200 flex items-center gap-1 text-xs font-bold">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
-                                    Edit
-                                </button>
-                                <form action="{{ url_for('projects.delete', proj_id=proj.id) }}" method="POST" class="inline">
-                                    <button type="submit" onclick="return confirm('Hapus proyek ini?')" class="p-1.5 bg-red-100 border border-red-400 text-red-700 rounded-lg hover:bg-red-200 flex items-center gap-1 text-xs font-bold">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
-                                        Hapus
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
+                    <div class="flex items-center justify-between gap-2 mb-1">
+                        <span
+                            class="px-2.5 py-0.5 bg-accent/15 border border-accent/40 rounded text-[10px] font-bold text-accent">{{
+                            proj.category }}</span>
+                        <span class="text-[10px] text-text-muted font-bold">{{ proj.created_at.strftime('%d %b %Y')
+                            }}</span>
                     </div>
 
-                    <!-- EDIT PROJ MODAL FOR THIS PROJ -->
-                    <div id="editProjModal-{{ proj.id }}" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 hidden">
-                        <div class="cardboard-card cardboard-texture rounded-2xl p-6 w-full max-w-2xl shadow-2xl relative max-h-[90vh] overflow-y-auto">
-                            <h3 class="font-bold text-earth-dark text-lg mb-3">Edit Proyek Portofolio</h3>
-                            <form method="POST" action="{{ url_for('projects.edit', proj_id=proj.id) }}" enctype="multipart/form-data" class="space-y-3">
-                                <div>
-                                    <label class="block font-bold text-earth-dark text-xs mb-1">Judul Proyek</label>
-                                    <input type="text" name="title" value="{{ proj.title|e }}" required class="w-full h-10 px-3 input-cardboard rounded-lg text-sm">
-                                </div>
-                                <div class="grid grid-cols-2 gap-3">
-                                    <div>
-                                        <label class="block font-bold text-earth-dark text-xs mb-1">Kategori</label>
-                                        <select name="category" class="w-full h-10 px-3 input-cardboard rounded-lg text-sm font-bold">
-                                            <option value="Web App" {% if proj.category == 'Web App' %}selected{% endif %}>Web Application</option>
-                                            <option value="Mobile App" {% if proj.category == 'Mobile App' %}selected{% endif %}>Mobile Application</option>
-                                            <option value="UI/UX Design" {% if proj.category == 'UI/UX Design' %}selected{% endif %}>UI / UX Concept</option>
-                                            <option value="Backend API" {% if proj.category == 'Backend API' %}selected{% endif %}>Backend & Microservice</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label class="block font-bold text-earth-dark text-xs mb-1">Tags / Tech Stack</label>
-                                        <input type="text" name="tags" value="{{ proj.tags|e }}" class="w-full h-10 px-3 input-cardboard rounded-lg text-sm">
-                                    </div>
-                                </div>
-                                <div class="grid grid-cols-2 gap-3">
-                                    <div>
-                                        <label class="block font-bold text-earth-dark text-xs mb-1">Link Demo Live</label>
-                                        <input type="text" name="demo_url" value="{{ proj.demo_url|e }}" class="w-full h-10 px-3 input-cardboard rounded-lg text-sm">
-                                    </div>
-                                    <div>
-                                        <label class="block font-bold text-earth-dark text-xs mb-1">Link Repository GitHub</label>
-                                        <input type="text" name="github_url" value="{{ proj.github_url|e }}" class="w-full h-10 px-3 input-cardboard rounded-lg text-sm">
-                                    </div>
-                                </div>
-                                
-                                <div class="p-3 border-2 border-dashed border-border-card rounded-xl bg-card-bg mt-2">
-                                    <label class="block font-bold text-earth-dark text-xs mb-1">Ganti Thumbnail Utama (Opsional)</label>
-                                    <input type="file" name="image" accept="image/*" class="w-full p-2 bg-white border border-border-card rounded-lg text-xs font-bold mb-2">
-                                    
-                                    <label class="block font-bold text-earth-dark text-xs mb-1">Tambah Gambar Galeri (Bisa Lebih Dari 1)</label>
-                                    <input type="file" name="gallery_images" accept="image/*" multiple class="w-full p-2 bg-white border border-border-card rounded-lg text-xs font-bold">
-                                    
-                                    {% if proj.images %}
-                                    <div class="mt-3">
-                                        <label class="block font-bold text-earth-dark text-[10px] mb-1">Gambar Galeri Saat Ini:</label>
-                                        <div class="flex gap-2 overflow-x-auto pb-2">
-                                            {% for img in proj.images %}
-                                                <div class="relative w-16 h-16 flex-shrink-0 group">
-                                                    <img src="{{ img.image_url }}" class="w-full h-full object-cover rounded shadow">
-                                                    <button type="submit" formmethod="POST" formaction="{{ url_for('projects.delete_image', img_id=img.id) }}" class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition shadow">x</button>
-                                                </div>
-                                            {% endfor %}
-                                        </div>
-                                    </div>
-                                    {% endif %}
-                                </div>
+                    <h4 class="font-bold text-earth-dark text-base mb-1">{{ proj.title }}</h4>
+                    <p class="text-xs text-text-muted leading-relaxed line-clamp-3 mb-2">{{ proj.description }}</p>
+                    <p
+                        class="text-[11px] font-bold text-earth-brown bg-kraft/30 p-1.5 rounded border border-border-light">
+                        Tech: {{ proj.tags }}</p>
+                </div>
 
-                                <div>
-                                    <label class="block font-bold text-earth-dark text-xs mb-1">Deskripsi Singkat</label>
-                                    <textarea name="description" rows="2" required class="w-full p-2.5 input-cardboard rounded-lg text-sm">{{ proj.description|e }}</textarea>
+                <div class="mt-4 pt-3 border-t border-dashed border-border-light flex items-center justify-between">
+                    <span
+                        class="text-[11px] font-bold {% if proj.is_visible %}text-green-700{% else %}text-red-700{% endif %}">
+                        {% if proj.is_visible %}Tampil{% else %}Disembunyikan{% endif %}
+                    </span>
+
+                    <div class="flex gap-1.5">
+                        <form action="{{ url_for('projects.toggle_visibility', proj_id=proj.id) }}" method="POST"
+                            class="inline m-0 p-0 flex items-center">
+                            <button type="submit"
+                                class="w-10 h-5 rounded-full relative transition-colors focus:outline-none flex items-center {% if proj.is_visible %}bg-green-500{% else %}bg-gray-400{% endif %}"
+                                title="Toggle Tampil">
+                                <div
+                                    class="w-4 h-4 bg-white rounded-full shadow-md transform transition-transform duration-300 {% if proj.is_visible %}translate-x-5{% else %}translate-x-1{% endif %}">
                                 </div>
-                                <div>
-                                    <label class="block font-bold text-earth-dark text-xs mb-1">Konten Detail Proyek</label>
-                                    <textarea name="content" rows="4" class="w-full p-2.5 input-cardboard rounded-lg text-sm">{{ proj.content|e }}</textarea>
-                                </div>
-                                <div class="flex justify-end gap-2 pt-2">
-                                    <button type="button" onclick="document.getElementById('editProjModal-{{ proj.id }}').classList.add('hidden')" class="btn-secondary px-4 py-2 rounded-lg text-xs font-bold">Batal</button>
-                                    <button type="submit" class="btn-primary px-5 py-2 rounded-lg text-xs font-bold text-white">Simpan Perubahan</button>
-                                </div>
-                            </form>
+                            </button>
+                        </form>
+                        <button onclick="editProject('{{ proj.id }}')"
+                            class="p-1.5 bg-blue-100 border border-blue-400 text-blue-800 rounded-lg hover:bg-blue-200 flex items-center gap-1 text-xs font-bold">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path
+                                    d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" />
+                                <path d="m15 5 4 4" />
+                            </svg>
+                            Edit
+                        </button>
+                        <form action="{{ url_for('projects.delete', proj_id=proj.id) }}" method="POST" class="inline">
+                            <button type="submit" onclick="return confirm('Hapus proyek ini?')"
+                                class="p-1.5 bg-red-100 border border-red-400 text-red-700 rounded-lg hover:bg-red-200 flex items-center gap-1 text-xs font-bold">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M3 6h18" />
+                                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                                </svg>
+                                Hapus
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- HIDDEN DATA FOR EDIT AUTOFILL -->
+                <div id="proj-data-{{ proj.id }}" class="hidden">
+                    <span class="data-title">{{ proj.title|e }}</span>
+                    <span class="data-category">{{ proj.category|e }}</span>
+                    <span class="data-tags">{{ proj.tags|e }}</span>
+                    <span class="data-demo">{{ proj.demo_url|e }}</span>
+                    <span class="data-github">{{ proj.github_url|e }}</span>
+                    <textarea class="data-desc">{{ proj.description|e }}</textarea>
+                    <textarea class="data-content">{{ proj.content|e }}</textarea>
+                </div>
+                <div id="gallery-html-{{ proj.id }}" class="hidden">
+                    {% if proj.images %}
+                    <div class="mt-3 p-3 border-2 border-dashed border-border-card rounded-xl bg-card-bg">
+                        <label class="block font-bold text-earth-dark text-[10px] mb-1">Gambar Galeri Saat Ini:</label>
+                        <div class="flex gap-2 overflow-x-auto pb-2">
+                            {% for img in proj.images %}
+                            <div class="relative w-16 h-16 flex-shrink-0 group">
+                                <img src="{{ img.image_url }}" class="w-full h-full object-cover rounded shadow">
+                                <button type="submit" formmethod="POST"
+                                    formaction="{{ url_for('projects.delete_image', img_id=img.id) }}"
+                                    class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition shadow">x</button>
+                            </div>
+                            {% endfor %}
                         </div>
                     </div>
-                {% endfor %}
+                    {% endif %}
+                </div>
             </div>
+            {% endfor %}
+        </div>
         {% else %}
-            <div class="p-6 bg-card-bg rounded-xl border-2 border-dashed border-border-light text-center text-text-muted text-sm">
-                Belum ada proyek yang ditambahkan. Gunakan form di atas untuk menambahkan.
-            </div>
+        <div
+            class="p-6 bg-card-bg rounded-xl border-2 border-dashed border-border-light text-center text-text-muted text-sm">
+            Belum ada proyek yang ditambahkan. Gunakan form di atas untuk menambahkan.
+        </div>
         {% endif %}
     </div>
 </div>
+<!-- NO MODAL REQUIRED -->
+
+<script>
+    function editProject(id) {
+        const dataContainer = document.getElementById('proj-data-' + id);
+        const form = document.getElementById('mainForm');
+
+        form.action = '/dashboard/projects/edit/' + id;
+
+        form.elements['title'].value = dataContainer.querySelector('.data-title').innerText;
+        form.elements['category'].value = dataContainer.querySelector('.data-category').innerText;
+        form.elements['tags'].value = dataContainer.querySelector('.data-tags').innerText;
+        form.elements['demo_url'].value = dataContainer.querySelector('.data-demo').innerText;
+        form.elements['github_url'].value = dataContainer.querySelector('.data-github').innerText;
+        form.elements['description'].value = dataContainer.querySelector('.data-desc').value;
+        form.elements['content'].value = dataContainer.querySelector('.data-content').value;
+
+        // Copy gallery html
+        const galleryHtml = document.getElementById('gallery-html-' + id).innerHTML;
+        document.getElementById('existingGalleryContainer').innerHTML = galleryHtml;
+
+        // Update button text and show cancel button
+        document.getElementById('submitBtn').querySelector('span').innerText = 'Simpan Perubahan';
+        document.getElementById('cancelEditBtn').classList.remove('hidden');
+        document.getElementById('formTitle').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/><path d="m16 13-3.5 3.5-2-2L8 17"/></svg> Edit Proyek Portofolio';
+
+        // Scroll to form
+        form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function cancelEdit() {
+        const form = document.getElementById('mainForm');
+        form.action = "{{ url_for('projects.add') }}";
+        form.reset();
+
+        document.getElementById('existingGalleryContainer').innerHTML = '';
+
+        document.getElementById('submitBtn').querySelector('span').innerText = 'Tambah Proyek Ke Portofolio';
+        document.getElementById('cancelEditBtn').classList.add('hidden');
+        document.getElementById('formTitle').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/><path d="m16 13-3.5 3.5-2-2L8 17"/></svg> Tambah Proyek Portofolio Baru';
+    }
+</script>
 {% endblock %}

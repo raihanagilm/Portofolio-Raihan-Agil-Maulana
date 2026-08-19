@@ -78,16 +78,22 @@ const sections = {
   profil: {
     color: '#3b82f6',
     left: function () {
-      var html = '<div class="page-heading" style="color:#3b82f6;">' + icons.user + ' Volume I — Profil</div>';
-      html += '<div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;">';
-      if (p.avatar_url) {
-        html += '<img src="' + p.avatar_url + '" alt="' + esc(p.full_name) + '" style="width:80px;height:80px;border-radius:12px;object-fit:cover;border:3px solid #3b82f6;flex-shrink:0;"/>';
-      }
-      html += '<div><h2 class="page-title" style="margin-bottom:6px;font-size:18px;">' + esc(p.full_name) + '</h2>';
-      html += '<p style="padding:6px;background:#eff6ff;border-radius:6px;font-style:italic;color:#3b82f6;font-size:11px;display:inline-block;margin-bottom:8px;">"' + esc(p.title) + '"</p>';
-      html += '<p>' + esc(p.bio) + '</p></div></div>';
+      var html = '<div style="height: 100%; display: flex; flex-direction: column; justify-content: space-between;">';
+      html += '<div>'; // Top block wrapper
+      html += '<div class="page-heading" style="color:#3b82f6;">' + icons.user + ' Volume I — Profil</div>';
       
-      html += '<div class="page-heading" style="color:#3b82f6;margin-top:20px;">' + icons.globe + ' Let\'s Connect</div><div class="page-body"><div style="margin-bottom:14px;">';
+      html += '<div class="bio-wrapper">';
+      if (p.avatar_url) {
+        html += '<img src="' + p.avatar_url + '" alt="' + esc(p.full_name) + '" class="profile-avatar-float"/>';
+      }
+      html += '<h2 class="page-title">' + esc(p.full_name) + '</h2>';
+      html += '<div class="profile-subtitle">"' + esc(p.title) + '"</div>';
+      html += '<p class="profile-bio-text">' + esc(p.bio) + '</p>';
+      html += '</div>'; // End bio-wrapper
+      html += '</div>'; // End top block wrapper
+      
+      html += '<div class="contact-wrapper" style="clear: both; margin-top: auto;">';
+      html += '<div class="page-heading" style="color:#3b82f6;margin-top:16px;">' + icons.globe + ' Let\'s Connect</div><div class="page-body"><div style="margin-bottom:14px;">';
       if (p.show_email && p.email) html += '<div class="meta-line"><span class="meta-label">' + icons.mail + ' Email</span><span>' + esc(p.email) + '</span></div>';
       if (p.show_phone && p.phone) html += '<div class="meta-line"><span class="meta-label">' + icons.phone + ' Phone</span><span>' + esc(p.phone) + '</span></div>';
       if (p.show_location && p.location) html += '<div class="meta-line"><span class="meta-label">' + icons.location + ' Location</span><span>' + esc(p.location) + '</span></div>';
@@ -99,7 +105,9 @@ const sections = {
       if (p.show_website && p.website) html += '<a href="' + p.website + '" target="_blank">' + icons.globe + ' Website</a>';
       html += '</div>';
       if (p.resume_url && p.show_resume) html += '<div style="margin-top:16px;"><a href="' + p.resume_url + '" target="_blank" class="btn-primary">' + icons.download + ' Download CV</a></div>';
-      html += '</div>';
+      html += '</div></div>'; // End contact-wrapper and page-body
+      
+      html += '</div>'; // End outer flex wrapper
       return html;
     },
     right: function () {
@@ -121,7 +129,7 @@ const sections = {
         html += '<div class="timeline-entry" style="padding:6px 0;"><div class="timeline-period" style="color:#10b981;font-size:9px;">' + icons.award + ' ' + esc(cert.period) + '</div>';
         html += '<div class="timeline-role" style="font-size:11px;">' + esc(cert.degree) + '</div></div>';
       });
-      html += '</div><div class="page-number">2</div>';
+      html += '</div>';
       return html;
     }
   },
@@ -153,7 +161,7 @@ const sections = {
       });
       html += '<div style="margin-top:16px;padding:12px;background:#f5f3ff;border-radius:8px;text-align:center;">';
       html += '<p style="font-size:11px;color:#8b5cf6;font-weight:600;">' + PD.skills.length + ' teknologi dikuasai</p></div>';
-      html += '</div><div class="page-number">6</div>';
+      html += '</div>';
       return html;
     }
   },
@@ -188,7 +196,7 @@ const sections = {
         html += '<div class="timeline-company">' + icons.building + ' ' + esc(exp.company) + '</div>';
         html += '<p style="font-size:11px;line-height:1.5;">' + esc(exp.description) + '</p></div>';
       });
-      html += '</div><div class="page-number">8</div>';
+      html += '</div>';
       return html;
     }
   },
@@ -204,9 +212,9 @@ const sections = {
       PD.projects.slice(0, 1).forEach(function (proj) {
         html += '<div style="margin-bottom:16px;">';
         if (proj.image_url) {
-          html += '<img src="' + proj.image_url + '" alt="' + esc(proj.title) + '" class="project-img" style="width:100%;height:220px;object-fit:cover;border-radius:8px;margin-bottom:12px;border:1px solid #e5e7eb;">';
+          html += '<img src="' + proj.image_url + '" alt="' + esc(proj.title) + '" class="project-img">';
         } else {
-          html += '<div class="project-img" style="width:100%;height:220px;background:var(--card-bg, #f8fafc);display:flex;align-items:center;justify-content:center;color:var(--ink-light, #94a3b8);font-size:12px;border-radius:8px;border:1px dashed #cbd5e1;margin-bottom:12px;">' + icons.folder + ' <span style="margin-left:6px;font-style:italic;">No Image</span></div>';
+          html += '<div class="project-img no-img">' + icons.folder + ' <span style="margin-left:6px;font-style:italic;">No Image</span></div>';
         }
         html += '<div class="timeline-period" style="color:#ec4899;">' + icons.folder + ' ' + esc(proj.category) + '</div>';
         html += '<div class="timeline-role" style="font-size:13px;">' + esc(proj.title) + '</div>';
@@ -229,9 +237,9 @@ const sections = {
       more.forEach(function (proj) {
         html += '<div style="margin-bottom:14px;">';
         if (proj.image_url) {
-          html += '<img src="' + proj.image_url + '" alt="' + esc(proj.title) + '" class="project-img" style="width:100%;height:220px;object-fit:cover;border-radius:6px;margin-bottom:8px;border:1px solid #e5e7eb;">';
+          html += '<img src="' + proj.image_url + '" alt="' + esc(proj.title) + '" class="project-img">';
         } else {
-          html += '<div class="project-img" style="width:100%;height:220px;background:var(--card-bg, #f8fafc);display:flex;align-items:center;justify-content:center;color:var(--ink-light, #94a3b8);font-size:10px;border-radius:6px;border:1px dashed #cbd5e1;margin-bottom:8px;">' + icons.folder + ' <span style="margin-left:4px;font-style:italic;">No Image</span></div>';
+          html += '<div class="project-img no-img">' + icons.folder + ' <span style="margin-left:4px;font-style:italic;">No Image</span></div>';
         }
         html += '<div class="timeline-period" style="color:#ec4899;">' + icons.folder + ' ' + esc(proj.category) + '</div>';
         html += '<div class="timeline-role" style="font-size:12px;">' + esc(proj.title) + '</div>';
@@ -241,7 +249,7 @@ const sections = {
         if (proj.github_url) html += '<a href="' + proj.github_url + '" target="_blank" class="btn-outline" style="padding:4px 9px;font-size:10px;">' + icons.github + ' Repo</a>';
         html += '</div></div>';
       });
-      html += '</div><div class="page-number">10</div>';
+      html += '</div>';
       return html;
     }
   },
@@ -275,7 +283,7 @@ const sections = {
       html += '</div>';
       html += '<div style="margin-top:24px;padding:16px;background:#f0fdfa;border-radius:10px;text-align:center;">';
       html += '<p style="font-family:\'Playfair Display\',serif;font-style:italic;font-size:12px;color:#14b8a6;line-height:1.6;">"Every great collaboration<br>begins with a single message."</p>';
-      html += '</div></div><div class="page-number">12</div>';
+      html += '</div></div>';
       return html;
     }
   }
@@ -293,7 +301,7 @@ function renderSection(sectionId) {
   state.mobileShowRight = false;
 
   pageLeft.innerHTML = section.left() + '<div class="page-number">' + (sectionIndex[sectionId] * 2 + 1) + '</div>';
-  pageRight.innerHTML = section.right();
+  pageRight.innerHTML = section.right() + '<div class="page-number">' + (sectionIndex[sectionId] * 2 + 2) + '</div>';
 
   // Mobile flip buttons
   if (isMobile()) {
@@ -560,8 +568,8 @@ book3d.addEventListener('click', function (e) {
 // Open pages click — right half = next, left half = prev (Mainly for desktop)
 openBookPages.addEventListener('click', function(e) {
   if (state.isAnimating) return;
-  // Let the mobile buttons handle their own clicks
-  if (e.target.closest('button')) return;
+  // Let the mobile buttons handle their own clicks, and prevent clicking links/buttons from flipping page
+  if (e.target.closest('button, a')) return;
 
   var rect = openBookPages.getBoundingClientRect();
   var relX = e.clientX - rect.left;

@@ -6,10 +6,12 @@
 <div class="space-y-6">
     <!-- TABS / SHEETS CONTROL -->
     <div class="flex border-b-2 border-border-card gap-2">
-        <button id="tabBtnEdu" onclick="switchSheet('edu')" class="px-5 py-2.5 font-extrabold text-sm border-b-4 border-accent text-accent bg-kraft/20 rounded-t-xl cursor-pointer">
+        <button id="tabBtnEdu" onclick="switchSheet('edu')"
+            class="px-5 py-2.5 font-extrabold text-sm border-b-4 border-accent text-accent bg-kraft/20 rounded-t-xl cursor-pointer">
             🎓 Sheet 1: Pendidikan Formal
         </button>
-        <button id="tabBtnCert" onclick="switchSheet('cert')" class="px-5 py-2.5 font-extrabold text-sm border-b-4 border-transparent text-text-muted hover:text-earth-dark rounded-t-xl cursor-pointer">
+        <button id="tabBtnCert" onclick="switchSheet('cert')"
+            class="px-5 py-2.5 font-extrabold text-sm border-b-4 border-transparent text-text-muted hover:text-earth-dark rounded-t-xl cursor-pointer">
             📜 Sheet 2: Sertifikat & Lisensi
         </button>
     </div>
@@ -19,34 +21,53 @@
         <!-- FORM TAMBAH PENDIDIKAN (POSISI ATAS) -->
         <div class="cardboard-card cardboard-texture rounded-2xl p-5 shadow-cardboard relative">
             <div class="tape-accent"></div>
-            <h3 class="font-bold text-earth-dark text-lg mb-4 flex items-center gap-2">
-                <i class="lucide text-accent" data-lucide="graduation-cap"></i> Tambah Riwayat Pendidikan Formal
+            <h3 id="formTitleEdu" class="font-bold text-earth-dark text-lg mb-4 flex items-center gap-2">
+                <svg class="text-accent w-6 h-6 flex-shrink-0 object-contain" xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor" aria-label="graduation cap" viewBox="0 0 211 147">
+                    <path
+                        d="M86.5 14.9c-72.4 31.8-76 33.5-76 36.1 0 2.1 1.2 3.1 7 6.2 14.9 7.9 86.3 41.8 88 41.8.9 0 15.5-6.8 32.4-15.1 27.4-13.5 30.3-15.2 28.1-16.1a714 714 0 0 0-57.5-15.7c-5.6-.6-6-.8-6-3.1s.4-2.5 3.5-2.4c3.2.1 20 4.8 54.8 15.3l13.4 4 12.9-6.4c13.7-6.9 15.4-8.8 10.7-11.9-4.1-2.6-85.7-38.3-91.3-40a86 86 0 0 0-20 7.3m91.8 52.8q-1.3.3-1.3 9.5c0 8.7-.1 9.1-3 11.8q-4.8 4.6-1.9 10.1c.7 1.5.6 3.9-.5 9.2-2.1 9.7-3.8 25.5-3.1 27.8.6 1.9 6 3.9 10.5 3.9 4.7 0 9.9-2 10.5-4 .8-2.5-1.1-19.5-3.1-27.7-1.3-5.1-1.3-6.9-.3-9.7 1.5-4.1-.1-9.2-3.2-10.1-1.7-.6-1.9-1.7-1.9-10.5 0-9.8-.4-11.1-2.7-10.3m3.7 24.7c2.8 3.5-1.1 9.3-4.7 7-3.6-2.2-2.3-8.4 1.7-8.4 1 0 2.3.7 3 1.4m1.2 19.6c2.2 11.2 3.3 23 2 23-1 0-2.2-5.5-2.2-10.3q0-2.9-1.2-2.4-1.3.2-1 7.1c.3 6.1.2 6.6-1.7 6.6s-2-.6-1.8-6.3c.1-3.4-.2-6.4-.8-6.7s-1.1 2-1.3 5.7c-.2 4.7-.7 6.3-1.7 6.3-1.9 0-1.9-2.4-.1-16 1.8-13.4 2.8-16.1 5.8-15.7 2 .3 2.5 1.4 4 8.7" />
+                    <path
+                        d="m50.2 94.5.3 15.4 4 4.1c4.8 5 14.6 10.1 24.7 13.1 11.1 3.2 33.1 3.8 46.1 1.1 12.3-2.6 25-8.5 30-14.2l3.7-4V94.5c0-8.5-.2-15.5-.4-15.5l-18.2 8.6c-31.2 15-32.6 15.6-36.4 15.1-1.9-.3-14.4-5.7-27.6-12.1A379 379 0 0 0 51 79c-.8 0-1.1 4.1-.8 15.5" />
+                </svg> Tambah Riwayat Pendidikan Formal
             </h3>
-            <form action="{{ url_for('education.add') }}" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <form id="mainFormEdu" action="{{ url_for('education.add') }}" method="POST"
+                class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <input type="hidden" name="type" value="education">
                 <div>
-                    <label class="block font-bold text-earth-dark text-xs mb-1">Universitas / Sekolah / Institusi</label>
-                    <input type="text" name="institution" required class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" placeholder="Universitas XYZ / SMA 1">
+                    <label class="block font-bold text-earth-dark text-xs mb-1">Universitas / Sekolah /
+                        Institusi</label>
+                    <input type="text" name="institution" required
+                        class="w-full h-11 px-3 input-cardboard rounded-lg text-sm"
+                        placeholder="Universitas XYZ / SMA 1">
                 </div>
                 <div>
                     <label class="block font-bold text-earth-dark text-xs mb-1">Gelar / Tingkat</label>
-                    <input type="text" name="degree" required class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" placeholder="S1 / D3 / SMA">
+                    <input type="text" name="degree" required
+                        class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" placeholder="S1 / D3 / SMA">
                 </div>
                 <div>
                     <label class="block font-bold text-earth-dark text-xs mb-1">Jurusan / Program Studi</label>
-                    <input type="text" name="major" class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" placeholder="Teknik Informatika">
+                    <input type="text" name="major" class="w-full h-11 px-3 input-cardboard rounded-lg text-sm"
+                        placeholder="Teknik Informatika">
                 </div>
                 <div>
                     <label class="block font-bold text-earth-dark text-xs mb-1">Periode Tahun</label>
-                    <input type="text" name="period" required class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" placeholder="2020 - 2024">
+                    <input type="text" name="period" required
+                        class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" placeholder="2020 - 2024">
                 </div>
                 <div class="md:col-span-2">
                     <label class="block font-bold text-earth-dark text-xs mb-1">Keterangan / Deskripsi Tamat</label>
-                    <textarea name="description" rows="2" class="w-full p-3 input-cardboard rounded-lg text-sm" placeholder="IPK, predikat kelulusan, atau mata kuliah pilihan..."></textarea>
+                    <textarea name="description" rows="2" class="w-full p-3 input-cardboard rounded-lg text-sm"
+                        placeholder="IPK, predikat kelulusan, atau mata kuliah pilihan..."></textarea>
                 </div>
-                <div class="md:col-span-2">
-                    <button type="submit" class="btn-primary w-full py-3 rounded-xl font-bold text-sm cursor-pointer">
+                <div class="md:col-span-2 flex items-center gap-2 mt-2">
+                    <button type="submit" id="submitBtnEdu"
+                        class="btn-primary flex-1 py-3 rounded-xl font-bold text-sm cursor-pointer transition-colors">
                         + Tambah Data Pendidikan
+                    </button>
+                    <button type="button" id="cancelBtnEdu" onclick="cancelEdit('education')"
+                        class="btn-secondary hidden py-3 px-6 rounded-xl font-bold text-sm cursor-pointer transition-colors">
+                        Batal
                     </button>
                 </div>
             </form>
@@ -56,45 +77,71 @@
         <div class="space-y-4">
             <h3 class="font-bold text-earth-dark text-lg">Daftar Pendidikan Tersimpan ({{ educations|length }})</h3>
             {% if educations %}
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {% for edu in educations %}
-                        <div class="cardboard-card cardboard-texture rounded-xl p-4 shadow-sm flex flex-col justify-between {% if not edu.is_visible %}opacity-60 border-dashed{% endif %}">
-                            <div class="space-y-2">
-                                <div class="flex items-center justify-between gap-2">
-                                    <h4 class="font-bold text-earth-dark text-base">{{ edu.degree }} {% if edu.major %}- {{ edu.major }}{% endif %}</h4>
-                                    <span class="px-2 py-0.5 bg-cardboard/30 rounded text-xs font-bold text-earth-brown">{{ edu.period }}</span>
-                                </div>
-                                <p class="text-xs font-bold text-earth-brown">{{ edu.institution }}</p>
-                                <p class="text-xs text-text-muted leading-relaxed">{{ edu.description }}</p>
-                            </div>
-
-                            <div class="mt-4 pt-3 border-t border-dashed border-border-light flex items-center justify-between">
-                                <span class="text-[11px] font-bold {% if edu.is_visible %}text-green-700{% else %}text-red-700{% endif %}">
-                                    {% if edu.is_visible %}👁️ Tampil{% else %}🙈 Disembunyikan{% endif %}
-                                </span>
-                                <div class="flex gap-1.5">
-                                    <form action="{{ url_for('education.toggle_visibility', edu_id=edu.id) }}" method="POST" class="inline m-0 p-0 flex items-center">
-                                        <button type="submit" class="w-10 h-5 rounded-full relative transition-colors focus:outline-none flex items-center {% if edu.is_visible %}bg-green-500{% else %}bg-gray-400{% endif %}" title="Toggle Tampil">
-                                            <div class="w-4 h-4 bg-white rounded-full shadow-md transform transition-transform duration-300 {% if edu.is_visible %}translate-x-5{% else %}translate-x-1{% endif %}"></div>
-                                        </button>
-                                    </form>
-                                    <button onclick="openEditEduModal('{{ edu.id }}', '{{ edu.institution|e }}', '{{ edu.degree|e }}', '{{ edu.major|e }}', '{{ edu.period|e }}', '{{ edu.description|e }}', '')" class="p-1.5 bg-blue-100 border border-blue-400 text-blue-800 rounded-lg hover:bg-blue-200">
-                                        <i class="lucide text-sm" data-lucide="edit"></i>
-                                    </button>
-                                    <form action="{{ url_for('education.delete', edu_id=edu.id) }}" method="POST" class="inline">
-                                        <button type="submit" onclick="return confirm('Hapus data pendidikan ini?')" class="p-1.5 bg-red-100 border border-red-400 text-red-700 rounded-lg hover:bg-red-200">
-                                            <i class="lucide text-sm" data-lucide="trash-2"></i>
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {% for edu in educations %}
+                <div
+                    class="cardboard-card cardboard-texture rounded-xl p-4 shadow-sm flex flex-col justify-between {% if not edu.is_visible %}opacity-60 border-dashed{% endif %}">
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between gap-2">
+                            <h4 class="font-bold text-earth-dark text-base">{{ edu.degree }} {% if edu.major %}- {{
+                                edu.major }}{% endif %}</h4>
+                            <span class="px-2 py-0.5 bg-cardboard/30 rounded text-xs font-bold text-earth-brown">{{
+                                edu.period }}</span>
                         </div>
-                    {% endfor %}
+                        <p class="text-xs font-bold text-earth-brown">{{ edu.institution }}</p>
+                        <p class="text-xs text-text-muted leading-relaxed">{{ edu.description }}</p>
+                    </div>
+
+                    <div class="mt-4 pt-3 border-t border-dashed border-border-light flex items-center justify-between">
+                        <span
+                            class="text-[11px] font-bold {% if edu.is_visible %}text-green-700{% else %}text-red-700{% endif %}">
+                            {% if edu.is_visible %}Tampil{% else %}Disembunyikan{% endif %}
+                        </span>
+                        <div class="flex gap-1.5">
+                            <form action="{{ url_for('education.toggle_visibility', edu_id=edu.id) }}" method="POST"
+                                class="inline m-0 p-0 flex items-center">
+                                <button type="submit"
+                                    class="w-10 h-5 rounded-full relative transition-colors focus:outline-none flex items-center {% if edu.is_visible %}bg-green-500{% else %}bg-gray-400{% endif %}"
+                                    title="Toggle Tampil">
+                                    <div
+                                        class="w-4 h-4 bg-white rounded-full shadow-md transform transition-transform duration-300 {% if edu.is_visible %}translate-x-5{% else %}translate-x-1{% endif %}">
+                                    </div>
+                                </button>
+                            </form>
+                            <button
+                                onclick="editItem('education', '{{ edu.id }}', '{{ edu.institution|e }}', '{{ edu.degree|e }}', '{{ edu.major|e }}', '{{ edu.period|e }}', '{{ edu.description|e }}', '')"
+                                class="p-1.5 bg-blue-100 border border-blue-400 text-blue-800 rounded-lg hover:bg-blue-200">
+                                <svg class="text-sm w-6 h-6 flex-shrink-0 object-contain"
+                                    xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-label="pencil"
+                                    viewBox="0 0 177 184">
+                                    <path
+                                        d="M146.1 8.7c-3.1.6-4.5 2-93.4 95.8l-25.6 27-9 20.1c-9.1 20-10 22.7-8.1 23.9.5.3 10.2-4 21.4-9.6l20.4-10.2 16.9-18.1A6364 6364 0 0 1 143 59.2a330 330 0 0 0 24.8-27.5c4.8-11-9-25.6-21.7-23m10.7 6.2a21 21 0 0 1 7.8 9.7c.8 3.2-1 7.5-4.6 10.9l-2.9 2.8-5.6-6.1a56 56 0 0 0-9.3-8.3l-4.1-2.6c-.9-.6 5.5-6.6 8.3-7.8 3-1.3 6.2-.8 10.4 1.4m-17.3 11.9c3 1.9 10.4 9.1 13 12.9 1.3 1.8 1.1 2.3-1.4 4.7l-2.9 2.8-6.7-6.7c-3.7-3.6-7.8-7.3-9.1-8.2-2.8-1.8-3-3-.7-5.5 2-2.3 4-2.3 7.8 0m-4.1 13.3c7.8 7.1 10.1 10.5 8.5 12.5-1 1.2-1.9.7-6.3-3.9-2.8-2.9-7-7-9.4-9.1-3.5-3-4.1-4-3.2-5.1 1.6-1.9 3.2-1 10.4 5.6m-9.6 2.7c1.7 1.3 3.2 2.8 3.2 3.2 0 .7-2.9 3.8-57.3 61.2l-30.1 31.7-1.3-2.9a7 7 0 0 0-3.9-4l-2.7-1.1 2.4-2.6 7.7-8.3 41-43.2a551 551 0 0 1 36.7-37zm12.3 12.5c.9 1.5-1.9 4.9-17.3 21-23.1 24.2-60.5 64-64.8 69l-3.3 3.8-1.1-2.6a10 10 0 0 0-4.5-4.4l-3.4-1.8 16.4-16.9c18.1-18.8 58.6-61.6 66.3-70.1l4.9-5.4 2.9 2.8c1.6 1.5 3.4 3.6 3.9 4.6M36.4 137.1c.8 1.2 1.2 2.8.9 3.5-.8 2.3 1.7 4.4 5.1 4.4q5.7-.2 5.6 5.2c0 2.4-1 3.2-10.6 8.1l-10.6 5.5-3.3-3.6-3.2-3.6 3.9-8.5 4.9-10.9c1.1-2.9 5.3-2.9 7.3-.1m-14.8 26c2 2.2 1.9 2.3-3.8 5.4-3.9 2.2-4 2-1.6-3 1.2-2.5 2.5-4.5 2.8-4.5q.8.2 2.6 2.1" />
+                                </svg>
+                            </button>
+                            <form action="{{ url_for('education.delete', edu_id=edu.id) }}" method="POST"
+                                class="inline">
+                                <button type="submit" onclick="return confirm('Hapus data pendidikan ini?')"
+                                    class="p-1.5 bg-red-100 border border-red-400 text-red-700 rounded-lg hover:bg-red-200">
+                                    <svg class="text-sm w-6 h-6 flex-shrink-0 object-contain"
+                                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-label="trash"
+                                        viewBox="0 0 141 173">
+                                        <path
+                                            d="M46.5 10.5c-2.1 2-2.5 3.3-2.5 8.8v6.4l-9.2.7c-5 .3-12.2.6-16 .6-6 0-7.2.3-9.3 2.5C7.3 31.6 7 32.8 7 38.7c0 7.9 1.5 10.9 6.3 12.1l3.1.8 4.3 49c2.4 26.9 4.6 50.4 4.9 52.2.7 4.4 5.7 9.9 10.2 11.2 2.2.6 17.1 1 35.8 1 31.5 0 32.2 0 36.4-2.3 7.4-3.9 7.3-3.5 12.4-59.2C123 76 125 52.9 125 52.2q.2-1 1.5-1.2c2.7 0 6.3-2.2 7.4-4.7a24 24 0 0 0-.4-15.3c-2.1-4.1-6.8-5.3-19.9-5-18.1.5-16.6 1.1-16.6-6.5 0-5.7-.3-6.9-2.5-9C92.1 8 92.1 8 70.5 8s-21.6 0-24 2.5m45.3 9.1.3 6.1-17.9.6c-9.8.3-19.5.4-21.5 0l-3.7-.6v-5.1c0-2.9.5-5.7 1.2-6.4.9-.9 6.5-1.2 21.3-1l20 .3zm37 13.6c1.6 1.6 1.6 10 0 11.6-.9.9-15 1.2-57.4 1.2-30.9 0-56.9-.3-57.8-.6-2-.8-2.3-10.3-.4-12.2 1.7-1.7 113.9-1.7 115.6 0m-9.2 22-4.7 50.3c-2.3 25.3-4.5 47-5 48.2-1.9 5.2-3 5.4-39.1 5.5-34.8 0-36.6-.1-38.8-4.2-.9-1.7-10-94.2-10-101.8V51h98.2z" />
+                                        <path
+                                            d="M48.1 74.4c-1.4 1.7.4 58.5 1.8 59.9.6.6 1.7.7 2.5.4 1.5-.6 1.6-3.7 1-29.4-.7-31.3-1.5-35.5-5.3-30.9m21-.1c-.8 1.1-1.1 9.6-.9 30.8.3 28.6.4 29.4 2.3 29.4 2 0 2-.7 2-30.4 0-30.4-.3-33.4-3.4-29.8m21.2-.5c-1.1.7-3.6 57.3-2.6 59.9.9 2.2 4.2 1.5 4.8-1 1-4.5 1-59 0-59.3q-1-.2-2.2.4" />
+                                    </svg>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
+                {% endfor %}
+            </div>
             {% else %}
-                <div class="p-6 bg-card-bg rounded-xl border-2 border-dashed border-border-light text-center text-text-muted text-sm">
-                    Belum ada riwayat pendidikan yang ditambahkan.
-                </div>
+            <div
+                class="p-6 bg-card-bg rounded-xl border-2 border-dashed border-border-light text-center text-text-muted text-sm">
+                Belum ada riwayat pendidikan yang ditambahkan.
+            </div>
             {% endif %}
         </div>
     </div>
@@ -104,34 +151,54 @@
         <!-- FORM TAMBAH SERTIFIKAT (POSISI ATAS) -->
         <div class="cardboard-card cardboard-texture rounded-2xl p-5 shadow-cardboard relative">
             <div class="tape-accent"></div>
-            <h3 class="font-bold text-earth-dark text-lg mb-4 flex items-center gap-2">
-                <i class="lucide text-accent" data-lucide="award"></i> Tambah Sertifikat & Lisensi
+            <h3 id="formTitleCert" class="font-bold text-earth-dark text-lg mb-4 flex items-center gap-2">
+                <svg class="text-accent w-6 h-6 flex-shrink-0 object-contain" xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor" aria-label="award" viewBox="0 0 123 171">
+                    <path
+                        d="M55.1 10.1a26 26 0 0 0-6.3 4.5c-3.4 3-4.6 3.5-8.1 3.3-7.7-.4-9.6.1-13.6 3.6-3.9 3.6-5.2 5.8-7.1 13-.8 2.9-2.1 4.7-5.1 6.8A20 20 0 0 0 7 55.7c0 1.8.9 5.6 2 8.6 1.9 5 1.9 5.7.5 9.7-3.2 9-.5 17.2 7 21.8 7.7 4.6 7.6 6.7-1.4 30.2a291 291 0 0 0-7.8 22.2c-.5 3.7-.4 3.8 2.3 3.8 1.6 0 6.5-1.1 10.9-2.5q8-2.4 9-1.4c.5.5 3.3 4 6 7.7q5 6.6 7 6.7c2.1 0 2.8-1.5 12-25.3 6.8-17.5 7-17.4 16.6 6.5 9.1 22.7 9.1 22.8 16.7 11.9 2.9-4.1 5.6-7.7 6-8s5 .6 10.1 2 9.9 2.3 10.7 2c2.6-1 1.5-5.2-6.6-26-4.4-11.4-8-21.7-8-22.9 0-2.8.6-3.5 5.3-7.1 2.1-1.5 4.7-4.2 5.8-6 2.2-3.6 2.5-10.8.8-16.7-1-3.2-.9-4.6.5-8.2 3.4-8.9.8-19.6-5.8-23.6a12 12 0 0 1-5.6-9.4c0-4.2-4.3-10.1-9-12.5a13 13 0 0 0-9.2-1.7c-4.3.5-5 .3-8.5-2.8a46 46 0 0 0-6-4.6 22 22 0 0 0-13.2 0m11.2 6c1.2.7 3.9 2.7 6 4.6 3.8 3.4 4.1 3.5 9.8 2.8s6-.6 9.3 2.7c2.4 2.4 3.7 4.9 4.5 8.8 1 4.7 2 6.2 6.6 10.5 6.4 6 7.3 8.8 5 15.3-2.7 7.8-2.8 9.2-1 14.7 1.7 4.8 1.7 5.7.4 9.1q-1.5 3.8-5.9 6.9a14 14 0 0 0-6.3 8.6 21 21 0 0 1-4.8 8.2c-2.9 2.7-3.5 2.8-8.9 2.2l-5.9-.7-4.7 4.4c-3.9 3.6-5.3 4.3-8.8 4.3-3.4 0-5.2-.8-9.6-4.3-5.2-4.1-5.6-4.3-10.3-3.7-3 .5-5.9.2-7.8-.5a11 11 0 0 1-5.9-8.7c0-3.2-3.8-8.2-7.8-10.2-6.2-3.2-7.4-7.6-4.5-16.7 1.6-5.1 1.5-5.4-.5-10.3-3.9-9-2.6-14.2 5-19.6q4.7-3.5 5.3-6.2c1.5-7.5 3.1-10.8 6.4-13 3-2 4.3-2.3 9.1-1.7 5.7.6 5.7.6 10.9-4 5.5-4.9 9.7-5.9 14.4-3.5m36.5 111.5c3.5 9.1 6.2 16.8 6 17s-3.7-.6-7.8-1.6c-4.1-1.1-8.1-2-8.7-2-.7 0-3.2 2.9-5.5 6.5a36 36 0 0 1-5 6.5c-.3 0-3.4-6.9-6.7-15.3l-6-15.2 3.7-3.8c3.5-3.7 3.9-3.8 8.4-3.3 5.1.7 10.3-.8 12.7-3.7q1.2-1.6 2-1.7c.3 0 3.4 7.5 6.9 16.6m-62.3-11c4.7-.5 5.3-.3 9.1 3.2l4.2 3.8-5.8 14.8c-3.2 8.1-6 15-6.3 15.2-.3.3-2.6-2.4-5.2-6s-5.3-6.6-6-6.6-4.8 1.1-9 2.4a42 42 0 0 1-7.5 2c0-.4 7-20 9.9-27.5l2.1-5.6 4.8 2.4c3.8 2 5.7 2.4 9.7 1.9" />
+                    <path
+                        d="M53.9 33.3q-14.9 4.1-22.7 19c-2.4 4.7-2.7 6.2-2.7 15.2s.3 10.5 2.8 15.3a36 36 0 0 0 14.9 15.7 26 26 0 0 0 14.1 3.3c8.2.4 9.1.3 15.2-2.7a34 34 0 0 0 18.9-31.6c.1-7.7-.3-9.8-2.6-14.6A34 34 0 0 0 75.6 36a32 32 0 0 0-21.7-2.7m18.3 7.5a25 25 0 0 1 13.7 13.4 30 30 0 0 1-5 33.8c-17.4 17.9-46.8 5.4-47.1-20-.3-21.1 19.9-35.4 38.4-27.2" />
+                </svg> Tambah Sertifikat & Lisensi
             </h3>
-            <form action="{{ url_for('education.add') }}" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <form id="mainFormCert" action="{{ url_for('education.add') }}" method="POST"
+                class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <input type="hidden" name="type" value="certificate">
                 <div>
                     <label class="block font-bold text-earth-dark text-xs mb-1">Nama Sertifikasi / Pelatihan</label>
-                    <input type="text" name="degree" required class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" placeholder="AWS Certified Solutions Architect / Bootcamp Web">
+                    <input type="text" name="degree" required
+                        class="w-full h-11 px-3 input-cardboard rounded-lg text-sm"
+                        placeholder="AWS Certified Solutions Architect / Bootcamp Web">
                 </div>
                 <div>
                     <label class="block font-bold text-earth-dark text-xs mb-1">Penerbit / Organisation</label>
-                    <input type="text" name="institution" required class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" placeholder="Amazon Web Services / Coursera / Dicoding">
+                    <input type="text" name="institution" required
+                        class="w-full h-11 px-3 input-cardboard rounded-lg text-sm"
+                        placeholder="Amazon Web Services / Coursera / Dicoding">
                 </div>
                 <div>
                     <label class="block font-bold text-earth-dark text-xs mb-1">Tahun / Masa Berlaku</label>
-                    <input type="text" name="period" required class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" placeholder="2024 - 2027">
+                    <input type="text" name="period" required
+                        class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" placeholder="2024 - 2027">
                 </div>
                 <div>
-                    <label class="block font-bold text-earth-dark text-xs mb-1">URL Verifikasi Credential (Opsional)</label>
-                    <input type="text" name="credential_url" class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" placeholder="https://credential.net/...">
+                    <label class="block font-bold text-earth-dark text-xs mb-1">URL Verifikasi Credential
+                        (Opsional)</label>
+                    <input type="text" name="credential_url" class="w-full h-11 px-3 input-cardboard rounded-lg text-sm"
+                        placeholder="https://credential.net/...">
                 </div>
                 <div class="md:col-span-2">
                     <label class="block font-bold text-earth-dark text-xs mb-1">Keterangan Sertifikasi</label>
-                    <textarea name="description" rows="2" class="w-full p-3 input-cardboard rounded-lg text-sm" placeholder="Keterangan materi sertifikasi..."></textarea>
+                    <textarea name="description" rows="2" class="w-full p-3 input-cardboard rounded-lg text-sm"
+                        placeholder="Keterangan materi sertifikasi..."></textarea>
                 </div>
-                <div class="md:col-span-2">
-                    <button type="submit" class="btn-primary w-full py-3 rounded-xl font-bold text-sm cursor-pointer">
+                <div class="md:col-span-2 flex items-center gap-2 mt-2">
+                    <button type="submit" id="submitBtnCert"
+                        class="btn-primary flex-1 py-3 rounded-xl font-bold text-sm cursor-pointer transition-colors">
                         + Tambah Data Sertifikat
+                    </button>
+                    <button type="button" id="cancelBtnCert" onclick="cancelEdit('certificate')"
+                        class="btn-secondary hidden py-3 px-6 rounded-xl font-bold text-sm cursor-pointer transition-colors">
+                        Batal
                     </button>
                 </div>
             </form>
@@ -141,124 +208,157 @@
         <div class="space-y-4">
             <h3 class="font-bold text-earth-dark text-lg">Daftar Sertifikat Tersimpan ({{ certificates|length }})</h3>
             {% if certificates %}
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {% for cert in certificates %}
-                        <div class="cardboard-card cardboard-texture rounded-xl p-4 shadow-sm flex flex-col justify-between {% if not cert.is_visible %}opacity-60 border-dashed{% endif %}">
-                            <div class="space-y-2">
-                                <div class="flex items-center justify-between gap-2">
-                                    <h4 class="font-bold text-earth-dark text-base">{{ cert.degree }}</h4>
-                                    <span class="px-2 py-0.5 bg-accent/15 border border-accent/40 rounded text-xs font-bold text-accent">{{ cert.period }}</span>
-                                </div>
-                                <p class="text-xs font-bold text-earth-brown">Penerbit: {{ cert.institution }}</p>
-                                <p class="text-xs text-text-muted leading-relaxed">{{ cert.description }}</p>
-                                {% if cert.credential_url %}
-                                    <a href="{{ cert.credential_url }}" target="_blank" class="text-xs font-bold text-accent hover:underline flex items-center gap-0.5">
-                                        <i class="lucide text-xs" data-lucide="check-circle"></i> Verifikasi Credential
-                                    </a>
-                                {% endif %}
-                            </div>
-
-                            <div class="mt-4 pt-3 border-t border-dashed border-border-light flex items-center justify-between">
-                                <span class="text-[11px] font-bold {% if cert.is_visible %}text-green-700{% else %}text-red-700{% endif %}">
-                                    {% if cert.is_visible %}👁️ Tampil{% else %}🙈 Disembunyikan{% endif %}
-                                </span>
-                                <div class="flex gap-1.5">
-                                    <form action="{{ url_for('education.toggle_visibility', edu_id=cert.id) }}" method="POST" class="inline m-0 p-0 flex items-center">
-                                        <button type="submit" class="w-10 h-5 rounded-full relative transition-colors focus:outline-none flex items-center {% if cert.is_visible %}bg-green-500{% else %}bg-gray-400{% endif %}" title="Toggle Tampil">
-                                            <div class="w-4 h-4 bg-white rounded-full shadow-md transform transition-transform duration-300 {% if cert.is_visible %}translate-x-5{% else %}translate-x-1{% endif %}"></div>
-                                        </button>
-                                    </form>
-                                    <button onclick="openEditEduModal('{{ cert.id }}', '{{ cert.institution|e }}', '{{ cert.degree|e }}', '{{ cert.major|e }}', '{{ cert.period|e }}', '{{ cert.description|e }}', '{{ cert.credential_url|e }}')" class="p-1.5 bg-blue-100 border border-blue-400 text-blue-800 rounded-lg hover:bg-blue-200">
-                                        <i class="lucide text-sm" data-lucide="edit"></i>
-                                    </button>
-                                    <form action="{{ url_for('education.delete', edu_id=cert.id) }}" method="POST" class="inline">
-                                        <button type="submit" onclick="return confirm('Hapus sertifikat ini?')" class="p-1.5 bg-red-100 border border-red-400 text-red-700 rounded-lg hover:bg-red-200">
-                                            <i class="lucide text-sm" data-lucide="trash-2"></i>
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {% for cert in certificates %}
+                <div
+                    class="cardboard-card cardboard-texture rounded-xl p-4 shadow-sm flex flex-col justify-between {% if not cert.is_visible %}opacity-60 border-dashed{% endif %}">
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between gap-2">
+                            <h4 class="font-bold text-earth-dark text-base">{{ cert.degree }}</h4>
+                            <span
+                                class="px-2 py-0.5 bg-accent/15 border border-accent/40 rounded text-xs font-bold text-accent">{{
+                                cert.period }}</span>
                         </div>
-                    {% endfor %}
+                        <p class="text-xs font-bold text-earth-brown">Penerbit: {{ cert.institution }}</p>
+                        <p class="text-xs text-text-muted leading-relaxed">{{ cert.description }}</p>
+                        {% if cert.credential_url %}
+                        <a href="{{ cert.credential_url }}" target="_blank"
+                            class="text-xs font-bold text-accent hover:underline flex items-center gap-0.5">
+                            <svg class="text-xs w-6 h-6 flex-shrink-0 object-contain" xmlns="http://www.w3.org/2000/svg"
+                                fill="currentColor" aria-label="check" viewBox="0 0 119 91">
+                                <path
+                                    d="M104 11.7 81.1 36 51.7 67.3A199 199 0 0 1 38.1 81c-.4 0-7.2-7-15.1-15.5C9.4 50.9 5.5 47.9 5.5 52.2A293 293 0 0 0 38.4 87c.7 0 12.3-11.8 25.8-26.3l37.2-39.6a94 94 0 0 0 12.3-14.5c-.9-2.7-3.8-1.2-9.7 5.1" />
+                            </svg> Verifikasi Credential
+                        </a>
+                        {% endif %}
+                    </div>
+
+                    <div class="mt-4 pt-3 border-t border-dashed border-border-light flex items-center justify-between">
+                        <span
+                            class="text-[11px] font-bold {% if cert.is_visible %}text-green-700{% else %}text-red-700{% endif %}">
+                            {% if cert.is_visible %}Tampil{% else %}Disembunyikan{% endif %}
+                        </span>
+                        <div class="flex gap-1.5">
+                            <form action="{{ url_for('education.toggle_visibility', edu_id=cert.id) }}" method="POST"
+                                class="inline m-0 p-0 flex items-center">
+                                <button type="submit"
+                                    class="w-10 h-5 rounded-full relative transition-colors focus:outline-none flex items-center {% if cert.is_visible %}bg-green-500{% else %}bg-gray-400{% endif %}"
+                                    title="Toggle Tampil">
+                                    <div
+                                        class="w-4 h-4 bg-white rounded-full shadow-md transform transition-transform duration-300 {% if cert.is_visible %}translate-x-5{% else %}translate-x-1{% endif %}">
+                                    </div>
+                                </button>
+                            </form>
+                            <button
+                                onclick="editItem('certificate', '{{ cert.id }}', '{{ cert.institution|e }}', '{{ cert.degree|e }}', '{{ cert.major|e }}', '{{ cert.period|e }}', '{{ cert.description|e }}', '{{ cert.credential_url|e }}')"
+                                class="p-1.5 bg-blue-100 border border-blue-400 text-blue-800 rounded-lg hover:bg-blue-200">
+                                <svg class="text-sm w-6 h-6 flex-shrink-0 object-contain"
+                                    xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-label="pencil"
+                                    viewBox="0 0 177 184">
+                                    <path
+                                        d="M146.1 8.7c-3.1.6-4.5 2-93.4 95.8l-25.6 27-9 20.1c-9.1 20-10 22.7-8.1 23.9.5.3 10.2-4 21.4-9.6l20.4-10.2 16.9-18.1A6364 6364 0 0 1 143 59.2a330 330 0 0 0 24.8-27.5c4.8-11-9-25.6-21.7-23m10.7 6.2a21 21 0 0 1 7.8 9.7c.8 3.2-1 7.5-4.6 10.9l-2.9 2.8-5.6-6.1a56 56 0 0 0-9.3-8.3l-4.1-2.6c-.9-.6 5.5-6.6 8.3-7.8 3-1.3 6.2-.8 10.4 1.4m-17.3 11.9c3 1.9 10.4 9.1 13 12.9 1.3 1.8 1.1 2.3-1.4 4.7l-2.9 2.8-6.7-6.7c-3.7-3.6-7.8-7.3-9.1-8.2-2.8-1.8-3-3-.7-5.5 2-2.3 4-2.3 7.8 0m-4.1 13.3c7.8 7.1 10.1 10.5 8.5 12.5-1 1.2-1.9.7-6.3-3.9-2.8-2.9-7-7-9.4-9.1-3.5-3-4.1-4-3.2-5.1 1.6-1.9 3.2-1 10.4 5.6m-9.6 2.7c1.7 1.3 3.2 2.8 3.2 3.2 0 .7-2.9 3.8-57.3 61.2l-30.1 31.7-1.3-2.9a7 7 0 0 0-3.9-4l-2.7-1.1 2.4-2.6 7.7-8.3 41-43.2a551 551 0 0 1 36.7-37zm12.3 12.5c.9 1.5-1.9 4.9-17.3 21-23.1 24.2-60.5 64-64.8 69l-3.3 3.8-1.1-2.6a10 10 0 0 0-4.5-4.4l-3.4-1.8 16.4-16.9c18.1-18.8 58.6-61.6 66.3-70.1l4.9-5.4 2.9 2.8c1.6 1.5 3.4 3.6 3.9 4.6M36.4 137.1c.8 1.2 1.2 2.8.9 3.5-.8 2.3 1.7 4.4 5.1 4.4q5.7-.2 5.6 5.2c0 2.4-1 3.2-10.6 8.1l-10.6 5.5-3.3-3.6-3.2-3.6 3.9-8.5 4.9-10.9c1.1-2.9 5.3-2.9 7.3-.1m-14.8 26c2 2.2 1.9 2.3-3.8 5.4-3.9 2.2-4 2-1.6-3 1.2-2.5 2.5-4.5 2.8-4.5q.8.2 2.6 2.1" />
+                                </svg>
+                            </button>
+                            <form action="{{ url_for('education.delete', edu_id=cert.id) }}" method="POST"
+                                class="inline">
+                                <button type="submit" onclick="return confirm('Hapus sertifikat ini?')"
+                                    class="p-1.5 bg-red-100 border border-red-400 text-red-700 rounded-lg hover:bg-red-200">
+                                    <svg class="text-sm w-6 h-6 flex-shrink-0 object-contain"
+                                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-label="trash"
+                                        viewBox="0 0 141 173">
+                                        <path
+                                            d="M46.5 10.5c-2.1 2-2.5 3.3-2.5 8.8v6.4l-9.2.7c-5 .3-12.2.6-16 .6-6 0-7.2.3-9.3 2.5C7.3 31.6 7 32.8 7 38.7c0 7.9 1.5 10.9 6.3 12.1l3.1.8 4.3 49c2.4 26.9 4.6 50.4 4.9 52.2.7 4.4 5.7 9.9 10.2 11.2 2.2.6 17.1 1 35.8 1 31.5 0 32.2 0 36.4-2.3 7.4-3.9 7.3-3.5 12.4-59.2C123 76 125 52.9 125 52.2q.2-1 1.5-1.2c2.7 0 6.3-2.2 7.4-4.7a24 24 0 0 0-.4-15.3c-2.1-4.1-6.8-5.3-19.9-5-18.1.5-16.6 1.1-16.6-6.5 0-5.7-.3-6.9-2.5-9C92.1 8 92.1 8 70.5 8s-21.6 0-24 2.5m45.3 9.1.3 6.1-17.9.6c-9.8.3-19.5.4-21.5 0l-3.7-.6v-5.1c0-2.9.5-5.7 1.2-6.4.9-.9 6.5-1.2 21.3-1l20 .3zm37 13.6c1.6 1.6 1.6 10 0 11.6-.9.9-15 1.2-57.4 1.2-30.9 0-56.9-.3-57.8-.6-2-.8-2.3-10.3-.4-12.2 1.7-1.7 113.9-1.7 115.6 0m-9.2 22-4.7 50.3c-2.3 25.3-4.5 47-5 48.2-1.9 5.2-3 5.4-39.1 5.5-34.8 0-36.6-.1-38.8-4.2-.9-1.7-10-94.2-10-101.8V51h98.2z" />
+                                        <path
+                                            d="M48.1 74.4c-1.4 1.7.4 58.5 1.8 59.9.6.6 1.7.7 2.5.4 1.5-.6 1.6-3.7 1-29.4-.7-31.3-1.5-35.5-5.3-30.9m21-.1c-.8 1.1-1.1 9.6-.9 30.8.3 28.6.4 29.4 2.3 29.4 2 0 2-.7 2-30.4 0-30.4-.3-33.4-3.4-29.8m21.2-.5c-1.1.7-3.6 57.3-2.6 59.9.9 2.2 4.2 1.5 4.8-1 1-4.5 1-59 0-59.3q-1-.2-2.2.4" />
+                                    </svg>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
+                {% endfor %}
+            </div>
             {% else %}
-                <div class="p-6 bg-card-bg rounded-xl border-2 border-dashed border-border-light text-center text-text-muted text-sm">
-                    Belum ada data sertifikat yang ditambahkan.
-                </div>
+            <div
+                class="p-6 bg-card-bg rounded-xl border-2 border-dashed border-border-light text-center text-text-muted text-sm">
+                Belum ada data sertifikat yang ditambahkan.
+            </div>
             {% endif %}
         </div>
     </div>
 </div>
 
-<!-- EDIT EDU MODAL -->
-<div id="editEduModal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 hidden">
-    <div class="cardboard-card cardboard-texture rounded-2xl p-6 w-full max-w-lg shadow-2xl relative">
-        <h3 class="font-bold text-earth-dark text-lg mb-3">Edit Data Pendidikan / Sertifikat</h3>
-        <form id="editEduForm" method="POST" class="space-y-3">
-            <div>
-                <label class="block font-bold text-earth-dark text-xs mb-1">Institusi / Penerbit</label>
-                <input type="text" name="institution" id="edit_edu_institution" required class="w-full h-10 px-3 input-cardboard rounded-lg text-sm">
-            </div>
-            <div>
-                <label class="block font-bold text-earth-dark text-xs mb-1">Gelar / Nama Sertifikasi</label>
-                <input type="text" name="degree" id="edit_edu_degree" required class="w-full h-10 px-3 input-cardboard rounded-lg text-sm">
-            </div>
-            <div>
-                <label class="block font-bold text-earth-dark text-xs mb-1">Jurusan (Jika ada)</label>
-                <input type="text" name="major" id="edit_edu_major" class="w-full h-10 px-3 input-cardboard rounded-lg text-sm">
-            </div>
-            <div>
-                <label class="block font-bold text-earth-dark text-xs mb-1">Periode</label>
-                <input type="text" name="period" id="edit_edu_period" required class="w-full h-10 px-3 input-cardboard rounded-lg text-sm">
-            </div>
-            <div>
-                <label class="block font-bold text-earth-dark text-xs mb-1">Deskripsi</label>
-                <textarea name="description" id="edit_edu_description" rows="2" class="w-full p-2.5 input-cardboard rounded-lg text-sm"></textarea>
-            </div>
-            <div>
-                <label class="block font-bold text-earth-dark text-xs mb-1">URL Credential (Opsional)</label>
-                <input type="text" name="credential_url" id="edit_edu_credential_url" class="w-full h-10 px-3 input-cardboard rounded-lg text-sm">
-            </div>
-            <div class="flex justify-end gap-2 pt-2">
-                <button type="button" onclick="closeEditEduModal()" class="btn-secondary px-4 py-2 rounded-lg text-xs font-bold">Batal</button>
-                <button type="submit" class="btn-primary px-5 py-2 rounded-lg text-xs font-bold text-white">Simpan Perubahan</button>
-            </div>
-        </form>
-    </div>
-</div>
+<!-- NO MODAL REQUIRED -->
 
 <script>
-function switchSheet(type) {
-    const btnEdu = document.getElementById('tabBtnEdu');
-    const btnCert = document.getElementById('tabBtnCert');
-    const sheetEdu = document.getElementById('sheetEdu');
-    const sheetCert = document.getElementById('sheetCert');
+    function switchSheet(type) {
+        const btnEdu = document.getElementById('tabBtnEdu');
+        const btnCert = document.getElementById('tabBtnCert');
+        const sheetEdu = document.getElementById('sheetEdu');
+        const sheetCert = document.getElementById('sheetCert');
 
-    if (type === 'edu') {
-        btnEdu.className = "px-5 py-2.5 font-extrabold text-sm border-b-4 border-accent text-accent bg-kraft/20 rounded-t-xl cursor-pointer";
-        btnCert.className = "px-5 py-2.5 font-extrabold text-sm border-b-4 border-transparent text-text-muted hover:text-earth-dark rounded-t-xl cursor-pointer";
-        sheetEdu.classList.remove('hidden');
-        sheetCert.classList.add('hidden');
-    } else {
-        btnCert.className = "px-5 py-2.5 font-extrabold text-sm border-b-4 border-accent text-accent bg-kraft/20 rounded-t-xl cursor-pointer";
-        btnEdu.className = "px-5 py-2.5 font-extrabold text-sm border-b-4 border-transparent text-text-muted hover:text-earth-dark rounded-t-xl cursor-pointer";
-        sheetCert.classList.remove('hidden');
-        sheetEdu.classList.add('hidden');
+        if (type === 'edu') {
+            btnEdu.className = "px-5 py-2.5 font-extrabold text-sm border-b-4 border-accent text-accent bg-kraft/20 rounded-t-xl cursor-pointer";
+            btnCert.className = "px-5 py-2.5 font-extrabold text-sm border-b-4 border-transparent text-text-muted hover:text-earth-dark rounded-t-xl cursor-pointer";
+            sheetEdu.classList.remove('hidden');
+            sheetCert.classList.add('hidden');
+        } else {
+            btnCert.className = "px-5 py-2.5 font-extrabold text-sm border-b-4 border-accent text-accent bg-kraft/20 rounded-t-xl cursor-pointer";
+            btnEdu.className = "px-5 py-2.5 font-extrabold text-sm border-b-4 border-transparent text-text-muted hover:text-earth-dark rounded-t-xl cursor-pointer";
+            sheetCert.classList.remove('hidden');
+            sheetEdu.classList.add('hidden');
+        }
     }
-}
 
-function openEditEduModal(id, institution, degree, major, period, description, credential_url) {
-    document.getElementById('editEduForm').action = '/dashboard/education/edit/' + id;
-    document.getElementById('edit_edu_institution').value = institution;
-    document.getElementById('edit_edu_degree').value = degree;
-    document.getElementById('edit_edu_major').value = major;
-    document.getElementById('edit_edu_period').value = period;
-    document.getElementById('edit_edu_description').value = description;
-    document.getElementById('edit_edu_credential_url').value = credential_url;
-    document.getElementById('editEduModal').classList.remove('hidden');
-}
-function closeEditEduModal() {
-    document.getElementById('editEduModal').classList.add('hidden');
-}
+    function editItem(type, id, institution, degree, major, period, description, credential_url) {
+        if (type === 'education') {
+            switchSheet('edu');
+            const form = document.getElementById('mainFormEdu');
+            form.action = '/dashboard/education/edit/' + id;
+            form.elements['institution'].value = institution;
+            form.elements['degree'].value = degree;
+            form.elements['major'].value = major;
+            form.elements['period'].value = period;
+            form.elements['description'].value = description;
+
+            document.getElementById('submitBtnEdu').innerText = 'Simpan Perubahan';
+            document.getElementById('cancelBtnEdu').classList.remove('hidden');
+            document.getElementById('formTitleEdu').innerHTML = '<svg class="text-accent w-6 h-6 flex-shrink-0 object-contain"  xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-label="graduation cap" viewBox="0 0 211 147"><path d="M86.5 14.9c-72.4 31.8-76 33.5-76 36.1 0 2.1 1.2 3.1 7 6.2 14.9 7.9 86.3 41.8 88 41.8.9 0 15.5-6.8 32.4-15.1 27.4-13.5 30.3-15.2 28.1-16.1a714 714 0 0 0-57.5-15.7c-5.6-.6-6-.8-6-3.1s.4-2.5 3.5-2.4c3.2.1 20 4.8 54.8 15.3l13.4 4 12.9-6.4c13.7-6.9 15.4-8.8 10.7-11.9-4.1-2.6-85.7-38.3-91.3-40a86 86 0 0 0-20 7.3m91.8 52.8q-1.3.3-1.3 9.5c0 8.7-.1 9.1-3 11.8q-4.8 4.6-1.9 10.1c.7 1.5.6 3.9-.5 9.2-2.1 9.7-3.8 25.5-3.1 27.8.6 1.9 6 3.9 10.5 3.9 4.7 0 9.9-2 10.5-4 .8-2.5-1.1-19.5-3.1-27.7-1.3-5.1-1.3-6.9-.3-9.7 1.5-4.1-.1-9.2-3.2-10.1-1.7-.6-1.9-1.7-1.9-10.5 0-9.8-.4-11.1-2.7-10.3m3.7 24.7c2.8 3.5-1.1 9.3-4.7 7-3.6-2.2-2.3-8.4 1.7-8.4 1 0 2.3.7 3 1.4m1.2 19.6c2.2 11.2 3.3 23 2 23-1 0-2.2-5.5-2.2-10.3q0-2.9-1.2-2.4-1.3.2-1 7.1c.3 6.1.2 6.6-1.7 6.6s-2-.6-1.8-6.3c.1-3.4-.2-6.4-.8-6.7s-1.1 2-1.3 5.7c-.2 4.7-.7 6.3-1.7 6.3-1.9 0-1.9-2.4-.1-16 1.8-13.4 2.8-16.1 5.8-15.7 2 .3 2.5 1.4 4 8.7"/><path d="m50.2 94.5.3 15.4 4 4.1c4.8 5 14.6 10.1 24.7 13.1 11.1 3.2 33.1 3.8 46.1 1.1 12.3-2.6 25-8.5 30-14.2l3.7-4V94.5c0-8.5-.2-15.5-.4-15.5l-18.2 8.6c-31.2 15-32.6 15.6-36.4 15.1-1.9-.3-14.4-5.7-27.6-12.1A379 379 0 0 0 51 79c-.8 0-1.1 4.1-.8 15.5"/></svg> Edit Data Pendidikan';
+            form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+            switchSheet('cert');
+            const form = document.getElementById('mainFormCert');
+            form.action = '/dashboard/education/edit/' + id;
+            form.elements['institution'].value = institution;
+            form.elements['degree'].value = degree;
+            if (form.elements['major']) form.elements['major'].value = major;
+            form.elements['period'].value = period;
+            form.elements['description'].value = description;
+            form.elements['credential_url'].value = credential_url;
+
+            document.getElementById('submitBtnCert').innerText = 'Simpan Perubahan';
+            document.getElementById('cancelBtnCert').classList.remove('hidden');
+            document.getElementById('formTitleCert').innerHTML = '<svg class="text-accent w-6 h-6 flex-shrink-0 object-contain"  xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-label="award" viewBox="0 0 123 171"><path d="M55.1 10.1a26 26 0 0 0-6.3 4.5c-3.4 3-4.6 3.5-8.1 3.3-7.7-.4-9.6.1-13.6 3.6-3.9 3.6-5.2 5.8-7.1 13-.8 2.9-2.1 4.7-5.1 6.8A20 20 0 0 0 7 55.7c0 1.8.9 5.6 2 8.6 1.9 5 1.9 5.7.5 9.7-3.2 9-.5 17.2 7 21.8 7.7 4.6 7.6 6.7-1.4 30.2a291 291 0 0 0-7.8 22.2c-.5 3.7-.4 3.8 2.3 3.8 1.6 0 6.5-1.1 10.9-2.5q8-2.4 9-1.4c.5.5 3.3 4 6 7.7q5 6.6 7 6.7c2.1 0 2.8-1.5 12-25.3 6.8-17.5 7-17.4 16.6 6.5 9.1 22.7 9.1 22.8 16.7 11.9 2.9-4.1 5.6-7.7 6-8s5 .6 10.1 2 9.9 2.3 10.7 2c2.6-1 1.5-5.2-6.6-26-4.4-11.4-8-21.7-8-22.9 0-2.8.6-3.5 5.3-7.1 2.1-1.5 4.7-4.2 5.8-6 2.2-3.6 2.5-10.8.8-16.7-1-3.2-.9-4.6.5-8.2 3.4-8.9.8-19.6-5.8-23.6a12 12 0 0 1-5.6-9.4c0-4.2-4.3-10.1-9-12.5a13 13 0 0 0-9.2-1.7c-4.3.5-5 .3-8.5-2.8a46 46 0 0 0-6-4.6 22 22 0 0 0-13.2 0m11.2 6c1.2.7 3.9 2.7 6 4.6 3.8 3.4 4.1 3.5 9.8 2.8s6-.6 9.3 2.7c2.4 2.4 3.7 4.9 4.5 8.8 1 4.7 2 6.2 6.6 10.5 6.4 6 7.3 8.8 5 15.3-2.7 7.8-2.8 9.2-1 14.7 1.7 4.8 1.7 5.7.4 9.1q-1.5 3.8-5.9 6.9a14 14 0 0 0-6.3 8.6 21 21 0 0 1-4.8 8.2c-2.9 2.7-3.5 2.8-8.9 2.2l-5.9-.7-4.7 4.4c-3.9 3.6-5.3 4.3-8.8 4.3-3.4 0-5.2-.8-9.6-4.3-5.2-4.1-5.6-4.3-10.3-3.7-3 .5-5.9.2-7.8-.5a11 11 0 0 1-5.9-8.7c0-3.2-3.8-8.2-7.8-10.2-6.2-3.2-7.4-7.6-4.5-16.7 1.6-5.1 1.5-5.4-.5-10.3-3.9-9-2.6-14.2 5-19.6q4.7-3.5 5.3-6.2c1.5-7.5 3.1-10.8 6.4-13 3-2 4.3-2.3 9.1-1.7 5.7.6 5.7.6 10.9-4 5.5-4.9 9.7-5.9 14.4-3.5m36.5 111.5c3.5 9.1 6.2 16.8 6 17s-3.7-.6-7.8-1.6c-4.1-1.1-8.1-2-8.7-2-.7 0-3.2 2.9-5.5 6.5a36 36 0 0 1-5 6.5c-.3 0-3.4-6.9-6.7-15.3l-6-15.2 3.7-3.8c3.5-3.7 3.9-3.8 8.4-3.3 5.1.7 10.3-.8 12.7-3.7q1.2-1.6 2-1.7c.3 0 3.4 7.5 6.9 16.6m-62.3-11c4.7-.5 5.3-.3 9.1 3.2l4.2 3.8-5.8 14.8c-3.2 8.1-6 15-6.3 15.2-.3.3-2.6-2.4-5.2-6s-5.3-6.6-6-6.6-4.8 1.1-9 2.4a42 42 0 0 1-7.5 2c0-.4 7-20 9.9-27.5l2.1-5.6 4.8 2.4c3.8 2 5.7 2.4 9.7 1.9"/><path d="M53.9 33.3q-14.9 4.1-22.7 19c-2.4 4.7-2.7 6.2-2.7 15.2s.3 10.5 2.8 15.3a36 36 0 0 0 14.9 15.7 26 26 0 0 0 14.1 3.3c8.2.4 9.1.3 15.2-2.7a34 34 0 0 0 18.9-31.6c.1-7.7-.3-9.8-2.6-14.6A34 34 0 0 0 75.6 36a32 32 0 0 0-21.7-2.7m18.3 7.5a25 25 0 0 1 13.7 13.4 30 30 0 0 1-5 33.8c-17.4 17.9-46.8 5.4-47.1-20-.3-21.1 19.9-35.4 38.4-27.2"/></svg> Edit Data Sertifikat';
+            form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+
+    function cancelEdit(type) {
+        if (type === 'education') {
+            const form = document.getElementById('mainFormEdu');
+            form.action = "{{ url_for('education.add') }}";
+            form.reset();
+            document.getElementById('submitBtnEdu').innerText = '+ Tambah Data Pendidikan';
+            document.getElementById('cancelBtnEdu').classList.add('hidden');
+            document.getElementById('formTitleEdu').innerHTML = '<svg class="text-accent w-6 h-6 flex-shrink-0 object-contain"  xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-label="graduation cap" viewBox="0 0 211 147"><path d="M86.5 14.9c-72.4 31.8-76 33.5-76 36.1 0 2.1 1.2 3.1 7 6.2 14.9 7.9 86.3 41.8 88 41.8.9 0 15.5-6.8 32.4-15.1 27.4-13.5 30.3-15.2 28.1-16.1a714 714 0 0 0-57.5-15.7c-5.6-.6-6-.8-6-3.1s.4-2.5 3.5-2.4c3.2.1 20 4.8 54.8 15.3l13.4 4 12.9-6.4c13.7-6.9 15.4-8.8 10.7-11.9-4.1-2.6-85.7-38.3-91.3-40a86 86 0 0 0-20 7.3m91.8 52.8q-1.3.3-1.3 9.5c0 8.7-.1 9.1-3 11.8q-4.8 4.6-1.9 10.1c.7 1.5.6 3.9-.5 9.2-2.1 9.7-3.8 25.5-3.1 27.8.6 1.9 6 3.9 10.5 3.9 4.7 0 9.9-2 10.5-4 .8-2.5-1.1-19.5-3.1-27.7-1.3-5.1-1.3-6.9-.3-9.7 1.5-4.1-.1-9.2-3.2-10.1-1.7-.6-1.9-1.7-1.9-10.5 0-9.8-.4-11.1-2.7-10.3m3.7 24.7c2.8 3.5-1.1 9.3-4.7 7-3.6-2.2-2.3-8.4 1.7-8.4 1 0 2.3.7 3 1.4m1.2 19.6c2.2 11.2 3.3 23 2 23-1 0-2.2-5.5-2.2-10.3q0-2.9-1.2-2.4-1.3.2-1 7.1c.3 6.1.2 6.6-1.7 6.6s-2-.6-1.8-6.3c.1-3.4-.2-6.4-.8-6.7s-1.1 2-1.3 5.7c-.2 4.7-.7 6.3-1.7 6.3-1.9 0-1.9-2.4-.1-16 1.8-13.4 2.8-16.1 5.8-15.7 2 .3 2.5 1.4 4 8.7"/><path d="m50.2 94.5.3 15.4 4 4.1c4.8 5 14.6 10.1 24.7 13.1 11.1 3.2 33.1 3.8 46.1 1.1 12.3-2.6 25-8.5 30-14.2l3.7-4V94.5c0-8.5-.2-15.5-.4-15.5l-18.2 8.6c-31.2 15-32.6 15.6-36.4 15.1-1.9-.3-14.4-5.7-27.6-12.1A379 379 0 0 0 51 79c-.8 0-1.1 4.1-.8 15.5"/></svg> Tambah Riwayat Pendidikan Formal';
+        } else {
+            const form = document.getElementById('mainFormCert');
+            form.action = "{{ url_for('education.add') }}";
+            form.reset();
+            document.getElementById('submitBtnCert').innerText = '+ Tambah Data Sertifikat';
+            document.getElementById('cancelBtnCert').classList.add('hidden');
+            document.getElementById('formTitleCert').innerHTML = '<svg class="text-accent w-6 h-6 flex-shrink-0 object-contain"  xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-label="award" viewBox="0 0 123 171"><path d="M55.1 10.1a26 26 0 0 0-6.3 4.5c-3.4 3-4.6 3.5-8.1 3.3-7.7-.4-9.6.1-13.6 3.6-3.9 3.6-5.2 5.8-7.1 13-.8 2.9-2.1 4.7-5.1 6.8A20 20 0 0 0 7 55.7c0 1.8.9 5.6 2 8.6 1.9 5 1.9 5.7.5 9.7-3.2 9-.5 17.2 7 21.8 7.7 4.6 7.6 6.7-1.4 30.2a291 291 0 0 0-7.8 22.2c-.5 3.7-.4 3.8 2.3 3.8 1.6 0 6.5-1.1 10.9-2.5q8-2.4 9-1.4c.5.5 3.3 4 6 7.7q5 6.6 7 6.7c2.1 0 2.8-1.5 12-25.3 6.8-17.5 7-17.4 16.6 6.5 9.1 22.7 9.1 22.8 16.7 11.9 2.9-4.1 5.6-7.7 6-8s5 .6 10.1 2 9.9 2.3 10.7 2c2.6-1 1.5-5.2-6.6-26-4.4-11.4-8-21.7-8-22.9 0-2.8.6-3.5 5.3-7.1 2.1-1.5 4.7-4.2 5.8-6 2.2-3.6 2.5-10.8.8-16.7-1-3.2-.9-4.6.5-8.2 3.4-8.9.8-19.6-5.8-23.6a12 12 0 0 1-5.6-9.4c0-4.2-4.3-10.1-9-12.5a13 13 0 0 0-9.2-1.7c-4.3.5-5 .3-8.5-2.8a46 46 0 0 0-6-4.6 22 22 0 0 0-13.2 0m11.2 6c1.2.7 3.9 2.7 6 4.6 3.8 3.4 4.1 3.5 9.8 2.8s6-.6 9.3 2.7c2.4 2.4 3.7 4.9 4.5 8.8 1 4.7 2 6.2 6.6 10.5 6.4 6 7.3 8.8 5 15.3-2.7 7.8-2.8 9.2-1 14.7 1.7 4.8 1.7 5.7.4 9.1q-1.5 3.8-5.9 6.9a14 14 0 0 0-6.3 8.6 21 21 0 0 1-4.8 8.2c-2.9 2.7-3.5 2.8-8.9 2.2l-5.9-.7-4.7 4.4c-3.9 3.6-5.3 4.3-8.8 4.3-3.4 0-5.2-.8-9.6-4.3-5.2-4.1-5.6-4.3-10.3-3.7-3 .5-5.9.2-7.8-.5a11 11 0 0 1-5.9-8.7c0-3.2-3.8-8.2-7.8-10.2-6.2-3.2-7.4-7.6-4.5-16.7 1.6-5.1 1.5-5.4-.5-10.3-3.9-9-2.6-14.2 5-19.6q4.7-3.5 5.3-6.2c1.5-7.5 3.1-10.8 6.4-13 3-2 4.3-2.3 9.1-1.7 5.7.6 5.7.6 10.9-4 5.5-4.9 9.7-5.9 14.4-3.5m36.5 111.5c3.5 9.1 6.2 16.8 6 17s-3.7-.6-7.8-1.6c-4.1-1.1-8.1-2-8.7-2-.7 0-3.2 2.9-5.5 6.5a36 36 0 0 1-5 6.5c-.3 0-3.4-6.9-6.7-15.3l-6-15.2 3.7-3.8c3.5-3.7 3.9-3.8 8.4-3.3 5.1.7 10.3-.8 12.7-3.7q1.2-1.6 2-1.7c.3 0 3.4 7.5 6.9 16.6m-62.3-11c4.7-.5 5.3-.3 9.1 3.2l4.2 3.8-5.8 14.8c-3.2 8.1-6 15-6.3 15.2-.3.3-2.6-2.4-5.2-6s-5.3-6.6-6-6.6-4.8 1.1-9 2.4a42 42 0 0 1-7.5 2c0-.4 7-20 9.9-27.5l2.1-5.6 4.8 2.4c3.8 2 5.7 2.4 9.7 1.9"/><path d="M53.9 33.3q-14.9 4.1-22.7 19c-2.4 4.7-2.7 6.2-2.7 15.2s.3 10.5 2.8 15.3a36 36 0 0 0 14.9 15.7 26 26 0 0 0 14.1 3.3c8.2.4 9.1.3 15.2-2.7a34 34 0 0 0 18.9-31.6c.1-7.7-.3-9.8-2.6-14.6A34 34 0 0 0 75.6 36a32 32 0 0 0-21.7-2.7m18.3 7.5a25 25 0 0 1 13.7 13.4 30 30 0 0 1-5 33.8c-17.4 17.9-46.8 5.4-47.1-20-.3-21.1 19.9-35.4 38.4-27.2"/></svg> Tambah Sertifikat & Lisensi';
+        }
+    }
 </script>
 {% endblock %}

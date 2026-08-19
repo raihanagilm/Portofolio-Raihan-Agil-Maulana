@@ -2,7 +2,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from Backend.utils.auth_helper import login_required
 from Backend.database import db, Profile
-from Backend.utils.cloudinary_helper import upload_media
+from Backend.utils.cloudinary_helper import upload_media, delete_media
 
 profile_bp = Blueprint('profile', __name__, url_prefix='/dashboard/profile')
 
@@ -50,6 +50,8 @@ def index():
         if 'avatar' in request.files and request.files['avatar'].filename != '':
             uploaded_url = upload_media(request.files['avatar'], folder="avatar")
             if uploaded_url:
+                if profile.avatar_url:
+                    delete_media(profile.avatar_url)
                 profile.avatar_url = uploaded_url
             else:
                 upload_failed = True
@@ -58,6 +60,8 @@ def index():
         if 'resume' in request.files and request.files['resume'].filename != '':
             resume_url = upload_media(request.files['resume'], folder="documents")
             if resume_url:
+                if profile.resume_url:
+                    delete_media(profile.resume_url)
                 profile.resume_url = resume_url
             else:
                 upload_failed = True
@@ -71,3 +75,25 @@ def index():
         return redirect(url_for('profile.index'))
 
     return render_template('dashboard/profile.html', profile=profile, active_page='profil')
+
+@profile_bp.route('/delete-avatar', methods=['POST'])
+@login_required
+def delete_avatar():
+    profile = Profile.query.first()
+    if profile and profile.avatar_url:
+        delete_media(profile.avatar_url)
+        profile.avatar_url = None
+        db.session.commit()
+        flash('Foto profil berhasil dihapus.', 'success')
+    return redirect(url_for('profile.index'))
+
+@profile_bp.route('/delete-resume', methods=['POST'])
+@login_required
+def delete_resume():
+    profile = Profile.query.first()
+    if profile and profile.resume_url:
+        delete_media(profile.resume_url)
+        profile.resume_url = None
+        db.session.commit()
+        flash('CV/Resume berhasil dihapus.', 'success')
+    return redirect(url_for('profile.index'))

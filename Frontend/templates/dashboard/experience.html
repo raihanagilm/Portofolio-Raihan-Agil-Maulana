@@ -7,10 +7,17 @@
     <!-- FORM TAMBAH PENGALAMAN (POSISI ATAS) -->
     <div class="cardboard-card cardboard-texture rounded-2xl p-5 shadow-cardboard relative">
         <div class="tape-accent"></div>
-        <h3 class="font-bold text-earth-dark text-lg mb-4 flex items-center gap-2">
-            <i class="lucide text-accent" data-lucide="plus-circle"></i> Tambah Pengalaman Baru
+        <h3 id="formTitle" class="font-bold text-earth-dark text-lg mb-4 flex items-center gap-2">
+            <svg class="text-accent w-6 h-6 flex-shrink-0 object-contain" xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor" aria-label="plus circle" viewBox="0 0 146 146">
+                <path
+                    d="M60 8.4c-36.4 7.7-59 42-51.5 78.1A67 67 0 0 0 56.6 136a66 66 0 0 0 45.9-5.1c8.4-4.1 21-15.6 25.9-23.8a70 70 0 0 0 8.2-48.1A65 65 0 0 0 90.9 9.4a87 87 0 0 0-30.9-1m27.5 7.1A58 58 0 0 1 131 71.4c0 17.4-5.3 30.9-17 42.7a54 54 0 0 1-40 17.2 58.6 58.6 0 0 1-60-59.5 59 59 0 0 1 43.3-55.9 73 73 0 0 1 30.2-.4" />
+                <path
+                    d="M69.5 41.2c-.3.7-.6 7.3-.7 14.5L68.5 69l-13.7.3c-14.4.3-16.5.9-15.3 4.6.6 1.9 1.5 2.1 14.8 2.3l14.2.3L69 91l.5 14.5H72c2.5 0 2.5-.1 3.1-10.5l.8-14.8.1-4.2h13.4c13.9 0 16.4-.7 15-4.3q-1-3.2-19.1-2.6l-9.8.4-.2-13.4c-.1-7.4-.4-14-.7-14.8-.7-1.7-4.5-1.7-5.1-.1" />
+            </svg> Tambah Pengalaman Baru
         </h3>
-        <form action="{{ url_for('experience.add') }}" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <form id="mainForm" action="{{ url_for('experience.add') }}" method="POST"
+            class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
                 <label class="block font-bold text-earth-dark text-xs mb-1">Kategori Pengalaman</label>
                 <select name="category" class="w-full h-11 px-3 input-cardboard rounded-lg text-sm font-bold" required>
@@ -24,27 +31,36 @@
 
             <div>
                 <label class="block font-bold text-earth-dark text-xs mb-1">Perusahaan / Organisasi / Kampus</label>
-                <input type="text" name="company" class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" required placeholder="PT. Solusi Digital / HIMA / Lab AI">
+                <input type="text" name="company" class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" required
+                    placeholder="PT. Solusi Digital / HIMA / Lab AI">
             </div>
 
             <div>
                 <label class="block font-bold text-earth-dark text-xs mb-1">Posisi / Peran</label>
-                <input type="text" name="position" class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" required placeholder="Full-Stack Engineer / Ketua / Asdos">
+                <input type="text" name="position" class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" required
+                    placeholder="Full-Stack Engineer / Ketua / Asdos">
             </div>
 
             <div>
                 <label class="block font-bold text-earth-dark text-xs mb-1">Periode</label>
-                <input type="text" name="period" class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" required placeholder="2023 - Sekarang">
+                <input type="text" name="period" class="w-full h-11 px-3 input-cardboard rounded-lg text-sm" required
+                    placeholder="2023 - Sekarang">
             </div>
 
             <div class="md:col-span-2">
                 <label class="block font-bold text-earth-dark text-xs mb-1">Deskripsi Tugas & Tanggung Jawab</label>
-                <textarea name="description" rows="3" class="w-full p-3 input-cardboard rounded-lg text-sm" placeholder="Tuliskan peranan dan pencapaian Anda..."></textarea>
+                <textarea name="description" rows="3" class="w-full p-3 input-cardboard rounded-lg text-sm"
+                    placeholder="Tuliskan peranan dan pencapaian Anda..."></textarea>
             </div>
 
-            <div class="md:col-span-2">
-                <button type="submit" class="btn-primary w-full py-3 rounded-xl font-bold text-sm cursor-pointer">
+            <div class="md:col-span-2 flex items-center gap-2 mt-2">
+                <button type="submit" id="submitBtn"
+                    class="btn-primary flex-1 py-3 rounded-xl font-bold text-sm cursor-pointer transition-colors">
                     + Tambah Pengalaman Ke Portofolio
+                </button>
+                <button type="button" id="cancelEditBtn" onclick="cancelEdit()"
+                    class="btn-secondary hidden py-3 px-6 rounded-xl font-bold text-sm cursor-pointer transition-colors">
+                    Batal
                 </button>
             </div>
         </form>
@@ -53,112 +69,120 @@
     <!-- DAFTAR PENGALAMAN TERSIMPAN (POSISI BAWAH) -->
     <div class="space-y-4">
         <h3 class="font-bold text-earth-dark text-lg flex items-center gap-2">
-            <i class="lucide text-earth-brown" data-lucide="list"></i> Daftar Pengalaman Tersimpan ({{ experiences|length }})
+            <svg class="text-earth-brown w-6 h-6 flex-shrink-0 object-contain" xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor" aria-label="list" viewBox="0 0 151 136">
+                <path
+                    d="M13.3 7.9C9.3 10.4 8 12.8 8 18c0 5.9 4.1 10 10.2 10 5 0 8.2-1.9 10.4-6.2C33.3 12.7 22 2.5 13.3 7.9m9.2 5.6c3.2 3.1 3.1 5 0 8.1-1.9 1.8-3.1 2.3-4.8 1.9-5.3-1.6-6.9-6.4-3.3-10 3.1-3.1 5-3.2 8.1 0m25.9 4c-.4.8-.4 2.2 0 3 .5 1.3 6.4 1.5 47.3 1.3 44.9-.3 46.8-.4 47.1-2.2.2-1-.2-2.2-1-2.7-.7-.5-21.9-.9-47.1-.9-39.8 0-45.8.2-46.3 1.5M13.3 59c-4 2.4-5.3 4.8-5.3 9.7.1 12.2 17.6 14.2 21.1 2.4 1.5-5-.8-10.3-5.6-12.5-4.3-2.1-6.3-2-10.2.4m9.7 5c3.9 3.9 1.2 10-4.4 10q-5.7 0-5.8-5.5c0-5.7 6.3-8.4 10.2-4.5m25.4 3.5c-.4.8-.4 2.2 0 3 .5 1.3 6.4 1.5 47.3 1.3 44.9-.3 46.8-.4 47.1-2.2.2-1-.2-2.2-1-2.7-.7-.5-21.9-.9-47.1-.9-39.8 0-45.8.2-46.3 1.5m-34 40.9Q8 111.2 8 118.6c0 13.7 19 14.5 21.5.8q1-5.7-5.4-10.1c-3.9-2.6-5.4-2.8-9.7-.9m8.3 5.8c3 2.8 2.9 5.3-.2 8.3-2.9 3-4.5 3.1-7.5.7a6 6 0 0 1 0-9.4c2.9-2.4 4.9-2.3 7.7.4m25.7 3.3c-.4.8-.4 2.2 0 3 .5 1.3 6.4 1.5 47.3 1.3l46.8-.3v-5l-46.8-.3c-40.9-.2-46.8 0-47.3 1.3" />
+            </svg> Daftar Pengalaman Tersimpan ({{ experiences|length }})
         </h3>
 
         {% if experiences %}
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {% for exp in experiences %}
-                    <div class="cardboard-card cardboard-texture rounded-xl p-4 shadow-sm flex flex-col justify-between relative {% if not exp.is_visible %}opacity-60 border-dashed{% endif %}">
-                        <div class="space-y-2">
-                            <div class="flex items-center justify-between gap-2">
-                                <span class="px-2.5 py-0.5 bg-accent/15 border border-accent rounded-md text-xs font-bold text-accent">{{ exp.category }}</span>
-                                <span class="text-xs font-bold text-earth-brown bg-kraft/40 px-2 py-0.5 rounded border border-border-card">{{ exp.period }}</span>
-                            </div>
-
-                            <h4 class="font-bold text-earth-dark text-base">{{ exp.position }}</h4>
-                            <p class="text-xs font-bold text-earth-brown">{{ exp.company }}</p>
-                            <p class="text-xs text-text-muted leading-relaxed">{{ exp.description }}</p>
-                        </div>
-
-                        <!-- ACTIONS: EDIT, TOGGLE VISIBILITY, DELETE -->
-                        <div class="mt-4 pt-3 border-t border-dashed border-border-light flex items-center justify-between">
-                            <span class="text-[11px] font-bold {% if exp.is_visible %}text-green-700{% else %}text-red-700{% endif %}">
-                                {% if exp.is_visible %}👁️ Tampil di Publik{% else %}🙈 Disembunyikan{% endif %}
-                            </span>
-
-                            <div class="flex gap-1.5">
-                                <form action="{{ url_for('experience.toggle_visibility', exp_id=exp.id) }}" method="POST" class="inline m-0 p-0 flex items-center">
-                                    <button type="submit" class="w-10 h-5 rounded-full relative transition-colors focus:outline-none flex items-center {% if exp.is_visible %}bg-green-500{% else %}bg-gray-400{% endif %}" title="Toggle Tampil">
-                                        <div class="w-4 h-4 bg-white rounded-full shadow-md transform transition-transform duration-300 {% if exp.is_visible %}translate-x-5{% else %}translate-x-1{% endif %}"></div>
-                                    </button>
-                                </form>
-
-                                <!-- Edit Button -->
-                                <button onclick="openEditExpModal('{{ exp.id }}', '{{ exp.category|e }}', '{{ exp.company|e }}', '{{ exp.position|e }}', '{{ exp.period|e }}', '{{ exp.description|e }}')" class="p-1.5 bg-blue-100 border border-blue-400 text-blue-800 rounded-lg hover:bg-blue-200">
-                                    <i class="lucide text-sm" data-lucide="edit"></i>
-                                </button>
-
-                                <!-- Delete Button -->
-                                <form action="{{ url_for('experience.delete', exp_id=exp.id) }}" method="POST" class="inline">
-                                    <button type="submit" onclick="return confirm('Hapus pengalaman ini?')" class="p-1.5 bg-red-100 border border-red-400 text-red-700 rounded-lg hover:bg-red-200">
-                                        <i class="lucide text-sm" data-lucide="trash-2"></i>
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {% for exp in experiences %}
+            <div
+                class="cardboard-card cardboard-texture rounded-xl p-4 shadow-sm flex flex-col justify-between relative {% if not exp.is_visible %}opacity-60 border-dashed{% endif %}">
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between gap-2">
+                        <span
+                            class="px-2.5 py-0.5 bg-accent/15 border border-accent rounded-md text-xs font-bold text-accent">{{
+                            exp.category }}</span>
+                        <span
+                            class="text-xs font-bold text-earth-brown bg-kraft/40 px-2 py-0.5 rounded border border-border-card">{{
+                            exp.period }}</span>
                     </div>
-                {% endfor %}
+
+                    <h4 class="font-bold text-earth-dark text-base">{{ exp.position }}</h4>
+                    <p class="text-xs font-bold text-earth-brown">{{ exp.company }}</p>
+                    <p class="text-xs text-text-muted leading-relaxed">{{ exp.description }}</p>
+                </div>
+
+                <!-- ACTIONS: EDIT, TOGGLE VISIBILITY, DELETE -->
+                <div class="mt-4 pt-3 border-t border-dashed border-border-light flex items-center justify-between">
+                    <span
+                        class="text-[11px] font-bold {% if exp.is_visible %}text-green-700{% else %}text-red-700{% endif %}">
+                        {% if exp.is_visible %}Tampil di Publik{% else %} Disembunyikan{% endif %}
+                    </span>
+
+                    <div class="flex gap-1.5">
+                        <form action="{{ url_for('experience.toggle_visibility', exp_id=exp.id) }}" method="POST"
+                            class="inline m-0 p-0 flex items-center">
+                            <button type="submit"
+                                class="w-10 h-5 rounded-full relative transition-colors focus:outline-none flex items-center {% if exp.is_visible %}bg-green-500{% else %}bg-gray-400{% endif %}"
+                                title="Toggle Tampil">
+                                <div
+                                    class="w-4 h-4 bg-white rounded-full shadow-md transform transition-transform duration-300 {% if exp.is_visible %}translate-x-5{% else %}translate-x-1{% endif %}">
+                                </div>
+                            </button>
+                        </form>
+
+                        <!-- Edit Button -->
+                        <button
+                            onclick="editItem('{{ exp.id }}', '{{ exp.category|e }}', '{{ exp.company|e }}', '{{ exp.position|e }}', '{{ exp.period|e }}', '{{ exp.description|e }}')"
+                            class="p-1.5 bg-blue-100 border border-blue-400 text-blue-800 rounded-lg hover:bg-blue-200">
+                            <svg class="text-sm w-6 h-6 flex-shrink-0 object-contain" xmlns="http://www.w3.org/2000/svg"
+                                fill="currentColor" aria-label="pencil" viewBox="0 0 177 184">
+                                <path
+                                    d="M146.1 8.7c-3.1.6-4.5 2-93.4 95.8l-25.6 27-9 20.1c-9.1 20-10 22.7-8.1 23.9.5.3 10.2-4 21.4-9.6l20.4-10.2 16.9-18.1A6364 6364 0 0 1 143 59.2a330 330 0 0 0 24.8-27.5c4.8-11-9-25.6-21.7-23m10.7 6.2a21 21 0 0 1 7.8 9.7c.8 3.2-1 7.5-4.6 10.9l-2.9 2.8-5.6-6.1a56 56 0 0 0-9.3-8.3l-4.1-2.6c-.9-.6 5.5-6.6 8.3-7.8 3-1.3 6.2-.8 10.4 1.4m-17.3 11.9c3 1.9 10.4 9.1 13 12.9 1.3 1.8 1.1 2.3-1.4 4.7l-2.9 2.8-6.7-6.7c-3.7-3.6-7.8-7.3-9.1-8.2-2.8-1.8-3-3-.7-5.5 2-2.3 4-2.3 7.8 0m-4.1 13.3c7.8 7.1 10.1 10.5 8.5 12.5-1 1.2-1.9.7-6.3-3.9-2.8-2.9-7-7-9.4-9.1-3.5-3-4.1-4-3.2-5.1 1.6-1.9 3.2-1 10.4 5.6m-9.6 2.7c1.7 1.3 3.2 2.8 3.2 3.2 0 .7-2.9 3.8-57.3 61.2l-30.1 31.7-1.3-2.9a7 7 0 0 0-3.9-4l-2.7-1.1 2.4-2.6 7.7-8.3 41-43.2a551 551 0 0 1 36.7-37zm12.3 12.5c.9 1.5-1.9 4.9-17.3 21-23.1 24.2-60.5 64-64.8 69l-3.3 3.8-1.1-2.6a10 10 0 0 0-4.5-4.4l-3.4-1.8 16.4-16.9c18.1-18.8 58.6-61.6 66.3-70.1l4.9-5.4 2.9 2.8c1.6 1.5 3.4 3.6 3.9 4.6M36.4 137.1c.8 1.2 1.2 2.8.9 3.5-.8 2.3 1.7 4.4 5.1 4.4q5.7-.2 5.6 5.2c0 2.4-1 3.2-10.6 8.1l-10.6 5.5-3.3-3.6-3.2-3.6 3.9-8.5 4.9-10.9c1.1-2.9 5.3-2.9 7.3-.1m-14.8 26c2 2.2 1.9 2.3-3.8 5.4-3.9 2.2-4 2-1.6-3 1.2-2.5 2.5-4.5 2.8-4.5q.8.2 2.6 2.1" />
+                            </svg>
+                        </button>
+
+                        <!-- Delete Button -->
+                        <form action="{{ url_for('experience.delete', exp_id=exp.id) }}" method="POST" class="inline">
+                            <button type="submit" onclick="return confirm('Hapus pengalaman ini?')"
+                                class="p-1.5 bg-red-100 border border-red-400 text-red-700 rounded-lg hover:bg-red-200">
+                                <svg class="text-sm w-6 h-6 flex-shrink-0 object-contain"
+                                    xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-label="trash"
+                                    viewBox="0 0 141 173">
+                                    <path
+                                        d="M46.5 10.5c-2.1 2-2.5 3.3-2.5 8.8v6.4l-9.2.7c-5 .3-12.2.6-16 .6-6 0-7.2.3-9.3 2.5C7.3 31.6 7 32.8 7 38.7c0 7.9 1.5 10.9 6.3 12.1l3.1.8 4.3 49c2.4 26.9 4.6 50.4 4.9 52.2.7 4.4 5.7 9.9 10.2 11.2 2.2.6 17.1 1 35.8 1 31.5 0 32.2 0 36.4-2.3 7.4-3.9 7.3-3.5 12.4-59.2C123 76 125 52.9 125 52.2q.2-1 1.5-1.2c2.7 0 6.3-2.2 7.4-4.7a24 24 0 0 0-.4-15.3c-2.1-4.1-6.8-5.3-19.9-5-18.1.5-16.6 1.1-16.6-6.5 0-5.7-.3-6.9-2.5-9C92.1 8 92.1 8 70.5 8s-21.6 0-24 2.5m45.3 9.1.3 6.1-17.9.6c-9.8.3-19.5.4-21.5 0l-3.7-.6v-5.1c0-2.9.5-5.7 1.2-6.4.9-.9 6.5-1.2 21.3-1l20 .3zm37 13.6c1.6 1.6 1.6 10 0 11.6-.9.9-15 1.2-57.4 1.2-30.9 0-56.9-.3-57.8-.6-2-.8-2.3-10.3-.4-12.2 1.7-1.7 113.9-1.7 115.6 0m-9.2 22-4.7 50.3c-2.3 25.3-4.5 47-5 48.2-1.9 5.2-3 5.4-39.1 5.5-34.8 0-36.6-.1-38.8-4.2-.9-1.7-10-94.2-10-101.8V51h98.2z" />
+                                    <path
+                                        d="M48.1 74.4c-1.4 1.7.4 58.5 1.8 59.9.6.6 1.7.7 2.5.4 1.5-.6 1.6-3.7 1-29.4-.7-31.3-1.5-35.5-5.3-30.9m21-.1c-.8 1.1-1.1 9.6-.9 30.8.3 28.6.4 29.4 2.3 29.4 2 0 2-.7 2-30.4 0-30.4-.3-33.4-3.4-29.8m21.2-.5c-1.1.7-3.6 57.3-2.6 59.9.9 2.2 4.2 1.5 4.8-1 1-4.5 1-59 0-59.3q-1-.2-2.2.4" />
+                                </svg>
+                            </button>
+                        </form>
+                    </div>
+                </div>
             </div>
+            {% endfor %}
+        </div>
         {% else %}
-            <div class="p-6 bg-card-bg rounded-xl border-2 border-dashed border-border-light text-center text-text-muted text-sm">
-                Belum ada data pengalaman yang ditambahkan. Gunakan form di atas untuk menambahkan.
-            </div>
+        <div
+            class="p-6 bg-card-bg rounded-xl border-2 border-dashed border-border-light text-center text-text-muted text-sm">
+            Belum ada data pengalaman yang ditambahkan. Gunakan form di atas untuk menambahkan.
+        </div>
         {% endif %}
     </div>
 </div>
 
-<!-- EDIT EXP MODAL -->
-<div id="editExpModal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 hidden">
-    <div class="cardboard-card cardboard-texture rounded-2xl p-6 w-full max-w-lg shadow-2xl relative">
-        <h3 class="font-bold text-earth-dark text-lg mb-3">Edit Data Pengalaman</h3>
-        <form id="editExpForm" method="POST" class="space-y-3">
-            <div>
-                <label class="block font-bold text-earth-dark text-xs mb-1">Kategori</label>
-                <select name="category" id="edit_exp_category" class="w-full h-10 px-3 input-cardboard rounded-lg text-sm font-bold">
-                    <option value="Kerja">Pengalaman Kerja</option>
-                    <option value="Magang">Pengalaman Magang / Internship</option>
-                    <option value="Organisasi">Pengalaman Organisasi / Komunitas</option>
-                    <option value="Asdos">Asisten Dosen / Lab</option>
-                    <option value="Lainnya">Pengalaman Lainnya</option>
-                </select>
-            </div>
-            <div>
-                <label class="block font-bold text-earth-dark text-xs mb-1">Perusahaan / Organisasi</label>
-                <input type="text" name="company" id="edit_exp_company" required class="w-full h-10 px-3 input-cardboard rounded-lg text-sm">
-            </div>
-            <div>
-                <label class="block font-bold text-earth-dark text-xs mb-1">Posisi / Peran</label>
-                <input type="text" name="position" id="edit_exp_position" required class="w-full h-10 px-3 input-cardboard rounded-lg text-sm">
-            </div>
-            <div>
-                <label class="block font-bold text-earth-dark text-xs mb-1">Periode</label>
-                <input type="text" name="period" id="edit_exp_period" required class="w-full h-10 px-3 input-cardboard rounded-lg text-sm">
-            </div>
-            <div>
-                <label class="block font-bold text-earth-dark text-xs mb-1">Deskripsi</label>
-                <textarea name="description" id="edit_exp_description" rows="3" class="w-full p-2.5 input-cardboard rounded-lg text-sm"></textarea>
-            </div>
-            <div class="flex justify-end gap-2 pt-2">
-                <button type="button" onclick="closeEditExpModal()" class="btn-secondary px-4 py-2 rounded-lg text-xs font-bold">Batal</button>
-                <button type="submit" class="btn-primary px-5 py-2 rounded-lg text-xs font-bold text-white">Simpan Perubahan</button>
-            </div>
-        </form>
-    </div>
-</div>
+<!-- NO MODAL REQUIRED -->
 
 <script>
-function openEditExpModal(id, category, company, position, period, description) {
-    document.getElementById('editExpForm').action = '/dashboard/experience/edit/' + id;
-    document.getElementById('edit_exp_category').value = category;
-    document.getElementById('edit_exp_company').value = company;
-    document.getElementById('edit_exp_position').value = position;
-    document.getElementById('edit_exp_period').value = period;
-    document.getElementById('edit_exp_description').value = description;
-    document.getElementById('editExpModal').classList.remove('hidden');
-}
-function closeEditExpModal() {
-    document.getElementById('editExpModal').classList.add('hidden');
-}
+    function editItem(id, category, company, position, period, description) {
+        const form = document.getElementById('mainForm');
+        form.action = '/dashboard/experience/edit/' + id;
+
+        form.elements['category'].value = category;
+        form.elements['company'].value = company;
+        form.elements['position'].value = position;
+        form.elements['period'].value = period;
+        form.elements['description'].value = description;
+
+        document.getElementById('submitBtn').innerText = 'Simpan Perubahan';
+        document.getElementById('cancelEditBtn').classList.remove('hidden');
+        document.getElementById('formTitle').innerHTML = '<svg class="text-accent w-6 h-6 flex-shrink-0 object-contain"  xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-label="plus circle" viewBox="0 0 146 146"><path d="M60 8.4c-36.4 7.7-59 42-51.5 78.1A67 67 0 0 0 56.6 136a66 66 0 0 0 45.9-5.1c8.4-4.1 21-15.6 25.9-23.8a70 70 0 0 0 8.2-48.1A65 65 0 0 0 90.9 9.4a87 87 0 0 0-30.9-1m27.5 7.1A58 58 0 0 1 131 71.4c0 17.4-5.3 30.9-17 42.7a54 54 0 0 1-40 17.2 58.6 58.6 0 0 1-60-59.5 59 59 0 0 1 43.3-55.9 73 73 0 0 1 30.2-.4"/><path d="M69.5 41.2c-.3.7-.6 7.3-.7 14.5L68.5 69l-13.7.3c-14.4.3-16.5.9-15.3 4.6.6 1.9 1.5 2.1 14.8 2.3l14.2.3L69 91l.5 14.5H72c2.5 0 2.5-.1 3.1-10.5l.8-14.8.1-4.2h13.4c13.9 0 16.4-.7 15-4.3q-1-3.2-19.1-2.6l-9.8.4-.2-13.4c-.1-7.4-.4-14-.7-14.8-.7-1.7-4.5-1.7-5.1-.1"/></svg> Edit Data Pengalaman';
+
+        // Scroll to form
+        form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function cancelEdit() {
+        const form = document.getElementById('mainForm');
+        form.action = "{{ url_for('experience.add') }}";
+        form.reset();
+
+        document.getElementById('submitBtn').innerText = '+ Tambah Pengalaman Ke Portofolio';
+        document.getElementById('cancelEditBtn').classList.add('hidden');
+        document.getElementById('formTitle').innerHTML = '<svg class="text-accent w-6 h-6 flex-shrink-0 object-contain"  xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-label="plus circle" viewBox="0 0 146 146"><path d="M60 8.4c-36.4 7.7-59 42-51.5 78.1A67 67 0 0 0 56.6 136a66 66 0 0 0 45.9-5.1c8.4-4.1 21-15.6 25.9-23.8a70 70 0 0 0 8.2-48.1A65 65 0 0 0 90.9 9.4a87 87 0 0 0-30.9-1m27.5 7.1A58 58 0 0 1 131 71.4c0 17.4-5.3 30.9-17 42.7a54 54 0 0 1-40 17.2 58.6 58.6 0 0 1-60-59.5 59 59 0 0 1 43.3-55.9 73 73 0 0 1 30.2-.4"/><path d="M69.5 41.2c-.3.7-.6 7.3-.7 14.5L68.5 69l-13.7.3c-14.4.3-16.5.9-15.3 4.6.6 1.9 1.5 2.1 14.8 2.3l14.2.3L69 91l.5 14.5H72c2.5 0 2.5-.1 3.1-10.5l.8-14.8.1-4.2h13.4c13.9 0 16.4-.7 15-4.3q-1-3.2-19.1-2.6l-9.8.4-.2-13.4c-.1-7.4-.4-14-.7-14.8-.7-1.7-4.5-1.7-5.1-.1"/></svg> Tambah Pengalaman Baru';
+    }
 </script>
 {% endblock %}
