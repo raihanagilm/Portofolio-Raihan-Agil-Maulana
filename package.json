@@ -1,0 +1,26 @@
+{
+  "name": "portofolio-raihan-agil-maulana",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raihanagilm/Portofolio-Raihan-Agil-Maulana.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/raihanagilm/Portofolio-Raihan-Agil-Maulana/issues"
+  },
+  "homepage": "https://github.com/raihanagilm/Portofolio-Raihan-Agil-Maulana#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "@types/node": "^26.2.0"
+  },
+  "dependencies": {
+    "chrome-devtools-mcp": "^1.7.0"
+  }
+}

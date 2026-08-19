@@ -26,7 +26,7 @@ lerna-debug.log*
 *.log
 
 # Python cache & bytecode
-__pycache__/
+__pycache__/*
 *.py[cod]
 *$py.class
 .pytest_cache/
@@ -46,3 +46,15 @@ Thumbs.db
 
 .vercel
 .env*
+.github
+.agent/
+.cursor/
+.playwright/
+.gemini/
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
