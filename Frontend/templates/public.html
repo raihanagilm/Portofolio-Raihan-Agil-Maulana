@@ -191,79 +191,79 @@
     window.PD = {
       profile: {
         full_name: {{ profile.full_name | tojson }},
-    title: { { profile.title | tojson } },
-    bio: { { profile.bio | tojson } },
-    avatar_url: { { profile.avatar_url | tojson } },
-    email: { { profile.email | tojson } },
-    show_email: { { profile.show_email | tojson } },
-    phone: { { profile.phone | tojson } },
-    show_phone: { { profile.show_phone | tojson } },
-    location: { { profile.location | tojson } },
-    show_location: { { profile.show_location | tojson } },
-    github: { { profile.github | tojson } },
-    show_github: { { profile.show_github | tojson } },
-    linkedin: { { profile.linkedin | tojson } },
-    show_linkedin: { { profile.show_linkedin | tojson } },
-    instagram: { { profile.instagram | tojson } },
-    show_instagram: { { profile.show_instagram | tojson } },
-    twitter: { { profile.twitter | tojson } },
-    show_twitter: { { profile.show_twitter | tojson } },
-    website: { { profile.website | tojson } },
-    show_website: { { profile.show_website | tojson } },
-    resume_url: { { profile.resume_url | tojson } },
-    show_resume: { { profile.show_resume | tojson } }
+    title: {{ profile.title | tojson }},
+    bio: {{ profile.bio | tojson }},
+    avatar_url: {{ profile.avatar_url | tojson }},
+    email: {{ profile.email | tojson }},
+    show_email: {{ profile.show_email | tojson }},
+    phone: {{ profile.phone | tojson }},
+    show_phone: {{ profile.show_phone | tojson }},
+    location: {{ profile.location | tojson }},
+    show_location: {{ profile.show_location | tojson }},
+    github: {{ profile.github | tojson }},
+    show_github: {{ profile.show_github | tojson }},
+    linkedin: {{ profile.linkedin | tojson }},
+    show_linkedin: {{ profile.show_linkedin | tojson }},
+    instagram: {{ profile.instagram | tojson }},
+    show_instagram: {{ profile.show_instagram | tojson }},
+    twitter: {{ profile.twitter | tojson }},
+    show_twitter: {{ profile.show_twitter | tojson }},
+    website: {{ profile.website | tojson }},
+    show_website: {{ profile.show_website | tojson }},
+    resume_url: {{ profile.resume_url | tojson }},
+    show_resume: {{ profile.show_resume | tojson }}
       },
     educations: [
       {% for edu in educations %}
     {
-      period: { { edu.period | tojson } },
-      degree: { { edu.degree | tojson } },
-      major: { { edu.major | tojson } },
-      institution: { { edu.institution | tojson } },
-      description: { { edu.description | tojson } }
-    } { { "," if not loop.last } }
+      period: {{ edu.period | tojson }},
+      degree: {{ edu.degree | tojson }},
+      major: {{ edu.major | tojson }},
+      institution: {{ edu.institution | tojson }},
+      description: {{ edu.description | tojson }}
+    } {{ "," if not loop.last }}
     {% endfor %}
       ],
     certificates: [
       {% for cert in certificates %}
     {
-      period: { { cert.period | tojson } },
-      degree: { { cert.degree | tojson } },
-      institution: { { cert.institution | tojson } },
-      credential_url: { { cert.credential_url | tojson } }
-    } { { "," if not loop.last } }
+      period: {{ cert.period | tojson }},
+      degree: {{ cert.degree | tojson }},
+      institution: {{ cert.institution | tojson }},
+      credential_url: {{ cert.credential_url | tojson }}
+    } {{ "," if not loop.last }}
     {% endfor %}
       ],
     skills: [
       {% for skill in skills %}
     {
-      name: { { skill.name | tojson } },
-      category: { { skill.category | tojson } }
-    } { { "," if not loop.last } }
+      name: {{ skill.name | tojson }},
+      category: {{ skill.category | tojson }}
+    } {{ "," if not loop.last }}
     {% endfor %}
       ],
     experiences: [
       {% for exp in experiences %}
     {
-      period: { { exp.period | tojson } },
-      category: { { exp.category | tojson } },
-      position: { { exp.position | tojson } },
-      company: { { exp.company | tojson } },
-      description: { { exp.description | tojson } }
-    } { { "," if not loop.last } }
+      period: {{ exp.period | tojson }},
+      category: {{ exp.category | tojson }},
+      position: {{ exp.position | tojson }},
+      company: {{ exp.company | tojson }},
+      description: {{ exp.description | tojson }}
+    } {{ "," if not loop.last }}
     {% endfor %}
       ],
     projects: [
       {% for proj in projects %}
     {
-      title: { { proj.title | tojson } },
-      category: { { proj.category | tojson } },
-      description: { { proj.description | tojson } },
-      image_url: { { proj.image_url | tojson } },
-      demo_url: { { proj.demo_url | tojson } },
-      github_url: { { proj.github_url | tojson } },
-      detail_url: { { url_for('public.project_detail', project_id = proj.id) | tojson } }
-    } { { "," if not loop.last } }
+      title: {{ proj.title | tojson }},
+      category: {{ proj.category | tojson }},
+      description: {{ proj.description | tojson }},
+      image_url: {{ proj.image_url | tojson }},
+      demo_url: {{ proj.demo_url | tojson }},
+      github_url: {{ proj.github_url | tojson }},
+      detail_url: {{ url_for('public.project_detail', project_id = proj.id) | tojson }}
+    } {{ "," if not loop.last }}
     {% endfor %}
       ]
     };

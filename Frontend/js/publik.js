@@ -81,7 +81,7 @@ const sections = {
       var html = '<div style="height: 100%; display: flex; flex-direction: column; justify-content: space-between;">';
       html += '<div>'; // Top block wrapper
       html += '<div class="page-heading" style="color:#3b82f6;">' + icons.user + ' Volume I — Profil</div>';
-      
+
       html += '<div class="bio-wrapper">';
       if (p.avatar_url) {
         html += '<img src="' + p.avatar_url + '" alt="' + esc(p.full_name) + '" class="profile-avatar-float"/>';
@@ -91,7 +91,7 @@ const sections = {
       html += '<p class="profile-bio-text">' + esc(p.bio) + '</p>';
       html += '</div>'; // End bio-wrapper
       html += '</div>'; // End top block wrapper
-      
+
       html += '<div class="contact-wrapper" style="clear: both; margin-top: auto;">';
       html += '<div class="page-heading" style="color:#3b82f6;margin-top:16px;">' + icons.globe + ' Let\'s Connect</div><div class="page-body"><div style="margin-bottom:14px;">';
       if (p.show_email && p.email) html += '<div class="meta-line"><span class="meta-label">' + icons.mail + ' Email</span><span>' + esc(p.email) + '</span></div>';
@@ -106,7 +106,7 @@ const sections = {
       html += '</div>';
       if (p.resume_url && p.show_resume) html += '<div style="margin-top:16px;"><a href="' + p.resume_url + '" target="_blank" class="btn-primary">' + icons.download + ' Download CV</a></div>';
       html += '</div></div>'; // End contact-wrapper and page-body
-      
+
       html += '</div>'; // End outer flex wrapper
       return html;
     },
@@ -318,7 +318,7 @@ function renderSection(sectionId) {
       prevChapterBtn.className = 'page-flip-btn back';
       prevChapterBtn.style.position = 'relative'; prevChapterBtn.style.left = '0'; prevChapterBtn.style.bottom = '0';
       prevChapterBtn.innerHTML = icons.chevronLeft + ' Sebelumnya';
-      prevChapterBtn.addEventListener('click', function(e) { e.stopPropagation(); navigateTo(sectionOrder[idx - 1]); });
+      prevChapterBtn.addEventListener('click', function (e) { e.stopPropagation(); navigateTo(sectionOrder[idx - 1]); });
       leftNavContainer.appendChild(prevChapterBtn);
     } else {
       leftNavContainer.appendChild(document.createElement('div')); // spacer
@@ -328,7 +328,7 @@ function renderSection(sectionId) {
     flipRightBtn.className = 'page-flip-btn';
     flipRightBtn.style.position = 'relative'; flipRightBtn.style.right = '0'; flipRightBtn.style.bottom = '0';
     flipRightBtn.innerHTML = 'Halaman 2 ' + icons.chevronRight;
-    flipRightBtn.addEventListener('click', function(e) { e.stopPropagation(); flipToRight(); });
+    flipRightBtn.addEventListener('click', function (e) { e.stopPropagation(); flipToRight(); });
     leftNavContainer.appendChild(flipRightBtn);
 
     pageLeft.appendChild(leftNavContainer);
@@ -341,7 +341,7 @@ function renderSection(sectionId) {
     flipLeftBtn.className = 'page-flip-btn back';
     flipLeftBtn.style.position = 'relative'; flipLeftBtn.style.left = '0'; flipLeftBtn.style.bottom = '0';
     flipLeftBtn.innerHTML = icons.chevronLeft + ' Halaman 1';
-    flipLeftBtn.addEventListener('click', function(e) { e.stopPropagation(); flipToLeft(); });
+    flipLeftBtn.addEventListener('click', function (e) { e.stopPropagation(); flipToLeft(); });
     rightNavContainer.appendChild(flipLeftBtn);
 
     if (hasNextChapter) {
@@ -349,7 +349,7 @@ function renderSection(sectionId) {
       nextChapterBtn.className = 'page-flip-btn';
       nextChapterBtn.style.position = 'relative'; nextChapterBtn.style.right = '0'; nextChapterBtn.style.bottom = '0';
       nextChapterBtn.innerHTML = 'Selanjutnya ' + icons.chevronRight;
-      nextChapterBtn.addEventListener('click', function(e) { e.stopPropagation(); navigateTo(sectionOrder[idx + 1]); });
+      nextChapterBtn.addEventListener('click', function (e) { e.stopPropagation(); navigateTo(sectionOrder[idx + 1]); });
       rightNavContainer.appendChild(nextChapterBtn);
     }
 
@@ -396,7 +396,7 @@ function openBookFn() {
   // 1. Dramatic GSAP open sequence
   gsap.killTweensOf(book3d);
   var tl = gsap.timeline({
-    onComplete: function() {
+    onComplete: function () {
       bookScene.style.opacity = '0';
       bookScene.style.pointerEvents = 'none';
       openBookView.classList.add('active');
@@ -447,7 +447,8 @@ function closeBookFn() {
     // Return-to-shelf dramatic drop
     gsap.fromTo(book3d,
       { y: -30, rotateY: 5, rotateX: 12, opacity: 0 },
-      { y: 0, rotateY: -12, rotateX: 4, opacity: 1,
+      {
+        y: 0, rotateY: -12, rotateX: 4, opacity: 1,
         duration: 0.9, ease: 'back.out(1.7)',
         onComplete: startIdleSway
       }
@@ -566,7 +567,7 @@ book3d.addEventListener('click', function (e) {
 });
 
 // Open pages click — right half = next, left half = prev (Mainly for desktop)
-openBookPages.addEventListener('click', function(e) {
+openBookPages.addEventListener('click', function (e) {
   if (state.isAnimating) return;
   // Let the mobile buttons handle their own clicks, and prevent clicking links/buttons from flipping page
   if (e.target.closest('button, a')) return;
@@ -574,7 +575,7 @@ openBookPages.addEventListener('click', function(e) {
   var rect = openBookPages.getBoundingClientRect();
   var relX = e.clientX - rect.left;
   var isRightHalf = relX > rect.width / 2;
-  
+
   // On mobile, the click to turn is disabled so it doesn't conflict with explicit buttons
   if (isMobile()) return;
 
@@ -623,15 +624,15 @@ document.addEventListener('click', function (e) {
 
 
 // ═══════ CUSTOM CURSOR ═══════
-(function() {
-  var dot  = document.getElementById('cursor-dot');
+(function () {
+  var dot = document.getElementById('cursor-dot');
   var ring = document.getElementById('cursor-ring');
   if (!dot || !ring) return;
 
-  var rx = window.innerWidth/2, ry = window.innerHeight/2; // ring position (lagged)
+  var rx = window.innerWidth / 2, ry = window.innerHeight / 2; // ring position (lagged)
   var dx = rx, dy = ry; // dot position (instant)
 
-  document.addEventListener('mousemove', function(e) {
+  document.addEventListener('mousemove', function (e) {
     dx = e.clientX; dy = e.clientY;
     dot.style.left = dx + 'px'; dot.style.top = dy + 'px';
   });
@@ -646,23 +647,23 @@ document.addEventListener('click', function (e) {
 
   // Hover state on interactives
   var hoverEls = 'a, button, .book-3d, .chapter-nav-item, [role="button"]';
-  document.addEventListener('mouseover', function(e) {
+  document.addEventListener('mouseover', function (e) {
     if (e.target.closest(hoverEls)) document.body.classList.add('cursor-hover');
   });
-  document.addEventListener('mouseout', function(e) {
+  document.addEventListener('mouseout', function (e) {
     if (e.target.closest(hoverEls)) document.body.classList.remove('cursor-hover');
   });
 })();
 
 // ═══════ AUDIO TOGGLE ═══════
-(function() {
+(function () {
   var audioToggle = document.getElementById('audioToggle');
   var pageSfx = document.getElementById('pageSfx');
   if (!audioToggle) return;
 
   var soundEnabled = false; // off by default, user must opt in
 
-  audioToggle.addEventListener('click', function() {
+  audioToggle.addEventListener('click', function () {
     soundEnabled = !soundEnabled;
     audioToggle.style.color = soundEnabled ? 'var(--accent)' : '';
     audioToggle.style.borderColor = soundEnabled ? 'var(--border-glow)' : '';
@@ -672,11 +673,11 @@ document.addEventListener('click', function (e) {
   });
 
   // Expose so openBookFn can use it
-  window.playPageSfx = function() {
+  window.playPageSfx = function () {
     if (!soundEnabled || !pageSfx) return;
     pageSfx.currentTime = 0;
     pageSfx.volume = 0.35;
-    pageSfx.play().catch(function(){});
+    pageSfx.play().catch(function () { });
   };
 })();
 
@@ -686,7 +687,7 @@ function startIdleSway() {
     gsap.to(book3d, {
       rotateY: -11.5, rotateX: 3, y: -8, duration: 3.5,
       ease: 'sine.inOut',
-      onComplete: function() {
+      onComplete: function () {
         gsap.to(book3d, {
           rotateY: -8.5, rotateX: 1.5, y: 2, duration: 3.5,
           ease: 'sine.inOut',
@@ -718,17 +719,17 @@ gsap.fromTo(document.getElementById('shelf'), { scaleX: 0, opacity: 0 }, { scale
 
 
 // ═══════ MOUSE 3D PARALLAX ═══════
-(function() {
+(function () {
   var curMx = 0, curMy = 0;
-  document.addEventListener('mousemove', function(e) {
+  document.addEventListener('mousemove', function (e) {
     if (state.isOpen) return;
-    var mx = (e.clientX / window.innerWidth  - 0.5) * 2;
+    var mx = (e.clientX / window.innerWidth - 0.5) * 2;
     var my = (e.clientY / window.innerHeight - 0.5) * 2;
     curMx += (mx - curMx) * 0.05;
     curMy += (my - curMy) * 0.05;
     gsap.to(book3d, {
       rotateY: -12 + curMx * 16,
-      rotateX:   4 - curMy * 10,
+      rotateX: 4 - curMy * 10,
       y: curMy * -12,
       duration: 0.7, ease: 'power2.out', overwrite: 'auto'
     });
@@ -743,14 +744,14 @@ gsap.fromTo(document.getElementById('shelf'), { scaleX: 0, opacity: 0 }, { scale
   var W, H;
 
   function resize() {
-    W = canvas.width  = window.innerWidth;
+    W = canvas.width = window.innerWidth;
     H = canvas.height = window.innerHeight;
   }
   resize();
   window.addEventListener('resize', resize);
 
-  var CX = function() { return W / 2; };
-  var CY = function() { return H / 2 + 30; };
+  var CX = function () { return W / 2; };
+  var CY = function () { return H / 2 + 30; };
 
   // Three types of particles
   function mkRising() {
@@ -833,7 +834,7 @@ gsap.fromTo(document.getElementById('shelf'), { scaleX: 0, opacity: 0 }, { scale
     ctx.clearRect(0, 0, W, H);
     var cx = CX(), cy = CY();
 
-    particles.forEach(function(p) {
+    particles.forEach(function (p) {
       if (p.type === 'rising') {
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
@@ -870,11 +871,11 @@ gsap.fromTo(document.getElementById('shelf'), { scaleX: 0, opacity: 0 }, { scale
         ctx.fillStyle = 'rgba(20, 24, 40, ' + p.alpha + ')'; // Dark silhouette leaf
         ctx.fill();
         ctx.restore();
-        
+
         p.x += p.vx;
         p.y += p.vy;
         p.rot += p.rotSpeed;
-        
+
         // Reset leaf if out of bounds
         if (p.x > W + 50 || p.y > H + 50) {
           Object.assign(p, mkLeaf());
@@ -890,7 +891,7 @@ gsap.fromTo(document.getElementById('shelf'), { scaleX: 0, opacity: 0 }, { scale
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
         ctx.fillStyle = gradient;
         ctx.fill();
-        
+
         p.x += p.vx;
         if (p.x < -p.r || p.x > W + p.r) p.vx *= -1; // Bounce slowly
       }
@@ -904,7 +905,7 @@ gsap.fromTo(document.getElementById('shelf'), { scaleX: 0, opacity: 0 }, { scale
 // ═══════ PLAY SOUND ON BOOK OPEN/NAV ═══════
 // Patch navigateTo to play sound
 var _origNav = navigateTo;
-navigateTo = function(sectionId) {
+navigateTo = function (sectionId) {
   if (window.playPageSfx) window.playPageSfx();
   _origNav(sectionId);
 };
