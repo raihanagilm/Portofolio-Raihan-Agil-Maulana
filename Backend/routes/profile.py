@@ -82,7 +82,7 @@ def delete_avatar():
     profile = Profile.query.first()
     if profile and profile.avatar_url:
         delete_media(profile.avatar_url)
-        profile.avatar_url = None
+        profile.avatar_url = ""
         db.session.commit()
         flash('Foto profil berhasil dihapus.', 'success')
     return redirect(url_for('profile.index'))
@@ -93,7 +93,7 @@ def delete_resume():
     profile = Profile.query.first()
     if profile and profile.resume_url:
         delete_media(profile.resume_url)
-        profile.resume_url = None
+        profile.resume_url = ""
         db.session.commit()
         flash('CV/Resume berhasil dihapus.', 'success')
     return redirect(url_for('profile.index'))

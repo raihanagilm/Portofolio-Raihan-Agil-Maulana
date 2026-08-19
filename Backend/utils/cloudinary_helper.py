@@ -27,13 +27,23 @@ def upload_media(file_storage, folder="portfolio"):
 
         file_name = getattr(file_storage, 'filename', None)
         content_type = getattr(file_storage, 'content_type', None)
+        
+        # Cloudinary Python SDK expects a .name attribute to read the filename
+        # Werkzeug's FileStorage uses .filename
+        if file_name and hasattr(file_storage, 'name'):
+            file_storage.name = file_name
+            
         if hasattr(file_storage, "seek"):
             file_storage.seek(0)
 
         if hasattr(file_storage, "read"):
             file_bytes = file_storage.read()
+            # Reset pointer after reading so Cloudinary can read it again
+            file_storage.seek(0)
+            upload_target = file_storage
         else:
             file_bytes = file_storage
+            upload_target = file_bytes
 
         if not file_bytes:
             print(f"[CLOUDINARY] Error: file is empty (name={file_name}, content_type={content_type})")
@@ -42,9 +52,13 @@ def upload_media(file_storage, folder="portfolio"):
         print(f"[CLOUDINARY] Upload file={file_name} content_type={content_type} folder={folder} size={len(file_bytes)} bytes")
 
         result = cloudinary.uploader.upload(
-            file_bytes,
+            upload_target,
             folder=folder,
-            resource_type="auto"
+            resource_type="auto",
+            type="upload",
+            use_filename=True,
+            unique_filename=True,
+            access_mode="public"
         )
         url = result.get("secure_url")
         print(f"[CLOUDINARY] Berhasil: {url}")

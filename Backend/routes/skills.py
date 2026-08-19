@@ -16,7 +16,7 @@ def index():
 @login_required
 def add():
     name = request.form.get('name')
-    category = request.form.get('category', 'Technical')
+    category = request.form.get('category', 'Frontend Development')
     
     icon_url = ''
     if 'icon_svg' in request.files and request.files['icon_svg'].filename:

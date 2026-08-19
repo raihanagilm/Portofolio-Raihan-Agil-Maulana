@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,19 +8,23 @@
   <meta name="description" content="{{ profile.bio[:160] if profile.bio else profile.title }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="/css/publik.css">
   <!-- GSAP for premium animations -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/CustomEase.min.js"></script>
 </head>
+
 <body>
   <!-- Cinematic background -->
   <div class="scene-bg"></div>
   <div class="floor-grid"></div>
 
   <!-- Particle canvas -->
-  <canvas id="particleCanvas" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:none;"></canvas>
+  <canvas id="particleCanvas"
+    style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:none;"></canvas>
 
   <!-- Custom cursor -->
   <div id="cursor-dot"></div>
@@ -36,9 +41,10 @@
     <div class="brand">
       <div class="brand-avatar">
         {% if profile.avatar_url %}
-          <img src="{{ profile.avatar_url }}" alt="{{ profile.full_name }}" style="width:100%;height:100%;object-fit:cover;">
+        <img src="{{ profile.avatar_url }}" alt="{{ profile.full_name }}"
+          style="width:100%;height:100%;object-fit:cover;">
         {% else %}
-          {{ profile.full_name[0] if profile.full_name else 'P' }}
+        {{ profile.full_name[0] if profile.full_name else 'P' }}
         {% endif %}
       </div>
       <div>
@@ -47,7 +53,10 @@
       </div>
     </div>
     <button id="audioToggle" aria-label="Toggle sound">
-      <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+      <svg class="icon icon-sm" viewBox="0 0 24 24">
+        <path d="M11 5L6 9H2v6h4l5 4V5z" />
+        <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+      </svg>
       Sound
     </button>
   </header>
@@ -66,15 +75,18 @@
             <div class="cover-zone-right" id="coverZoneRight"><span class="cover-zone-arrow">›</span></div>
           </div>
           <div class="cover-badge">
-            <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+            <svg class="icon icon-sm" viewBox="0 0 24 24">
+              <path
+                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
             PORTFOLIO
           </div>
           <div class="cover-art">
             <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.5">
-              <circle cx="50" cy="50" r="35" opacity="0.6"/>
-              <circle cx="50" cy="50" r="22" opacity="0.8"/>
-              <circle cx="50" cy="50" r="10"/>
-              <path d="M50 15v70M15 50h70" opacity="0.4"/>
+              <circle cx="50" cy="50" r="35" opacity="0.6" />
+              <circle cx="50" cy="50" r="22" opacity="0.8" />
+              <circle cx="50" cy="50" r="10" />
+              <path d="M50 15v70M15 50h70" opacity="0.4" />
             </svg>
           </div>
           <div>
@@ -83,9 +95,13 @@
             <div class="cover-line"></div>
           </div>
         </div>
-        <div class="bf spine"><div class="spine-text">{{ profile.full_name }}</div></div>
+        <div class="bf spine">
+          <div class="spine-text">{{ profile.full_name }}</div>
+        </div>
         <div class="bf pages-side"></div>
-        <div class="bf back"><div class="back-logo">{{ profile.full_name[0] if profile.full_name else 'P' }}</div></div>
+        <div class="bf back">
+          <div class="back-logo">{{ profile.full_name[0] if profile.full_name else 'P' }}</div>
+        </div>
         <div class="bf edge-top"></div>
         <div class="bf edge-bottom"></div>
       </div>
@@ -110,31 +126,45 @@
   <nav class="chapter-nav" id="chapterNav">
     <div class="chapter-nav-item active" data-section="profil">
       <div class="chapter-icon">
-        <svg class="icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <svg class="icon" viewBox="0 0 24 24">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+          <circle cx="12" cy="7" r="4" />
+        </svg>
       </div>
       <div class="chapter-name">Profil</div>
     </div>
     <div class="chapter-nav-item" data-section="keahlian">
       <div class="chapter-icon">
-        <svg class="icon" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        <svg class="icon" viewBox="0 0 24 24">
+          <polyline points="16 18 22 12 16 6" />
+          <polyline points="8 6 2 12 8 18" />
+        </svg>
       </div>
       <div class="chapter-name">Keahlian</div>
     </div>
     <div class="chapter-nav-item" data-section="pengalaman">
       <div class="chapter-icon">
-        <svg class="icon" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        <svg class="icon" viewBox="0 0 24 24">
+          <rect width="20" height="14" x="2" y="7" rx="2" ry="2" />
+          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+        </svg>
       </div>
       <div class="chapter-name">Pengalaman</div>
     </div>
     <div class="chapter-nav-item" data-section="proyek">
       <div class="chapter-icon">
-        <svg class="icon" viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+        <svg class="icon" viewBox="0 0 24 24">
+          <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+        </svg>
       </div>
       <div class="chapter-name">Proyek</div>
     </div>
     <div class="chapter-nav-item" data-section="kontak">
       <div class="chapter-icon">
-        <svg class="icon" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        <svg class="icon" viewBox="0 0 24 24">
+          <rect width="20" height="16" x="2" y="4" rx="2" />
+          <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+        </svg>
       </div>
       <div class="chapter-name">Kontak</div>
     </div>
@@ -145,7 +175,9 @@
   <!-- STATUS & HINTS -->
   <div class="status-bar">
     <div class="header-hint" id="headerHint" style="margin-right: 15px;">
-      <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5"/></svg>
+      <svg class="icon icon-sm" viewBox="0 0 24 24">
+        <path d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5" />
+      </svg>
       Click the book to open
     </div>
     <div style="display:flex;align-items:center;gap:8px;">
@@ -158,85 +190,86 @@
   <script>
     window.PD = {
       profile: {
-        full_name:      {{ profile.full_name | tojson }},
-        title:          {{ profile.title | tojson }},
-        bio:            {{ profile.bio | tojson }},
-        avatar_url:     {{ profile.avatar_url | tojson }},
-        email:          {{ profile.email | tojson }},
-        show_email:     {{ profile.show_email | tojson }},
-        phone:          {{ profile.phone | tojson }},
-        show_phone:     {{ profile.show_phone | tojson }},
-        location:       {{ profile.location | tojson }},
-        show_location:  {{ profile.show_location | tojson }},
-        github:         {{ profile.github | tojson }},
-        show_github:    {{ profile.show_github | tojson }},
-        linkedin:       {{ profile.linkedin | tojson }},
-        show_linkedin:  {{ profile.show_linkedin | tojson }},
-        instagram:      {{ profile.instagram | tojson }},
-        show_instagram: {{ profile.show_instagram | tojson }},
-        twitter:        {{ profile.twitter | tojson }},
-        show_twitter:   {{ profile.show_twitter | tojson }},
-        website:        {{ profile.website | tojson }},
-        show_website:   {{ profile.show_website | tojson }},
-        resume_url:     {{ profile.resume_url | tojson }},
-        show_resume:    {{ profile.show_resume | tojson }}
+        full_name: {{ profile.full_name | tojson }},
+    title: { { profile.title | tojson } },
+    bio: { { profile.bio | tojson } },
+    avatar_url: { { profile.avatar_url | tojson } },
+    email: { { profile.email | tojson } },
+    show_email: { { profile.show_email | tojson } },
+    phone: { { profile.phone | tojson } },
+    show_phone: { { profile.show_phone | tojson } },
+    location: { { profile.location | tojson } },
+    show_location: { { profile.show_location | tojson } },
+    github: { { profile.github | tojson } },
+    show_github: { { profile.show_github | tojson } },
+    linkedin: { { profile.linkedin | tojson } },
+    show_linkedin: { { profile.show_linkedin | tojson } },
+    instagram: { { profile.instagram | tojson } },
+    show_instagram: { { profile.show_instagram | tojson } },
+    twitter: { { profile.twitter | tojson } },
+    show_twitter: { { profile.show_twitter | tojson } },
+    website: { { profile.website | tojson } },
+    show_website: { { profile.show_website | tojson } },
+    resume_url: { { profile.resume_url | tojson } },
+    show_resume: { { profile.show_resume | tojson } }
       },
-      educations: [
-        {% for edu in educations %}
-        {
-          period:      {{ edu.period | tojson }},
-          degree:      {{ edu.degree | tojson }},
-          major:       {{ edu.major | tojson }},
-          institution: {{ edu.institution | tojson }},
-          description: {{ edu.description | tojson }}
-        }{{ "," if not loop.last }}
-        {% endfor %}
+    educations: [
+      {% for edu in educations %}
+    {
+      period: { { edu.period | tojson } },
+      degree: { { edu.degree | tojson } },
+      major: { { edu.major | tojson } },
+      institution: { { edu.institution | tojson } },
+      description: { { edu.description | tojson } }
+    } { { "," if not loop.last } }
+    {% endfor %}
       ],
-      certificates: [
-        {% for cert in certificates %}
-        {
-          period:         {{ cert.period | tojson }},
-          degree:         {{ cert.degree | tojson }},
-          institution:    {{ cert.institution | tojson }},
-          credential_url: {{ cert.credential_url | tojson }}
-        }{{ "," if not loop.last }}
-        {% endfor %}
+    certificates: [
+      {% for cert in certificates %}
+    {
+      period: { { cert.period | tojson } },
+      degree: { { cert.degree | tojson } },
+      institution: { { cert.institution | tojson } },
+      credential_url: { { cert.credential_url | tojson } }
+    } { { "," if not loop.last } }
+    {% endfor %}
       ],
-      skills: [
-        {% for skill in skills %}
-        {
-          name:     {{ skill.name | tojson }},
-          category: {{ skill.category | tojson }}
-        }{{ "," if not loop.last }}
-        {% endfor %}
+    skills: [
+      {% for skill in skills %}
+    {
+      name: { { skill.name | tojson } },
+      category: { { skill.category | tojson } }
+    } { { "," if not loop.last } }
+    {% endfor %}
       ],
-      experiences: [
-        {% for exp in experiences %}
-        {
-          period:      {{ exp.period | tojson }},
-          category:    {{ exp.category | tojson }},
-          position:    {{ exp.position | tojson }},
-          company:     {{ exp.company | tojson }},
-          description: {{ exp.description | tojson }}
-        }{{ "," if not loop.last }}
-        {% endfor %}
+    experiences: [
+      {% for exp in experiences %}
+    {
+      period: { { exp.period | tojson } },
+      category: { { exp.category | tojson } },
+      position: { { exp.position | tojson } },
+      company: { { exp.company | tojson } },
+      description: { { exp.description | tojson } }
+    } { { "," if not loop.last } }
+    {% endfor %}
       ],
-      projects: [
-        {% for proj in projects %}
-        {
-          title:       {{ proj.title | tojson }},
-          category:    {{ proj.category | tojson }},
-          description: {{ proj.description | tojson }},
-          image_url:   {{ proj.image_url | tojson }},
-          demo_url:    {{ proj.demo_url | tojson }},
-          github_url:  {{ proj.github_url | tojson }},
-          detail_url:  {{ url_for('public.project_detail', project_id=proj.id) | tojson }}
-        }{{ "," if not loop.last }}
-        {% endfor %}
+    projects: [
+      {% for proj in projects %}
+    {
+      title: { { proj.title | tojson } },
+      category: { { proj.category | tojson } },
+      description: { { proj.description | tojson } },
+      image_url: { { proj.image_url | tojson } },
+      demo_url: { { proj.demo_url | tojson } },
+      github_url: { { proj.github_url | tojson } },
+      detail_url: { { url_for('public.project_detail', project_id = proj.id) | tojson } }
+    } { { "," if not loop.last } }
+    {% endfor %}
       ]
     };
   </script>
 
   <script src="/js/publik.js"></script>
 </body>
+
 </html>
